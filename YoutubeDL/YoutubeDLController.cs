@@ -1,5 +1,5 @@
 ﻿//
-// MyClass.cs
+// YoutubeDLController.cs
 //
 // Author:
 //       Brian Allred <brian.d.allred@gmail.com>

@@ -194,3 +194,7 @@ FakesAssemblies/
 
 # Visual Studio 6 workspace options file
 *.opt
+YoutubeDLGui.sln.ide/storage.ide
+YoutubeDLGui.sln.ide/edbres00001.jrs
+YoutubeDLGui.sln.ide/edb.chk
+YoutubeDLGui.sln.ide/edbres00002.jrs
