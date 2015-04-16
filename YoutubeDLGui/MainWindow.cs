@@ -24,22 +24,21 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using System;
 using Gtk;
 
 namespace YoutubeDLGui
 {
-	public partial class MainWindow: Gtk.Window
-	{
-		public MainWindow () : base (Gtk.WindowType.Toplevel)
-		{
-			Build ();
-		}
+    public sealed partial class MainWindow : Window
+    {
+        public MainWindow() : base(WindowType.Toplevel)
+        {
+            Build();
+        }
 
-		protected void OnDeleteEvent (object sender, DeleteEventArgs a)
-		{
-			Application.Quit ();
-			a.RetVal = true;
-		}
-	}
+        private static void OnDeleteEvent(object sender, DeleteEventArgs a)
+        {
+            Application.Quit();
+            a.RetVal = true;
+        }
+    }
 }

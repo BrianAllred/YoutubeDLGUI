@@ -24,19 +24,18 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using System;
 using Gtk;
 
 namespace YoutubeDLGui
 {
-	class MainClass
-	{
-		public static void Main (string[] args)
-		{
-			Application.Init ();
-			MainWindow win = new MainWindow ();
-			win.Show ();
-			Application.Run ();
-		}
-	}
+    internal class MainClass
+    {
+        public static void Main(string[] args)
+        {
+            Application.Init();
+            var win = new MainWindow();
+            win.Show();
+            Application.Run();
+        }
+    }
 }
