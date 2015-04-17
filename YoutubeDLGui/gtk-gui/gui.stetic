@@ -7,26 +7,13 @@
     <widget-library name="glade-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
     <widget-library name="../bin/Debug/YoutubeDLGui.exe" internal="true" />
   </import>
-  <widget class="Gtk.Window" id="YoutubeDLGui.MainWindow" design-size="400 300">
+  <widget class="Gtk.Window" id="MainWindow" design-size="400 300">
     <property name="MemberName" />
-    <property name="Title" translatable="yes">YoutubeDL</property>
-    <property name="WindowPosition">Center</property>
+    <property name="Title" translatable="yes">MainWindow</property>
+    <property name="WindowPosition">CenterOnParent</property>
     <signal name="DeleteEvent" handler="OnDeleteEvent" />
     <child>
-      <widget class="Gtk.ScrolledWindow" id="scrolledwindow1">
-        <property name="MemberName" />
-        <property name="CanFocus">True</property>
-        <property name="ShadowType">In</property>
-        <child>
-          <widget class="Gtk.Viewport" id="GtkViewport">
-            <property name="MemberName" />
-            <property name="ShadowType">None</property>
-            <child>
-              <placeholder />
-            </child>
-          </widget>
-        </child>
-      </widget>
+      <placeholder />
     </child>
   </widget>
 </stetic-interface>

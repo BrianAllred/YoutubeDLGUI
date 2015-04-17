@@ -26,19 +26,16 @@
 
 using Gtk;
 
-namespace YoutubeDLGui
+public partial class MainWindow : Window
 {
-    public sealed partial class MainWindow : Window
+    public MainWindow() : base(WindowType.Toplevel)
     {
-        public MainWindow() : base(WindowType.Toplevel)
-        {
-            Build();
-        }
+        Build();
+    }
 
-        private static void OnDeleteEvent(object sender, DeleteEventArgs a)
-        {
-            Application.Quit();
-            a.RetVal = true;
-        }
+    protected void OnDeleteEvent(object sender, DeleteEventArgs a)
+    {
+        Application.Quit();
+        a.RetVal = true;
     }
 }
