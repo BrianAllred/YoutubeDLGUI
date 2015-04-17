@@ -38,4 +38,14 @@ public partial class MainWindow : Window
         Application.Quit();
         a.RetVal = true;
     }
+
+	protected void OnProxyCheckButtonToggled (object sender, System.EventArgs e)
+	{
+		proxyUrlTextView.Sensitive = proxyCheckButton.Active;
+	}
+
+	protected void OnSocketTimeoutCheckButtonToggled (object sender, System.EventArgs e)
+	{
+		socketTimeoutTextView.Sensitive = socketTimeoutCheckButton.Active;
+	}
 }
