@@ -48,20 +48,27 @@ namespace YoutubeDL
             wav
         }
 
+        /// <summary>
+        ///     Download rate units (K, M)
+        /// </summary>
+        public enum ByteUnit
+        {
+            K,
+            M
+        }
+
+        public enum ExternalDownloader
+        {
+            aria2c,
+            curl,
+            wget
+        }
+
         public enum FixupPolicy
         {
             nothing,
             warn,
             detect_or_warn
-        }
-
-        /// <summary>
-        ///     Download rate units (K, M)
-        /// </summary>
-        public enum RateUnit
-        {
-            K,
-            M
         }
 
         /// <summary>
@@ -181,7 +188,7 @@ namespace YoutubeDL
         /// <summary>
         ///     Download rate units (none, K, or M)
         /// </summary>
-        public RateUnit RateLimitUnit { get; set; }
+        public ByteUnit RateLimitUnit { get; set; }
 
         /// <summary>
         ///     Number of retries (default is 10), or
@@ -189,7 +196,50 @@ namespace YoutubeDL
         /// </summary>
         public int Retries { get; set; }
 
-        // TODO: finish download options
+        /// <summary>
+        ///     Size of download buffer (default is 1024)
+        /// </summary>
+        public int BufferSize { get; set; }
+
+        /// <summary>
+        ///     Unit of download buffer
+        /// </summary>
+        public ByteUnit BufferSizeUnit { get; set; }
+
+        /// <summary>
+        ///     Do not automatically adjust the buffer size. By default, the buffer size is automatically resized from an initial
+        ///     value of BufferSize
+        /// </summary>
+        public bool NoResizeBuffer { get; set; }
+
+        /// <summary>
+        /// Downlaod playlist videos in reverse order
+        /// </summary>
+        public bool PlaylistReverse { get; set; }
+
+        /// <summary>
+        /// Use the specified external downloader. Currently supports aria2c, curl, wget
+        /// </summary>
+        public ExternalDownloader UseExternalDownloader { get; set; }
+
+        /// <summary>
+        /// Give the arguments to the external downloader
+        /// </summary>
+        public string ExternalDownloaderArgs { get; set; }
+
+        #region Experimental
+
+        /// <summary>
+        /// Set file xattribute ytdl.filesize with expected filesize
+        /// </summary>
+        public bool XAttrSetFilesize { get; set; }
+
+        /// <summary>
+        /// Use the native HLS downloader instead of ffmpeg
+        /// </summary>
+        public bool HlsPreferNative { get; set; }
+
+        #endregion
 
         #endregion
 
@@ -227,7 +277,10 @@ namespace YoutubeDL
         /// </summary>
         public bool NoContinue { get; set; }
 
-        /// TODO: Finish Filesystem Options
+        // TODO: Finish Filesystem Options
+
+        #region Authentication Options
+
         /// <summary>
         ///     Login with this account ID
         /// </summary>
@@ -252,6 +305,8 @@ namespace YoutubeDL
         ///     Video password
         /// </summary>
         public string VideoPassword { get; set; }
+
+        #endregion
 
         #endregion
 

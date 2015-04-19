@@ -59,13 +59,13 @@
   <ItemGroup>
     <Compile Include="gtk-gui\generated.cs" />
     <Compile Include="MainWindow.cs" />
-    <Compile Include="gtk-gui\MainWindow.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="gtk-gui\YoutubeDLGui.MainWindow.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\YoutubeDL\YoutubeDL.csproj">
-      <Project>{45bedc08-2043-4fd9-a984-180351873712}</Project>
+      <Project>{45BEDC08-2043-4FD9-A984-180351873712}</Project>
       <Name>YoutubeDL</Name>
     </ProjectReference>
   </ItemGroup>
