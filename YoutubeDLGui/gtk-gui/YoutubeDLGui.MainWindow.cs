@@ -4,25 +4,41 @@ namespace YoutubeDLGui
 {
 	public partial class MainWindow
 	{
+		private global::Gtk.UIManager UIManager;
+		
 		private global::Gtk.VBox vbox1;
 		
 		private global::Gtk.Frame frame3;
 		
 		private global::Gtk.Alignment GtkAlignment;
 		
+		private global::Gtk.HBox hbox8;
+		
 		private global::Gtk.TextView videoUrlTextView;
 		
 		private global::Gtk.Label GtkLabel;
 		
-		private global::Gtk.Button button16;
+		private global::Gtk.Frame frame1;
+		
+		private global::Gtk.Alignment GtkAlignment1;
+		
+		private global::Gtk.HBox hbox7;
+		
+		private global::Gtk.TextView destinationFolderTextView;
+		
+		private global::Gtk.Button folderChooserButton;
+		
+		private global::Gtk.Label GtkLabel29;
+		
+		private global::Gtk.Button downloadButton;
 		
 		private global::Gtk.Expander expander5;
 		
 		private global::Gtk.VBox vbox6;
 		
-		private global::Gtk.CheckButton checkbutton8;
+		private global::Gtk.CheckButton abortCheckButton;
 		
-		private global::Gtk.CheckButton checkbutton9;
+		private global::Gtk.CheckButton ignoreConfigCheckButton;
 		
 		private global::Gtk.Label GtkLabel7;
 		
@@ -89,11 +105,65 @@ namespace YoutubeDLGui
 		private global::Gtk.CheckButton videoPasswordCheckButton;
 		
 		private global::Gtk.Label GtkLabel19;
+		
+		private global::Gtk.Expander expander6;
+		
+		private global::Gtk.VBox vbox7;
+		
+		private global::Gtk.CheckButton extractAudioCheckButton;
+		
+		private global::Gtk.HBox hbox2;
+		
+		private global::Gtk.Label label1;
+		
+		private global::Gtk.ComboBox audioFormatComboBox;
+		
+		private global::Gtk.HBox hbox3;
+		
+		private global::Gtk.Label label2;
+		
+		private global::Gtk.ComboBox audioQualityComboBox;
+		
+		private global::Gtk.TextView audioQualityTextView;
+		
+		private global::Gtk.HBox hbox4;
+		
+		private global::Gtk.Label label3;
+		
+		private global::Gtk.ComboBox recodeVideoFormatComboBox;
+		
+		private global::Gtk.CheckButton keepVideoCheckButton;
+		
+		private global::Gtk.CheckButton noPostOverwritesCheckButton;
+		
+		private global::Gtk.CheckButton embedSubsCheckButton;
+		
+		private global::Gtk.TextView execTextView;
+		
+		private global::Gtk.CheckButton execCheckButton;
+		
+		private global::Gtk.HBox hbox6;
+		
+		private global::Gtk.Label label4;
+		
+		private global::Gtk.ComboBox fixupComboBox;
+		
+		private global::Gtk.CheckButton xattrsCheckButton;
+		
+		private global::Gtk.CheckButton addMetadataCheckButton;
+		
+		private global::Gtk.CheckButton embedThumbnailCheckButton;
+		
+		private global::Gtk.Label GtkLabel27;
 
 		protected virtual void Build ()
 		{
 			global::Stetic.Gui.Initialize (this);
 			// Widget YoutubeDLGui.MainWindow
+			this.UIManager = new global::Gtk.UIManager ();
+			global::Gtk.ActionGroup w1 = new global::Gtk.ActionGroup ("Default");
+			this.UIManager.InsertActionGroup (w1, 0);
+			this.AddAccelGroup (this.UIManager.AccelGroup);
 			this.Name = "YoutubeDLGui.MainWindow";
 			this.Title = global::Mono.Unix.Catalog.GetString ("YoutubeDL");
 			this.WindowPosition = ((global::Gtk.WindowPosition)(4));
@@ -101,7 +171,6 @@ namespace YoutubeDLGui
 			// Container child YoutubeDLGui.MainWindow.Gtk.Container+ContainerChild
 			this.vbox1 = new global::Gtk.VBox ();
 			this.vbox1.Name = "vbox1";
-			this.vbox1.Spacing = 6;
 			// Container child vbox1.Gtk.Box+BoxChild
 			this.frame3 = new global::Gtk.Frame ();
 			this.frame3.WidthRequest = 358;
@@ -113,13 +182,20 @@ namespace YoutubeDLGui
 			this.GtkAlignment.Name = "GtkAlignment";
 			this.GtkAlignment.LeftPadding = ((uint)(12));
 			// Container child GtkAlignment.Gtk.Container+ContainerChild
+			this.hbox8 = new global::Gtk.HBox ();
+			this.hbox8.Name = "hbox8";
+			this.hbox8.Spacing = 6;
+			// Container child hbox8.Gtk.Box+BoxChild
 			this.videoUrlTextView = new global::Gtk.TextView ();
 			this.videoUrlTextView.CanFocus = true;
 			this.videoUrlTextView.Name = "videoUrlTextView";
 			this.videoUrlTextView.AcceptsTab = false;
 			this.videoUrlTextView.PixelsAboveLines = 2;
 			this.videoUrlTextView.PixelsBelowLines = 2;
-			this.GtkAlignment.Add (this.videoUrlTextView);
+			this.hbox8.Add (this.videoUrlTextView);
+			global::Gtk.Box.BoxChild w2 = ((global::Gtk.Box.BoxChild)(this.hbox8 [this.videoUrlTextView]));
+			w2.Position = 0;
+			this.GtkAlignment.Add (this.hbox8);
 			this.frame3.Add (this.GtkAlignment);
 			this.GtkLabel = new global::Gtk.Label ();
 			this.GtkLabel.Name = "GtkLabel";
@@ -127,21 +203,66 @@ namespace YoutubeDLGui
 			this.GtkLabel.UseMarkup = true;
 			this.frame3.LabelWidget = this.GtkLabel;
 			this.vbox1.Add (this.frame3);
-			global::Gtk.Box.BoxChild w3 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.frame3]));
-			w3.Position = 0;
-			w3.Expand = false;
-			w3.Fill = false;
+			global::Gtk.Box.BoxChild w5 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.frame3]));
+			w5.Position = 0;
+			w5.Expand = false;
+			w5.Fill = false;
 			// Container child vbox1.Gtk.Box+BoxChild
-			this.button16 = new global::Gtk.Button ();
-			this.button16.CanFocus = true;
-			this.button16.Name = "button16";
-			this.button16.UseUnderline = true;
-			this.button16.Label = global::Mono.Unix.Catalog.GetString ("Download");
-			this.vbox1.Add (this.button16);
-			global::Gtk.Box.BoxChild w4 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.button16]));
-			w4.Position = 1;
-			w4.Expand = false;
-			w4.Fill = false;
+			this.frame1 = new global::Gtk.Frame ();
+			this.frame1.Name = "frame1";
+			this.frame1.ShadowType = ((global::Gtk.ShadowType)(0));
+			this.frame1.LabelXalign = 0.5F;
+			// Container child frame1.Gtk.Container+ContainerChild
+			this.GtkAlignment1 = new global::Gtk.Alignment (0F, 0F, 1F, 1F);
+			this.GtkAlignment1.Name = "GtkAlignment1";
+			this.GtkAlignment1.LeftPadding = ((uint)(12));
+			// Container child GtkAlignment1.Gtk.Container+ContainerChild
+			this.hbox7 = new global::Gtk.HBox ();
+			this.hbox7.Name = "hbox7";
+			this.hbox7.Spacing = 6;
+			// Container child hbox7.Gtk.Box+BoxChild
+			this.destinationFolderTextView = new global::Gtk.TextView ();
+			this.destinationFolderTextView.Buffer.Text = "%(uploader)s/%(title)s-%(id)s.%(ext)s";
+			this.destinationFolderTextView.CanFocus = true;
+			this.destinationFolderTextView.Name = "destinationFolderTextView";
+			this.destinationFolderTextView.AcceptsTab = false;
+			this.hbox7.Add (this.destinationFolderTextView);
+			global::Gtk.Box.BoxChild w6 = ((global::Gtk.Box.BoxChild)(this.hbox7 [this.destinationFolderTextView]));
+			w6.Position = 0;
+			// Container child hbox7.Gtk.Box+BoxChild
+			this.folderChooserButton = new global::Gtk.Button ();
+			this.folderChooserButton.CanFocus = true;
+			this.folderChooserButton.Name = "folderChooserButton";
+			this.folderChooserButton.UseUnderline = true;
+			this.folderChooserButton.Label = global::Mono.Unix.Catalog.GetString ("...");
+			this.hbox7.Add (this.folderChooserButton);
+			global::Gtk.Box.BoxChild w7 = ((global::Gtk.Box.BoxChild)(this.hbox7 [this.folderChooserButton]));
+			w7.Position = 1;
+			w7.Expand = false;
+			w7.Fill = false;
+			this.GtkAlignment1.Add (this.hbox7);
+			this.frame1.Add (this.GtkAlignment1);
+			this.GtkLabel29 = new global::Gtk.Label ();
+			this.GtkLabel29.Name = "GtkLabel29";
+			this.GtkLabel29.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>Destination File</b>");
+			this.GtkLabel29.UseMarkup = true;
+			this.frame1.LabelWidget = this.GtkLabel29;
+			this.vbox1.Add (this.frame1);
+			global::Gtk.Box.BoxChild w10 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.frame1]));
+			w10.Position = 1;
+			w10.Expand = false;
+			w10.Fill = false;
+			// Container child vbox1.Gtk.Box+BoxChild
+			this.downloadButton = new global::Gtk.Button ();
+			this.downloadButton.CanFocus = true;
+			this.downloadButton.Name = "downloadButton";
+			this.downloadButton.UseUnderline = true;
+			this.downloadButton.Label = global::Mono.Unix.Catalog.GetString ("Download");
+			this.vbox1.Add (this.downloadButton);
+			global::Gtk.Box.BoxChild w11 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.downloadButton]));
+			w11.Position = 2;
+			w11.Expand = false;
+			w11.Fill = false;
 			// Container child vbox1.Gtk.Box+BoxChild
 			this.expander5 = new global::Gtk.Expander (null);
 			this.expander5.CanFocus = true;
@@ -151,29 +272,29 @@ namespace YoutubeDLGui
 			this.vbox6.Name = "vbox6";
 			this.vbox6.Spacing = 6;
 			// Container child vbox6.Gtk.Box+BoxChild
-			this.checkbutton8 = new global::Gtk.CheckButton ();
-			this.checkbutton8.CanFocus = true;
-			this.checkbutton8.Name = "checkbutton8";
-			this.checkbutton8.Label = global::Mono.Unix.Catalog.GetString ("Abort on error");
-			this.checkbutton8.DrawIndicator = true;
-			this.checkbutton8.UseUnderline = true;
-			this.vbox6.Add (this.checkbutton8);
-			global::Gtk.Box.BoxChild w5 = ((global::Gtk.Box.BoxChild)(this.vbox6 [this.checkbutton8]));
-			w5.Position = 0;
-			w5.Expand = false;
-			w5.Fill = false;
+			this.abortCheckButton = new global::Gtk.CheckButton ();
+			this.abortCheckButton.CanFocus = true;
+			this.abortCheckButton.Name = "abortCheckButton";
+			this.abortCheckButton.Label = global::Mono.Unix.Catalog.GetString ("Abort on error");
+			this.abortCheckButton.DrawIndicator = true;
+			this.abortCheckButton.UseUnderline = true;
+			this.vbox6.Add (this.abortCheckButton);
+			global::Gtk.Box.BoxChild w12 = ((global::Gtk.Box.BoxChild)(this.vbox6 [this.abortCheckButton]));
+			w12.Position = 0;
+			w12.Expand = false;
+			w12.Fill = false;
 			// Container child vbox6.Gtk.Box+BoxChild
-			this.checkbutton9 = new global::Gtk.CheckButton ();
-			this.checkbutton9.CanFocus = true;
-			this.checkbutton9.Name = "checkbutton9";
-			this.checkbutton9.Label = global::Mono.Unix.Catalog.GetString ("Ignore config");
-			this.checkbutton9.DrawIndicator = true;
-			this.checkbutton9.UseUnderline = true;
-			this.vbox6.Add (this.checkbutton9);
-			global::Gtk.Box.BoxChild w6 = ((global::Gtk.Box.BoxChild)(this.vbox6 [this.checkbutton9]));
-			w6.Position = 1;
-			w6.Expand = false;
-			w6.Fill = false;
+			this.ignoreConfigCheckButton = new global::Gtk.CheckButton ();
+			this.ignoreConfigCheckButton.CanFocus = true;
+			this.ignoreConfigCheckButton.Name = "ignoreConfigCheckButton";
+			this.ignoreConfigCheckButton.Label = global::Mono.Unix.Catalog.GetString ("Ignore config");
+			this.ignoreConfigCheckButton.DrawIndicator = true;
+			this.ignoreConfigCheckButton.UseUnderline = true;
+			this.vbox6.Add (this.ignoreConfigCheckButton);
+			global::Gtk.Box.BoxChild w13 = ((global::Gtk.Box.BoxChild)(this.vbox6 [this.ignoreConfigCheckButton]));
+			w13.Position = 1;
+			w13.Expand = false;
+			w13.Fill = false;
 			this.expander5.Add (this.vbox6);
 			this.GtkLabel7 = new global::Gtk.Label ();
 			this.GtkLabel7.Name = "GtkLabel7";
@@ -182,10 +303,10 @@ namespace YoutubeDLGui
 			this.GtkLabel7.UseUnderline = true;
 			this.expander5.LabelWidget = this.GtkLabel7;
 			this.vbox1.Add (this.expander5);
-			global::Gtk.Box.BoxChild w8 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.expander5]));
-			w8.Position = 2;
-			w8.Expand = false;
-			w8.Fill = false;
+			global::Gtk.Box.BoxChild w15 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.expander5]));
+			w15.Position = 3;
+			w15.Expand = false;
+			w15.Fill = false;
 			// Container child vbox1.Gtk.Box+BoxChild
 			this.expander1 = new global::Gtk.Expander (null);
 			this.expander1.CanFocus = true;
@@ -202,18 +323,18 @@ namespace YoutubeDLGui
 			this.proxyCheckButton.DrawIndicator = true;
 			this.proxyCheckButton.UseUnderline = true;
 			this.vbox2.Add (this.proxyCheckButton);
-			global::Gtk.Box.BoxChild w9 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.proxyCheckButton]));
-			w9.Position = 0;
-			w9.Expand = false;
-			w9.Fill = false;
+			global::Gtk.Box.BoxChild w16 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.proxyCheckButton]));
+			w16.Position = 0;
+			w16.Expand = false;
+			w16.Fill = false;
 			// Container child vbox2.Gtk.Box+BoxChild
 			this.proxyUrlTextView = new global::Gtk.TextView ();
 			this.proxyUrlTextView.Sensitive = false;
 			this.proxyUrlTextView.CanFocus = true;
 			this.proxyUrlTextView.Name = "proxyUrlTextView";
 			this.vbox2.Add (this.proxyUrlTextView);
-			global::Gtk.Box.BoxChild w10 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.proxyUrlTextView]));
-			w10.Position = 1;
+			global::Gtk.Box.BoxChild w17 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.proxyUrlTextView]));
+			w17.Position = 1;
 			// Container child vbox2.Gtk.Box+BoxChild
 			this.socketTimeoutCheckButton = new global::Gtk.CheckButton ();
 			this.socketTimeoutCheckButton.CanFocus = true;
@@ -222,18 +343,18 @@ namespace YoutubeDLGui
 			this.socketTimeoutCheckButton.DrawIndicator = true;
 			this.socketTimeoutCheckButton.UseUnderline = true;
 			this.vbox2.Add (this.socketTimeoutCheckButton);
-			global::Gtk.Box.BoxChild w11 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.socketTimeoutCheckButton]));
-			w11.Position = 2;
-			w11.Expand = false;
-			w11.Fill = false;
+			global::Gtk.Box.BoxChild w18 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.socketTimeoutCheckButton]));
+			w18.Position = 2;
+			w18.Expand = false;
+			w18.Fill = false;
 			// Container child vbox2.Gtk.Box+BoxChild
 			this.socketTimeoutTextView = new global::Gtk.TextView ();
 			this.socketTimeoutTextView.Sensitive = false;
 			this.socketTimeoutTextView.CanFocus = true;
 			this.socketTimeoutTextView.Name = "socketTimeoutTextView";
 			this.vbox2.Add (this.socketTimeoutTextView);
-			global::Gtk.Box.BoxChild w12 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.socketTimeoutTextView]));
-			w12.Position = 3;
+			global::Gtk.Box.BoxChild w19 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.socketTimeoutTextView]));
+			w19.Position = 3;
 			this.expander1.Add (this.vbox2);
 			this.GtkLabel18 = new global::Gtk.Label ();
 			this.GtkLabel18.Name = "GtkLabel18";
@@ -242,10 +363,10 @@ namespace YoutubeDLGui
 			this.GtkLabel18.UseUnderline = true;
 			this.expander1.LabelWidget = this.GtkLabel18;
 			this.vbox1.Add (this.expander1);
-			global::Gtk.Box.BoxChild w14 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.expander1]));
-			w14.Position = 3;
-			w14.Expand = false;
-			w14.Fill = false;
+			global::Gtk.Box.BoxChild w21 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.expander1]));
+			w21.Position = 4;
+			w21.Expand = false;
+			w21.Fill = false;
 			// Container child vbox1.Gtk.Box+BoxChild
 			this.expander4 = new global::Gtk.Expander (null);
 			this.expander4.CanFocus = true;
@@ -262,10 +383,10 @@ namespace YoutubeDLGui
 			this.rateLimitCheckButton.DrawIndicator = true;
 			this.rateLimitCheckButton.UseUnderline = true;
 			this.vbox3.Add (this.rateLimitCheckButton);
-			global::Gtk.Box.BoxChild w15 = ((global::Gtk.Box.BoxChild)(this.vbox3 [this.rateLimitCheckButton]));
-			w15.Position = 0;
-			w15.Expand = false;
-			w15.Fill = false;
+			global::Gtk.Box.BoxChild w22 = ((global::Gtk.Box.BoxChild)(this.vbox3 [this.rateLimitCheckButton]));
+			w22.Position = 0;
+			w22.Expand = false;
+			w22.Fill = false;
 			// Container child vbox3.Gtk.Box+BoxChild
 			this.hbox5 = new global::Gtk.HBox ();
 			this.hbox5.Name = "hbox5";
@@ -277,24 +398,26 @@ namespace YoutubeDLGui
 			this.rateTextView.Name = "rateTextView";
 			this.rateTextView.AcceptsTab = false;
 			this.hbox5.Add (this.rateTextView);
-			global::Gtk.Box.BoxChild w16 = ((global::Gtk.Box.BoxChild)(this.hbox5 [this.rateTextView]));
-			w16.Position = 0;
+			global::Gtk.Box.BoxChild w23 = ((global::Gtk.Box.BoxChild)(this.hbox5 [this.rateTextView]));
+			w23.Position = 0;
 			// Container child hbox5.Gtk.Box+BoxChild
 			this.rateUnitComboBox = global::Gtk.ComboBox.NewText ();
+			this.rateUnitComboBox.AppendText (global::Mono.Unix.Catalog.GetString ("B"));
 			this.rateUnitComboBox.AppendText (global::Mono.Unix.Catalog.GetString ("K"));
 			this.rateUnitComboBox.AppendText (global::Mono.Unix.Catalog.GetString ("M"));
 			this.rateUnitComboBox.Sensitive = false;
 			this.rateUnitComboBox.Name = "rateUnitComboBox";
+			this.rateUnitComboBox.Active = 1;
 			this.hbox5.Add (this.rateUnitComboBox);
-			global::Gtk.Box.BoxChild w17 = ((global::Gtk.Box.BoxChild)(this.hbox5 [this.rateUnitComboBox]));
-			w17.Position = 1;
-			w17.Expand = false;
-			w17.Fill = false;
+			global::Gtk.Box.BoxChild w24 = ((global::Gtk.Box.BoxChild)(this.hbox5 [this.rateUnitComboBox]));
+			w24.Position = 1;
+			w24.Expand = false;
+			w24.Fill = false;
 			this.vbox3.Add (this.hbox5);
-			global::Gtk.Box.BoxChild w18 = ((global::Gtk.Box.BoxChild)(this.vbox3 [this.hbox5]));
-			w18.Position = 1;
-			w18.Expand = false;
-			w18.Fill = false;
+			global::Gtk.Box.BoxChild w25 = ((global::Gtk.Box.BoxChild)(this.vbox3 [this.hbox5]));
+			w25.Position = 1;
+			w25.Expand = false;
+			w25.Fill = false;
 			// Container child vbox3.Gtk.Box+BoxChild
 			this.retriesCheckButton = new global::Gtk.CheckButton ();
 			this.retriesCheckButton.CanFocus = true;
@@ -303,10 +426,10 @@ namespace YoutubeDLGui
 			this.retriesCheckButton.DrawIndicator = true;
 			this.retriesCheckButton.UseUnderline = true;
 			this.vbox3.Add (this.retriesCheckButton);
-			global::Gtk.Box.BoxChild w19 = ((global::Gtk.Box.BoxChild)(this.vbox3 [this.retriesCheckButton]));
-			w19.Position = 2;
-			w19.Expand = false;
-			w19.Fill = false;
+			global::Gtk.Box.BoxChild w26 = ((global::Gtk.Box.BoxChild)(this.vbox3 [this.retriesCheckButton]));
+			w26.Position = 2;
+			w26.Expand = false;
+			w26.Fill = false;
 			// Container child vbox3.Gtk.Box+BoxChild
 			this.retriesTextView = new global::Gtk.TextView ();
 			this.retriesTextView.Sensitive = false;
@@ -314,8 +437,8 @@ namespace YoutubeDLGui
 			this.retriesTextView.Name = "retriesTextView";
 			this.retriesTextView.AcceptsTab = false;
 			this.vbox3.Add (this.retriesTextView);
-			global::Gtk.Box.BoxChild w20 = ((global::Gtk.Box.BoxChild)(this.vbox3 [this.retriesTextView]));
-			w20.Position = 3;
+			global::Gtk.Box.BoxChild w27 = ((global::Gtk.Box.BoxChild)(this.vbox3 [this.retriesTextView]));
+			w27.Position = 3;
 			this.expander4.Add (this.vbox3);
 			this.GtkLabel14 = new global::Gtk.Label ();
 			this.GtkLabel14.Name = "GtkLabel14";
@@ -324,10 +447,10 @@ namespace YoutubeDLGui
 			this.GtkLabel14.UseUnderline = true;
 			this.expander4.LabelWidget = this.GtkLabel14;
 			this.vbox1.Add (this.expander4);
-			global::Gtk.Box.BoxChild w22 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.expander4]));
-			w22.Position = 4;
-			w22.Expand = false;
-			w22.Fill = false;
+			global::Gtk.Box.BoxChild w29 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.expander4]));
+			w29.Position = 5;
+			w29.Expand = false;
+			w29.Fill = false;
 			// Container child vbox1.Gtk.Box+BoxChild
 			this.expander3 = new global::Gtk.Expander (null);
 			this.expander3.CanFocus = true;
@@ -344,10 +467,10 @@ namespace YoutubeDLGui
 			this.overwritesCheckButton.DrawIndicator = true;
 			this.overwritesCheckButton.UseUnderline = true;
 			this.vbox4.Add (this.overwritesCheckButton);
-			global::Gtk.Box.BoxChild w23 = ((global::Gtk.Box.BoxChild)(this.vbox4 [this.overwritesCheckButton]));
-			w23.Position = 0;
-			w23.Expand = false;
-			w23.Fill = false;
+			global::Gtk.Box.BoxChild w30 = ((global::Gtk.Box.BoxChild)(this.vbox4 [this.overwritesCheckButton]));
+			w30.Position = 0;
+			w30.Expand = false;
+			w30.Fill = false;
 			// Container child vbox4.Gtk.Box+BoxChild
 			this.defaultContinueRadioButton = new global::Gtk.RadioButton (global::Mono.Unix.Catalog.GetString ("Resume downloads of partially downloaded files if possible"));
 			this.defaultContinueRadioButton.CanFocus = true;
@@ -356,10 +479,10 @@ namespace YoutubeDLGui
 			this.defaultContinueRadioButton.UseUnderline = true;
 			this.defaultContinueRadioButton.Group = new global::GLib.SList (global::System.IntPtr.Zero);
 			this.vbox4.Add (this.defaultContinueRadioButton);
-			global::Gtk.Box.BoxChild w24 = ((global::Gtk.Box.BoxChild)(this.vbox4 [this.defaultContinueRadioButton]));
-			w24.Position = 1;
-			w24.Expand = false;
-			w24.Fill = false;
+			global::Gtk.Box.BoxChild w31 = ((global::Gtk.Box.BoxChild)(this.vbox4 [this.defaultContinueRadioButton]));
+			w31.Position = 1;
+			w31.Expand = false;
+			w31.Fill = false;
 			// Container child vbox4.Gtk.Box+BoxChild
 			this.continueRadioButton = new global::Gtk.RadioButton (global::Mono.Unix.Catalog.GetString ("Force partially downloaded files to resume"));
 			this.continueRadioButton.CanFocus = true;
@@ -368,10 +491,10 @@ namespace YoutubeDLGui
 			this.continueRadioButton.UseUnderline = true;
 			this.continueRadioButton.Group = this.defaultContinueRadioButton.Group;
 			this.vbox4.Add (this.continueRadioButton);
-			global::Gtk.Box.BoxChild w25 = ((global::Gtk.Box.BoxChild)(this.vbox4 [this.continueRadioButton]));
-			w25.Position = 2;
-			w25.Expand = false;
-			w25.Fill = false;
+			global::Gtk.Box.BoxChild w32 = ((global::Gtk.Box.BoxChild)(this.vbox4 [this.continueRadioButton]));
+			w32.Position = 2;
+			w32.Expand = false;
+			w32.Fill = false;
 			// Container child vbox4.Gtk.Box+BoxChild
 			this.noContinueRadioButton = new global::Gtk.RadioButton (global::Mono.Unix.Catalog.GetString ("Do not resume partially downloaded files"));
 			this.noContinueRadioButton.CanFocus = true;
@@ -380,10 +503,10 @@ namespace YoutubeDLGui
 			this.noContinueRadioButton.UseUnderline = true;
 			this.noContinueRadioButton.Group = this.defaultContinueRadioButton.Group;
 			this.vbox4.Add (this.noContinueRadioButton);
-			global::Gtk.Box.BoxChild w26 = ((global::Gtk.Box.BoxChild)(this.vbox4 [this.noContinueRadioButton]));
-			w26.Position = 3;
-			w26.Expand = false;
-			w26.Fill = false;
+			global::Gtk.Box.BoxChild w33 = ((global::Gtk.Box.BoxChild)(this.vbox4 [this.noContinueRadioButton]));
+			w33.Position = 3;
+			w33.Expand = false;
+			w33.Fill = false;
 			this.expander3.Add (this.vbox4);
 			this.GtkLabel17 = new global::Gtk.Label ();
 			this.GtkLabel17.Name = "GtkLabel17";
@@ -392,10 +515,10 @@ namespace YoutubeDLGui
 			this.GtkLabel17.UseUnderline = true;
 			this.expander3.LabelWidget = this.GtkLabel17;
 			this.vbox1.Add (this.expander3);
-			global::Gtk.Box.BoxChild w28 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.expander3]));
-			w28.Position = 5;
-			w28.Expand = false;
-			w28.Fill = false;
+			global::Gtk.Box.BoxChild w35 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.expander3]));
+			w35.Position = 6;
+			w35.Expand = false;
+			w35.Fill = false;
 			// Container child vbox1.Gtk.Box+BoxChild
 			this.expander2 = new global::Gtk.Expander (null);
 			this.expander2.CanFocus = true;
@@ -411,8 +534,8 @@ namespace YoutubeDLGui
 			this.usernameTextView.Name = "usernameTextView";
 			this.usernameTextView.AcceptsTab = false;
 			this.vbox5.Add (this.usernameTextView);
-			global::Gtk.Box.BoxChild w29 = ((global::Gtk.Box.BoxChild)(this.vbox5 [this.usernameTextView]));
-			w29.Position = 0;
+			global::Gtk.Box.BoxChild w36 = ((global::Gtk.Box.BoxChild)(this.vbox5 [this.usernameTextView]));
+			w36.Position = 0;
 			// Container child vbox5.Gtk.Box+BoxChild
 			this.passwordTextView = new global::Gtk.TextView ();
 			this.passwordTextView.Buffer.Text = "Password";
@@ -420,8 +543,8 @@ namespace YoutubeDLGui
 			this.passwordTextView.Name = "passwordTextView";
 			this.passwordTextView.AcceptsTab = false;
 			this.vbox5.Add (this.passwordTextView);
-			global::Gtk.Box.BoxChild w30 = ((global::Gtk.Box.BoxChild)(this.vbox5 [this.passwordTextView]));
-			w30.Position = 1;
+			global::Gtk.Box.BoxChild w37 = ((global::Gtk.Box.BoxChild)(this.vbox5 [this.passwordTextView]));
+			w37.Position = 1;
 			// Container child vbox5.Gtk.Box+BoxChild
 			this.passwordCheckButton = new global::Gtk.CheckButton ();
 			this.passwordCheckButton.CanFocus = true;
@@ -430,10 +553,10 @@ namespace YoutubeDLGui
 			this.passwordCheckButton.DrawIndicator = true;
 			this.passwordCheckButton.UseUnderline = true;
 			this.vbox5.Add (this.passwordCheckButton);
-			global::Gtk.Box.BoxChild w31 = ((global::Gtk.Box.BoxChild)(this.vbox5 [this.passwordCheckButton]));
-			w31.Position = 2;
-			w31.Expand = false;
-			w31.Fill = false;
+			global::Gtk.Box.BoxChild w38 = ((global::Gtk.Box.BoxChild)(this.vbox5 [this.passwordCheckButton]));
+			w38.Position = 2;
+			w38.Expand = false;
+			w38.Fill = false;
 			// Container child vbox5.Gtk.Box+BoxChild
 			this.twoFactorTextView = new global::Gtk.TextView ();
 			this.twoFactorTextView.Buffer.Text = "Two-factor auth code";
@@ -441,8 +564,8 @@ namespace YoutubeDLGui
 			this.twoFactorTextView.Name = "twoFactorTextView";
 			this.twoFactorTextView.AcceptsTab = false;
 			this.vbox5.Add (this.twoFactorTextView);
-			global::Gtk.Box.BoxChild w32 = ((global::Gtk.Box.BoxChild)(this.vbox5 [this.twoFactorTextView]));
-			w32.Position = 3;
+			global::Gtk.Box.BoxChild w39 = ((global::Gtk.Box.BoxChild)(this.vbox5 [this.twoFactorTextView]));
+			w39.Position = 3;
 			// Container child vbox5.Gtk.Box+BoxChild
 			this.videoPasswordTextView = new global::Gtk.TextView ();
 			this.videoPasswordTextView.Buffer.Text = "Video password";
@@ -450,8 +573,8 @@ namespace YoutubeDLGui
 			this.videoPasswordTextView.Name = "videoPasswordTextView";
 			this.videoPasswordTextView.AcceptsTab = false;
 			this.vbox5.Add (this.videoPasswordTextView);
-			global::Gtk.Box.BoxChild w33 = ((global::Gtk.Box.BoxChild)(this.vbox5 [this.videoPasswordTextView]));
-			w33.Position = 4;
+			global::Gtk.Box.BoxChild w40 = ((global::Gtk.Box.BoxChild)(this.vbox5 [this.videoPasswordTextView]));
+			w40.Position = 4;
 			// Container child vbox5.Gtk.Box+BoxChild
 			this.videoPasswordCheckButton = new global::Gtk.CheckButton ();
 			this.videoPasswordCheckButton.CanFocus = true;
@@ -460,10 +583,10 @@ namespace YoutubeDLGui
 			this.videoPasswordCheckButton.DrawIndicator = true;
 			this.videoPasswordCheckButton.UseUnderline = true;
 			this.vbox5.Add (this.videoPasswordCheckButton);
-			global::Gtk.Box.BoxChild w34 = ((global::Gtk.Box.BoxChild)(this.vbox5 [this.videoPasswordCheckButton]));
-			w34.Position = 5;
-			w34.Expand = false;
-			w34.Fill = false;
+			global::Gtk.Box.BoxChild w41 = ((global::Gtk.Box.BoxChild)(this.vbox5 [this.videoPasswordCheckButton]));
+			w41.Position = 5;
+			w41.Expand = false;
+			w41.Fill = false;
 			this.expander2.Add (this.vbox5);
 			this.GtkLabel19 = new global::Gtk.Label ();
 			this.GtkLabel19.Name = "GtkLabel19";
@@ -472,18 +595,301 @@ namespace YoutubeDLGui
 			this.GtkLabel19.UseUnderline = true;
 			this.expander2.LabelWidget = this.GtkLabel19;
 			this.vbox1.Add (this.expander2);
-			global::Gtk.Box.BoxChild w36 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.expander2]));
-			w36.Position = 6;
-			w36.Expand = false;
-			w36.Fill = false;
+			global::Gtk.Box.BoxChild w43 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.expander2]));
+			w43.Position = 7;
+			w43.Expand = false;
+			w43.Fill = false;
+			// Container child vbox1.Gtk.Box+BoxChild
+			this.expander6 = new global::Gtk.Expander (null);
+			this.expander6.CanFocus = true;
+			this.expander6.Name = "expander6";
+			// Container child expander6.Gtk.Container+ContainerChild
+			this.vbox7 = new global::Gtk.VBox ();
+			this.vbox7.Name = "vbox7";
+			this.vbox7.Spacing = 6;
+			// Container child vbox7.Gtk.Box+BoxChild
+			this.extractAudioCheckButton = new global::Gtk.CheckButton ();
+			this.extractAudioCheckButton.CanFocus = true;
+			this.extractAudioCheckButton.Name = "extractAudioCheckButton";
+			this.extractAudioCheckButton.Label = global::Mono.Unix.Catalog.GetString ("Extract audio");
+			this.extractAudioCheckButton.DrawIndicator = true;
+			this.extractAudioCheckButton.UseUnderline = true;
+			this.vbox7.Add (this.extractAudioCheckButton);
+			global::Gtk.Box.BoxChild w44 = ((global::Gtk.Box.BoxChild)(this.vbox7 [this.extractAudioCheckButton]));
+			w44.Position = 0;
+			w44.Expand = false;
+			w44.Fill = false;
+			// Container child vbox7.Gtk.Box+BoxChild
+			this.hbox2 = new global::Gtk.HBox ();
+			this.hbox2.Name = "hbox2";
+			this.hbox2.Spacing = 6;
+			// Container child hbox2.Gtk.Box+BoxChild
+			this.label1 = new global::Gtk.Label ();
+			this.label1.Name = "label1";
+			this.label1.LabelProp = global::Mono.Unix.Catalog.GetString ("Audio format");
+			this.hbox2.Add (this.label1);
+			global::Gtk.Box.BoxChild w45 = ((global::Gtk.Box.BoxChild)(this.hbox2 [this.label1]));
+			w45.Position = 0;
+			w45.Expand = false;
+			w45.Fill = false;
+			// Container child hbox2.Gtk.Box+BoxChild
+			this.audioFormatComboBox = global::Gtk.ComboBox.NewText ();
+			this.audioFormatComboBox.AppendText (global::Mono.Unix.Catalog.GetString ("Best (default)"));
+			this.audioFormatComboBox.AppendText (global::Mono.Unix.Catalog.GetString ("AAC"));
+			this.audioFormatComboBox.AppendText (global::Mono.Unix.Catalog.GetString ("Vorbis"));
+			this.audioFormatComboBox.AppendText (global::Mono.Unix.Catalog.GetString ("MP3"));
+			this.audioFormatComboBox.AppendText (global::Mono.Unix.Catalog.GetString ("M4A"));
+			this.audioFormatComboBox.AppendText (global::Mono.Unix.Catalog.GetString ("Opus"));
+			this.audioFormatComboBox.AppendText (global::Mono.Unix.Catalog.GetString ("WAV"));
+			this.audioFormatComboBox.Name = "audioFormatComboBox";
+			this.audioFormatComboBox.Active = 0;
+			this.hbox2.Add (this.audioFormatComboBox);
+			global::Gtk.Box.BoxChild w46 = ((global::Gtk.Box.BoxChild)(this.hbox2 [this.audioFormatComboBox]));
+			w46.Position = 1;
+			w46.Expand = false;
+			w46.Fill = false;
+			this.vbox7.Add (this.hbox2);
+			global::Gtk.Box.BoxChild w47 = ((global::Gtk.Box.BoxChild)(this.vbox7 [this.hbox2]));
+			w47.Position = 1;
+			w47.Expand = false;
+			w47.Fill = false;
+			// Container child vbox7.Gtk.Box+BoxChild
+			this.hbox3 = new global::Gtk.HBox ();
+			this.hbox3.Name = "hbox3";
+			this.hbox3.Spacing = 6;
+			// Container child hbox3.Gtk.Box+BoxChild
+			this.label2 = new global::Gtk.Label ();
+			this.label2.Name = "label2";
+			this.label2.LabelProp = global::Mono.Unix.Catalog.GetString ("Audio quality");
+			this.hbox3.Add (this.label2);
+			global::Gtk.Box.BoxChild w48 = ((global::Gtk.Box.BoxChild)(this.hbox3 [this.label2]));
+			w48.Position = 0;
+			w48.Expand = false;
+			w48.Fill = false;
+			// Container child hbox3.Gtk.Box+BoxChild
+			this.audioQualityComboBox = global::Gtk.ComboBox.NewText ();
+			this.audioQualityComboBox.AppendText (global::Mono.Unix.Catalog.GetString ("0 (best)"));
+			this.audioQualityComboBox.AppendText (global::Mono.Unix.Catalog.GetString ("1"));
+			this.audioQualityComboBox.AppendText (global::Mono.Unix.Catalog.GetString ("2"));
+			this.audioQualityComboBox.AppendText (global::Mono.Unix.Catalog.GetString ("3"));
+			this.audioQualityComboBox.AppendText (global::Mono.Unix.Catalog.GetString ("4"));
+			this.audioQualityComboBox.AppendText (global::Mono.Unix.Catalog.GetString ("5 (default)"));
+			this.audioQualityComboBox.AppendText (global::Mono.Unix.Catalog.GetString ("6"));
+			this.audioQualityComboBox.AppendText (global::Mono.Unix.Catalog.GetString ("7"));
+			this.audioQualityComboBox.AppendText (global::Mono.Unix.Catalog.GetString ("8"));
+			this.audioQualityComboBox.AppendText (global::Mono.Unix.Catalog.GetString ("9 (worst)"));
+			this.audioQualityComboBox.AppendText (global::Mono.Unix.Catalog.GetString ("Custom CBR"));
+			this.audioQualityComboBox.Name = "audioQualityComboBox";
+			this.audioQualityComboBox.Active = 5;
+			this.hbox3.Add (this.audioQualityComboBox);
+			global::Gtk.Box.BoxChild w49 = ((global::Gtk.Box.BoxChild)(this.hbox3 [this.audioQualityComboBox]));
+			w49.Position = 1;
+			w49.Expand = false;
+			w49.Fill = false;
+			// Container child hbox3.Gtk.Box+BoxChild
+			this.audioQualityTextView = new global::Gtk.TextView ();
+			this.audioQualityTextView.Sensitive = false;
+			this.audioQualityTextView.CanFocus = true;
+			this.audioQualityTextView.Name = "audioQualityTextView";
+			this.hbox3.Add (this.audioQualityTextView);
+			global::Gtk.Box.BoxChild w50 = ((global::Gtk.Box.BoxChild)(this.hbox3 [this.audioQualityTextView]));
+			w50.Position = 2;
+			this.vbox7.Add (this.hbox3);
+			global::Gtk.Box.BoxChild w51 = ((global::Gtk.Box.BoxChild)(this.vbox7 [this.hbox3]));
+			w51.Position = 2;
+			w51.Expand = false;
+			w51.Fill = false;
+			// Container child vbox7.Gtk.Box+BoxChild
+			this.hbox4 = new global::Gtk.HBox ();
+			this.hbox4.Name = "hbox4";
+			this.hbox4.Spacing = 6;
+			// Container child hbox4.Gtk.Box+BoxChild
+			this.label3 = new global::Gtk.Label ();
+			this.label3.Name = "label3";
+			this.label3.LabelProp = global::Mono.Unix.Catalog.GetString ("Recode video");
+			this.hbox4.Add (this.label3);
+			global::Gtk.Box.BoxChild w52 = ((global::Gtk.Box.BoxChild)(this.hbox4 [this.label3]));
+			w52.Position = 0;
+			w52.Expand = false;
+			w52.Fill = false;
+			// Container child hbox4.Gtk.Box+BoxChild
+			this.recodeVideoFormatComboBox = global::Gtk.ComboBox.NewText ();
+			this.recodeVideoFormatComboBox.AppendText (global::Mono.Unix.Catalog.GetString ("Don't recode"));
+			this.recodeVideoFormatComboBox.AppendText (global::Mono.Unix.Catalog.GetString ("MP4"));
+			this.recodeVideoFormatComboBox.AppendText (global::Mono.Unix.Catalog.GetString ("FLV"));
+			this.recodeVideoFormatComboBox.AppendText (global::Mono.Unix.Catalog.GetString ("OGG"));
+			this.recodeVideoFormatComboBox.AppendText (global::Mono.Unix.Catalog.GetString ("WEBM"));
+			this.recodeVideoFormatComboBox.AppendText (global::Mono.Unix.Catalog.GetString ("MKV"));
+			this.recodeVideoFormatComboBox.AppendText (global::Mono.Unix.Catalog.GetString ("AVI"));
+			this.recodeVideoFormatComboBox.Name = "recodeVideoFormatComboBox";
+			this.recodeVideoFormatComboBox.Active = 0;
+			this.hbox4.Add (this.recodeVideoFormatComboBox);
+			global::Gtk.Box.BoxChild w53 = ((global::Gtk.Box.BoxChild)(this.hbox4 [this.recodeVideoFormatComboBox]));
+			w53.Position = 1;
+			w53.Expand = false;
+			w53.Fill = false;
+			this.vbox7.Add (this.hbox4);
+			global::Gtk.Box.BoxChild w54 = ((global::Gtk.Box.BoxChild)(this.vbox7 [this.hbox4]));
+			w54.Position = 3;
+			w54.Expand = false;
+			w54.Fill = false;
+			// Container child vbox7.Gtk.Box+BoxChild
+			this.keepVideoCheckButton = new global::Gtk.CheckButton ();
+			this.keepVideoCheckButton.CanFocus = true;
+			this.keepVideoCheckButton.Name = "keepVideoCheckButton";
+			this.keepVideoCheckButton.Label = global::Mono.Unix.Catalog.GetString ("Keep video");
+			this.keepVideoCheckButton.DrawIndicator = true;
+			this.keepVideoCheckButton.UseUnderline = true;
+			this.vbox7.Add (this.keepVideoCheckButton);
+			global::Gtk.Box.BoxChild w55 = ((global::Gtk.Box.BoxChild)(this.vbox7 [this.keepVideoCheckButton]));
+			w55.Position = 4;
+			w55.Expand = false;
+			w55.Fill = false;
+			// Container child vbox7.Gtk.Box+BoxChild
+			this.noPostOverwritesCheckButton = new global::Gtk.CheckButton ();
+			this.noPostOverwritesCheckButton.CanFocus = true;
+			this.noPostOverwritesCheckButton.Name = "noPostOverwritesCheckButton";
+			this.noPostOverwritesCheckButton.Label = global::Mono.Unix.Catalog.GetString ("Don't overwrite post-processed files");
+			this.noPostOverwritesCheckButton.DrawIndicator = true;
+			this.noPostOverwritesCheckButton.UseUnderline = true;
+			this.vbox7.Add (this.noPostOverwritesCheckButton);
+			global::Gtk.Box.BoxChild w56 = ((global::Gtk.Box.BoxChild)(this.vbox7 [this.noPostOverwritesCheckButton]));
+			w56.Position = 5;
+			w56.Expand = false;
+			w56.Fill = false;
+			// Container child vbox7.Gtk.Box+BoxChild
+			this.embedSubsCheckButton = new global::Gtk.CheckButton ();
+			this.embedSubsCheckButton.CanFocus = true;
+			this.embedSubsCheckButton.Name = "embedSubsCheckButton";
+			this.embedSubsCheckButton.Label = global::Mono.Unix.Catalog.GetString ("Embed subtitles");
+			this.embedSubsCheckButton.DrawIndicator = true;
+			this.embedSubsCheckButton.UseUnderline = true;
+			this.vbox7.Add (this.embedSubsCheckButton);
+			global::Gtk.Box.BoxChild w57 = ((global::Gtk.Box.BoxChild)(this.vbox7 [this.embedSubsCheckButton]));
+			w57.Position = 6;
+			w57.Expand = false;
+			w57.Fill = false;
+			// Container child vbox7.Gtk.Box+BoxChild
+			this.execTextView = new global::Gtk.TextView ();
+			this.execTextView.Sensitive = false;
+			this.execTextView.CanFocus = true;
+			this.execTextView.Name = "execTextView";
+			this.vbox7.Add (this.execTextView);
+			global::Gtk.Box.BoxChild w58 = ((global::Gtk.Box.BoxChild)(this.vbox7 [this.execTextView]));
+			w58.PackType = ((global::Gtk.PackType)(1));
+			w58.Position = 7;
+			// Container child vbox7.Gtk.Box+BoxChild
+			this.execCheckButton = new global::Gtk.CheckButton ();
+			this.execCheckButton.CanFocus = true;
+			this.execCheckButton.Name = "execCheckButton";
+			this.execCheckButton.Label = global::Mono.Unix.Catalog.GetString ("Execute a command on file after downloading");
+			this.execCheckButton.DrawIndicator = true;
+			this.execCheckButton.UseUnderline = true;
+			this.vbox7.Add (this.execCheckButton);
+			global::Gtk.Box.BoxChild w59 = ((global::Gtk.Box.BoxChild)(this.vbox7 [this.execCheckButton]));
+			w59.PackType = ((global::Gtk.PackType)(1));
+			w59.Position = 8;
+			w59.Expand = false;
+			w59.Fill = false;
+			// Container child vbox7.Gtk.Box+BoxChild
+			this.hbox6 = new global::Gtk.HBox ();
+			this.hbox6.Name = "hbox6";
+			this.hbox6.Spacing = 6;
+			// Container child hbox6.Gtk.Box+BoxChild
+			this.label4 = new global::Gtk.Label ();
+			this.label4.Name = "label4";
+			this.label4.LabelProp = global::Mono.Unix.Catalog.GetString ("Automatically correct file faults");
+			this.hbox6.Add (this.label4);
+			global::Gtk.Box.BoxChild w60 = ((global::Gtk.Box.BoxChild)(this.hbox6 [this.label4]));
+			w60.Position = 0;
+			w60.Expand = false;
+			w60.Fill = false;
+			// Container child hbox6.Gtk.Box+BoxChild
+			this.fixupComboBox = global::Gtk.ComboBox.NewText ();
+			this.fixupComboBox.AppendText (global::Mono.Unix.Catalog.GetString ("Never"));
+			this.fixupComboBox.AppendText (global::Mono.Unix.Catalog.GetString ("Warn"));
+			this.fixupComboBox.AppendText (global::Mono.Unix.Catalog.GetString ("Detect or Warn (default)"));
+			this.fixupComboBox.Name = "fixupComboBox";
+			this.fixupComboBox.Active = 2;
+			this.hbox6.Add (this.fixupComboBox);
+			global::Gtk.Box.BoxChild w61 = ((global::Gtk.Box.BoxChild)(this.hbox6 [this.fixupComboBox]));
+			w61.Position = 1;
+			w61.Expand = false;
+			w61.Fill = false;
+			this.vbox7.Add (this.hbox6);
+			global::Gtk.Box.BoxChild w62 = ((global::Gtk.Box.BoxChild)(this.vbox7 [this.hbox6]));
+			w62.PackType = ((global::Gtk.PackType)(1));
+			w62.Position = 9;
+			w62.Expand = false;
+			w62.Fill = false;
+			// Container child vbox7.Gtk.Box+BoxChild
+			this.xattrsCheckButton = new global::Gtk.CheckButton ();
+			this.xattrsCheckButton.CanFocus = true;
+			this.xattrsCheckButton.Name = "xattrsCheckButton";
+			this.xattrsCheckButton.Label = global::Mono.Unix.Catalog.GetString ("Write metadata to video's xattrs");
+			this.xattrsCheckButton.DrawIndicator = true;
+			this.xattrsCheckButton.UseUnderline = true;
+			this.vbox7.Add (this.xattrsCheckButton);
+			global::Gtk.Box.BoxChild w63 = ((global::Gtk.Box.BoxChild)(this.vbox7 [this.xattrsCheckButton]));
+			w63.PackType = ((global::Gtk.PackType)(1));
+			w63.Position = 10;
+			w63.Expand = false;
+			w63.Fill = false;
+			// Container child vbox7.Gtk.Box+BoxChild
+			this.addMetadataCheckButton = new global::Gtk.CheckButton ();
+			this.addMetadataCheckButton.CanFocus = true;
+			this.addMetadataCheckButton.Name = "addMetadataCheckButton";
+			this.addMetadataCheckButton.Label = global::Mono.Unix.Catalog.GetString ("Add metadata to video file");
+			this.addMetadataCheckButton.DrawIndicator = true;
+			this.addMetadataCheckButton.UseUnderline = true;
+			this.vbox7.Add (this.addMetadataCheckButton);
+			global::Gtk.Box.BoxChild w64 = ((global::Gtk.Box.BoxChild)(this.vbox7 [this.addMetadataCheckButton]));
+			w64.PackType = ((global::Gtk.PackType)(1));
+			w64.Position = 11;
+			w64.Expand = false;
+			w64.Fill = false;
+			// Container child vbox7.Gtk.Box+BoxChild
+			this.embedThumbnailCheckButton = new global::Gtk.CheckButton ();
+			this.embedThumbnailCheckButton.CanFocus = true;
+			this.embedThumbnailCheckButton.Name = "embedThumbnailCheckButton";
+			this.embedThumbnailCheckButton.Label = global::Mono.Unix.Catalog.GetString ("Embed thumbnail as cover art");
+			this.embedThumbnailCheckButton.DrawIndicator = true;
+			this.embedThumbnailCheckButton.UseUnderline = true;
+			this.vbox7.Add (this.embedThumbnailCheckButton);
+			global::Gtk.Box.BoxChild w65 = ((global::Gtk.Box.BoxChild)(this.vbox7 [this.embedThumbnailCheckButton]));
+			w65.PackType = ((global::Gtk.PackType)(1));
+			w65.Position = 12;
+			w65.Expand = false;
+			w65.Fill = false;
+			this.expander6.Add (this.vbox7);
+			this.GtkLabel27 = new global::Gtk.Label ();
+			this.GtkLabel27.CanFocus = true;
+			this.GtkLabel27.Name = "GtkLabel27";
+			this.GtkLabel27.LabelProp = global::Mono.Unix.Catalog.GetString ("<b>Post-processing Options</b>");
+			this.GtkLabel27.UseMarkup = true;
+			this.GtkLabel27.UseUnderline = true;
+			this.expander6.LabelWidget = this.GtkLabel27;
+			this.vbox1.Add (this.expander6);
+			global::Gtk.Box.BoxChild w67 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.expander6]));
+			w67.Position = 8;
+			w67.Expand = false;
 			this.Add (this.vbox1);
 			if ((this.Child != null)) {
 				this.Child.ShowAll ();
 			}
-			this.DefaultWidth = 358;
-			this.DefaultHeight = 233;
+			this.DefaultWidth = 476;
+			this.DefaultHeight = 264;
+			this.proxyUrlTextView.Hide ();
+			this.socketTimeoutTextView.Hide ();
+			this.rateTextView.Hide ();
+			this.rateUnitComboBox.Hide ();
+			this.retriesTextView.Hide ();
+			this.audioQualityTextView.Hide ();
+			this.execTextView.Hide ();
 			this.Show ();
 			this.DeleteEvent += new global::Gtk.DeleteEventHandler (this.OnDeleteEvent);
+			this.folderChooserButton.Clicked += new global::System.EventHandler (this.OnFolderChooserButtonClicked);
+			this.downloadButton.Clicked += new global::System.EventHandler (this.OnDownloadButtonClicked);
 			this.proxyCheckButton.Toggled += new global::System.EventHandler (this.OnProxyCheckButtonToggled);
 			this.socketTimeoutCheckButton.Toggled += new global::System.EventHandler (this.OnSocketTimeoutCheckButtonToggled);
 			this.rateLimitCheckButton.Toggled += new global::System.EventHandler (this.OnRateLimitCheckButtonToggled);
@@ -495,6 +901,8 @@ namespace YoutubeDLGui
 			this.passwordCheckButton.Toggled += new global::System.EventHandler (this.OnPasswordCheckButtonToggled);
 			this.videoPasswordTextView.KeyReleaseEvent += new global::Gtk.KeyReleaseEventHandler (this.OnVideoPasswordTextViewKeyReleaseEvent);
 			this.videoPasswordCheckButton.Toggled += new global::System.EventHandler (this.OnVideoPasswordCheckButtonToggled);
+			this.audioQualityComboBox.Changed += new global::System.EventHandler (this.OnAudioQualityComboBoxChanged);
+			this.execCheckButton.Toggled += new global::System.EventHandler (this.OnExecCheckButtonToggled);
 		}
 	}
 }
