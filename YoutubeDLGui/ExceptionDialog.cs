@@ -1,5 +1,5 @@
 ﻿//
-// FolderChooserDialog.cs
+// ExceptionDialog.cs
 //
 // Author:
 //       Brian Allred <brian.d.allred@gmail.com>
@@ -29,28 +29,28 @@ using System;
 namespace YoutubeDLGui
 {
     /// <summary>
-    /// Folder chooser dialog.
+    /// Class to show exception dialogs.
     /// </summary>
-    public partial class FolderChooserDialog : Gtk.Dialog
+    public partial class ExceptionDialog : Gtk.Dialog
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="YoutubeDLGui.FolderChooserDialog"/> class.
+        /// Initializes a new instance of the <see cref="YoutubeDLGui.ExceptionDialog"/> class.
         /// </summary>
-        public FolderChooserDialog()
+        private ExceptionDialog()
         {
             this.Build();
         }
 
         /// <summary>
-        /// Gets the folder.
+        /// Initializes a new instance of the <see cref="YoutubeDLGui.ExceptionDialog"/> class.
         /// </summary>
-        /// <value>The folder.</value>
-        public string Folder
+        /// <param name="title">Title.</param>
+        /// <param name="exceptionMessage">Exception message.</param>
+        public ExceptionDialog(string title, string exceptionMessage)
+            : this()
         {
-            get
-            {
-                return this.folderChooserWidget.Filename;
-            }
+            this.frame1.Label = title;
+            this.textview2.Buffer.Text = exceptionMessage;
         }
 
         /// <summary>
@@ -60,17 +60,7 @@ namespace YoutubeDLGui
         /// <param name="e">E.</param>
         protected void OnButtonOkClicked(object sender, EventArgs e)
         {
-            this.Respond(Gtk.ResponseType.Ok);
-        }
-
-        /// <summary>
-        /// Raises the button cancel clicked event.
-        /// </summary>
-        /// <param name="sender">Sender.</param>
-        /// <param name="e">E.</param>
-        protected void OnButtonCancelClicked(object sender, EventArgs e)
-        {
-            this.Respond(Gtk.ResponseType.Cancel);
+            this.Destroy();
         }
     }
 }

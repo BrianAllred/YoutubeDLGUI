@@ -64,6 +64,10 @@
     <Compile Include="gtk-gui\YoutubeDLGui.MainWindow.cs" />
     <Compile Include="FolderChooserDialog.cs" />
     <Compile Include="gtk-gui\YoutubeDLGui.FolderChooserDialog.cs" />
+    <Compile Include="ProgressDialog.cs" />
+    <Compile Include="gtk-gui\YoutubeDLGui.ProgressDialog.cs" />
+    <Compile Include="ExceptionDialog.cs" />
+    <Compile Include="gtk-gui\YoutubeDLGui.ExceptionDialog.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\YoutubeDL\YoutubeDL.csproj">
