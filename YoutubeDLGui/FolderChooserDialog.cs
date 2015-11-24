@@ -25,53 +25,47 @@
 // THE SOFTWARE.
 
 using System;
+using Gtk;
 
 namespace YoutubeDLGui
 {
     /// <summary>
-    /// Folder chooser dialog.
+    ///     Folder chooser dialog.
     /// </summary>
-    public partial class FolderChooserDialog : Gtk.Dialog
+    public partial class FolderChooserDialog : Dialog
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="YoutubeDLGui.FolderChooserDialog"/> class.
+        ///     Initializes a new instance of the <see cref="YoutubeDLGui.FolderChooserDialog" /> class.
         /// </summary>
         public FolderChooserDialog()
         {
-            this.Build();
+            Build();
         }
 
         /// <summary>
-        /// Gets the folder.
+        ///     Gets the folder.
         /// </summary>
         /// <value>The folder.</value>
-        public string Folder
-        {
-            get
-            {
-                return this.folderChooserWidget.Filename;
-            }
-        }
+        public string Folder => folderChooserWidget.Filename;
 
         /// <summary>
-        /// Raises the button ok clicked event.
+        ///     Raises the button ok clicked event.
         /// </summary>
         /// <param name="sender">Sender.</param>
         /// <param name="e">E.</param>
         protected void OnButtonOkClicked(object sender, EventArgs e)
         {
-            this.Respond(Gtk.ResponseType.Ok);
+            Respond(ResponseType.Ok);
         }
 
         /// <summary>
-        /// Raises the button cancel clicked event.
+        ///     Raises the button cancel clicked event.
         /// </summary>
         /// <param name="sender">Sender.</param>
         /// <param name="e">E.</param>
         protected void OnButtonCancelClicked(object sender, EventArgs e)
         {
-            this.Respond(Gtk.ResponseType.Cancel);
+            Respond(ResponseType.Cancel);
         }
     }
 }
-

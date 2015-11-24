@@ -25,43 +25,43 @@
 // THE SOFTWARE.
 
 using System;
+using Gtk;
 
 namespace YoutubeDLGui
 {
     /// <summary>
-    /// Class to show exception dialogs.
+    ///     Class to show exception dialogs.
     /// </summary>
-    public partial class ExceptionDialog : Gtk.Dialog
+    public partial class ExceptionDialog : Dialog
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="YoutubeDLGui.ExceptionDialog"/> class.
+        ///     Initializes a new instance of the <see cref="YoutubeDLGui.ExceptionDialog" /> class.
         /// </summary>
         private ExceptionDialog()
         {
-            this.Build();
+            Build();
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="YoutubeDLGui.ExceptionDialog"/> class.
+        ///     Initializes a new instance of the <see cref="YoutubeDLGui.ExceptionDialog" /> class.
         /// </summary>
         /// <param name="title">Title.</param>
         /// <param name="exceptionMessage">Exception message.</param>
         public ExceptionDialog(string title, string exceptionMessage)
             : this()
         {
-            this.frame1.Label = title;
-            this.textview2.Buffer.Text = exceptionMessage;
+            frame1.Label = title;
+            textview2.Buffer.Text = exceptionMessage;
         }
 
         /// <summary>
-        /// Raises the button ok clicked event.
+        ///     Raises the button ok clicked event.
         /// </summary>
         /// <param name="sender">Sender.</param>
         /// <param name="e">E.</param>
         protected void OnButtonOkClicked(object sender, EventArgs e)
         {
-            this.Destroy();
+            Destroy();
         }
     }
 }
-

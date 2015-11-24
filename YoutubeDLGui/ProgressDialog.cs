@@ -25,28 +25,27 @@
 // THE SOFTWARE.
 
 using System;
-using System.Diagnostics;
 using System.Text.RegularExpressions;
+using Gtk;
 using YoutubeDL;
-using System.Threading;
 
 namespace YoutubeDLGui
 {
     /// <summary>
-    /// Progress dialog.
+    ///     Progress dialog.
     /// </summary>
-    public partial class ProgressDialog : Gtk.Dialog
+    public partial class ProgressDialog : Dialog
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="YoutubeDLGui.ProgressDialog"/> class.
+        ///     Initializes a new instance of the <see cref="YoutubeDLGui.ProgressDialog" /> class.
         /// </summary>
         private ProgressDialog()
         {
-            this.Build();
+            Build();
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="YoutubeDLGui.ProgressDialog"/> class.
+        ///     Initializes a new instance of the <see cref="YoutubeDLGui.ProgressDialog" /> class.
         /// </summary>
         /// <param name="youtubeDLController">Youtube DL controller.</param>
         public ProgressDialog(YoutubeDLController youtubeDLController)
@@ -61,111 +60,100 @@ namespace YoutubeDLGui
             // Context sensitive depending on whether process is still alive
             youtubeProcess.Exited += OnDownloadComplete;
 
-            this.ProcessTextView.Buffer.Text += "Running the following command:\n" + youtubeDLController.RunCommand + "\n";
+            ProcessTextView.Buffer.Text += "Running the following command:\n" + youtubeDLController.RunCommand + "\n";
         }
 
         /// <summary>
-        /// Sets button sensitivity
+        ///     Sets button sensitivity
         /// </summary>
         /// <param name="sender">Sender.</param>
         /// <param name="e">E.</param>
-        void OnDownloadComplete(object sender, EventArgs e)
+        private void OnDownloadComplete(object sender, EventArgs e)
         {
-            Gtk.Application.Invoke(delegate
-                {
-                    this.buttonOk.Sensitive = true;
-                    this.buttonCancel.Sensitive = false;
-                });
+            Application.Invoke(delegate
+            {
+                this.buttonOk.Sensitive = true;
+                this.buttonCancel.Sensitive = false;
+            });
         }
 
         /// <summary>
-        /// Processes the stdout.
+        ///     Processes the stdout.
         /// </summary>
         /// <param name="sender">Sender.</param>
         /// <param name="text">Text.</param>
-        void OnStandardOutput(object sender, string text)
+        private void OnStandardOutput(object sender, string text)
         {
-            if (!string.IsNullOrWhiteSpace(text))
+            if (string.IsNullOrWhiteSpace(text)) return;
+
+            ProcessText(text);
+            var percent = GetPercent(text);
+            if (!double.IsNaN(percent))
             {
-                this.ProcessText(text);
-                double percent = this.GetPercent(text);
-                if (!double.IsNaN(percent))
-                {
-                    this.ProcessProgressBar.Fraction = percent / 100.0;
-                }
+                ProcessProgressBar.Fraction = percent/100.0;
             }
         }
 
         /// <summary>
-        /// Processes the stderr.
+        ///     Processes the stderr.
         /// </summary>
         /// <param name="sender">Sender.</param>
         /// <param name="text">Text.</param>
-        void OnStandardError(object sender, string text)
+        private void OnStandardError(object sender, string text)
         {
             if (!string.IsNullOrWhiteSpace(text))
             {
-                this.ProcessText(text);
+                ProcessText(text);
             }
         }
 
         /// <summary>
-        /// Close on ok clicked.
+        ///     Close on ok clicked.
         /// </summary>
         /// <param name="sender">Sender.</param>
         /// <param name="e">E.</param>
-        protected void OnButtonOkClicked(object sender, System.EventArgs e)
+        protected void OnButtonOkClicked(object sender, EventArgs e)
         {
-            this.Destroy();
+            Destroy();
         }
 
         /// <summary>
-        /// Close on cancel clicked.
+        ///     Close on cancel clicked.
         /// </summary>
         /// <param name="sender">Sender.</param>
         /// <param name="e">E.</param>
-        protected void OnButtonCancelClicked(object sender, System.EventArgs e)
+        protected void OnButtonCancelClicked(object sender, EventArgs e)
         {
-            this.Respond(Gtk.ResponseType.Cancel);
-            this.buttonCancel.Sensitive = false;
-            this.buttonOk.Sensitive = true;
-            this.ProcessTextView.Buffer.Text += "\nProcess killed.\n";
+            Respond(ResponseType.Cancel);
+            buttonCancel.Sensitive = false;
+            buttonOk.Sensitive = true;
+            ProcessTextView.Buffer.Text += "\nProcess killed.\n";
         }
 
         /// <summary>
-        /// Displays text and scrolls to end of buffer.
+        ///     Displays text and scrolls to end of buffer.
         /// </summary>
         /// <param name="text">Text.</param>
         private void ProcessText(string text)
         {
-            Gtk.Application.Invoke(delegate
-                {
-                    this.ProcessTextView.Buffer.Text += "\n" + text;
-                    this.ProcessTextView.ScrollToIter(this.ProcessTextView.Buffer.EndIter, 0, false, 0, 0);
-                });
+            Application.Invoke(delegate
+            {
+                this.ProcessTextView.Buffer.Text += "\n" + text;
+                this.ProcessTextView.ScrollToIter(this.ProcessTextView.Buffer.EndIter, 0, false, 0, 0);
+            });
         }
 
         /// <summary>
-        /// Gets the progress as a percent.
+        ///     Gets the progress as a percent.
         /// </summary>
         /// <returns>The percent.</returns>
         /// <param name="text">Text.</param>
-        private double GetPercent(string text)
+        private static double GetPercent(string text)
         {
-            string re1 = ".*?";   // Non-greedy match on filler
-            string re2 = "([+-]?\\d*\\.\\d+)(?![-+0-9\\.])";  // Float 1
-            string re3 = "(%)";   // Any Single Character 1
+            var regex = new Regex(".*?" + "([+-]?\\d*\\.\\d+)(?![-+0-9\\.])" + "(%)", RegexOptions.IgnoreCase | RegexOptions.Singleline);
+            var match = regex.Match(text);
 
-            Regex regex = new Regex(re1 + re2 + re3, RegexOptions.IgnoreCase | RegexOptions.Singleline);
-            Match match = regex.Match(text);
-
-            if (match.Success)
-            {
-                return double.Parse(match.Groups[1].ToString());
-            }
-
-            return double.NaN;
+            return match.Success ? double.Parse(match.Groups[1].ToString()) : double.NaN;
         }
     }
 }
-

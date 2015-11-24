@@ -28,6 +28,9 @@
     <ConsolePause>false</ConsolePause>
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>YoutubeDLGui.MainClass</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="gtk-sharp, Version=2.4.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
@@ -75,11 +78,19 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <ItemGroup>
-    <Folder Include="lib\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="lib\youtube-dl" />
     <None Include="lib\youtube-dl.exe" />
   </ItemGroup>
+  <PropertyGroup>
+    <PostBuildEvent Condition=" '$(OS)' == 'Windows_NT' ">
+	mkdir $(TargetDir)\lib
+	copy $(ProjectDir)\lib\youtube-dl.exe $(TargetDir)\lib
+	</PostBuildEvent>
+	<PostBuildEvent Condition=" '$(OS)' != 'Windows_NT' ">
+	mkdir $(TargetDir)/lib
+	cp $(ProjectDir)/lib/youtube-dl $(TargetDir)/lib
+	</PostBuildEvent>
+  </PropertyGroup>
 </Project>

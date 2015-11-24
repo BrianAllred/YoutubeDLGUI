@@ -36,6 +36,45 @@ namespace YoutubeDL
 {
     public class YoutubeDLController
     {
+        /// <summary>
+        ///     Controller singleton
+        /// </summary>
+        private static readonly YoutubeDLController Controller = new YoutubeDLController();
+
+        /// <summary>
+        ///     Actual youtube-dl process
+        /// </summary>
+        private Process _process;
+
+        /// <summary>
+        ///     youtube-dl process info
+        /// </summary>
+        private ProcessStartInfo _processStartInfo;
+
+        /// <summary>
+        ///     The thread handling std error.
+        /// </summary>
+        private Thread _stdError;
+
+        /// <summary>
+        ///     The thread handling std output.
+        /// </summary>
+        private Thread _stdOutput;
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="YoutubeDL.YoutubeDLController" /> class.
+        /// </summary>
+        private YoutubeDLController()
+        {
+        }
+
+        /// <summary>
+        ///     Instance the singleton instance.
+        /// </summary>
+        public static YoutubeDLController Instance()
+        {
+            return Controller;
+        }
 
         #region Enums
 
@@ -64,7 +103,7 @@ namespace YoutubeDL
         }
 
         /// <summary>
-        /// External downloader.
+        ///     External downloader.
         /// </summary>
         public enum ExternalDownloader
         {
@@ -74,7 +113,7 @@ namespace YoutubeDL
         }
 
         /// <summary>
-        /// Fixup policy, how to treat errors when downloading.
+        ///     Fixup policy, how to treat errors when downloading.
         /// </summary>
         public enum FixupPolicy
         {
@@ -98,55 +137,15 @@ namespace YoutubeDL
 
         #endregion
 
-        /// <summary>
-        ///     Controller singleton
-        /// </summary>
-        private static readonly YoutubeDLController Controller = new YoutubeDLController();
-
-        /// <summary>
-        ///     Actual youtube-dl process
-        /// </summary>
-        private Process _process;
-
-        /// <summary>
-        ///     youtube-dl process info
-        /// </summary>
-        private ProcessStartInfo _processStartInfo;
-
-        /// <summary>
-        /// The thread handling std output.
-        /// </summary>
-        private Thread _stdOutput;
-
-        /// <summary>
-        /// The thread handling std error.
-        /// </summary>
-        private Thread _stdError;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="YoutubeDL.YoutubeDLController"/> class.
-        /// </summary>
-        private YoutubeDLController()
-        {
-        }
-
-        /// <summary>
-        /// Instance the singleton instance.
-        /// </summary>
-        public static YoutubeDLController Instance()
-        {
-            return Controller;
-        }
-
         #region Events
 
         /// <summary>
-        /// Occurs when standard output is received.
+        ///     Occurs when standard output is received.
         /// </summary>
         public event EventHandler<string> StandardOutput;
 
         /// <summary>
-        /// Occurs when standard error is received.
+        ///     Occurs when standard error is received.
         /// </summary>
         public event EventHandler<string> StandardError;
 
@@ -157,7 +156,7 @@ namespace YoutubeDL
         #region Public Properties
 
         /// <summary>
-        /// Gets the complete command that was run by Download().
+        ///     Gets the complete command that was run by Download().
         /// </summary>
         /// <value>The run command.</value>
         public string RunCommand { get; private set; }
@@ -167,9 +166,9 @@ namespace YoutubeDL
         #region General Options
 
         /// <summary>
-        /// 	URL of video to download
+        ///     URL of video to download
         /// </summary>
-        public string VideoUrl{ get; set; }
+        public string VideoUrl { get; set; }
 
         /// <summary>
         ///     Abort downloading of further videos (in the
@@ -278,29 +277,29 @@ namespace YoutubeDL
         public bool NoResizeBuffer { get; set; }
 
         /// <summary>
-        /// Downlaod playlist videos in reverse order
+        ///     Downlaod playlist videos in reverse order
         /// </summary>
         public bool PlaylistReverse { get; set; }
 
         /// <summary>
-        /// Use the specified external downloader. Currently supports aria2c, curl, wget
+        ///     Use the specified external downloader. Currently supports aria2c, curl, wget
         /// </summary>
         public ExternalDownloader UseExternalDownloader { get; set; }
 
         /// <summary>
-        /// Give the arguments to the external downloader
+        ///     Give the arguments to the external downloader
         /// </summary>
         public string ExternalDownloaderArgs { get; set; }
 
         #region Experimental
 
         /// <summary>
-        /// Set file xattribute ytdl.filesize with expected filesize
+        ///     Set file xattribute ytdl.filesize with expected filesize
         /// </summary>
         public bool XAttrSetFilesize { get; set; }
 
         /// <summary>
-        /// Use the native HLS downloader instead of ffmpeg
+        ///     Use the native HLS downloader instead of ffmpeg
         /// </summary>
         public bool HlsPreferNative { get; set; }
 
@@ -394,9 +393,9 @@ namespace YoutubeDL
         public int AudioQuality { get; set; }
 
         /// <summary>
-        /// 	Specifiy CBR audio quality
+        ///     Specifiy CBR audio quality
         /// </summary>
-        public int CustomAudioQuality{ get; set; }
+        public int CustomAudioQuality { get; set; }
 
         /// <summary>
         ///     Encode the video to another format
@@ -444,9 +443,9 @@ namespace YoutubeDL
         public FixupPolicy Fixup { get; set; }
 
         /// <summary>
-        /// 	Execute a command on the file after downloading,
-        /// 	similar to find's -exec syntax.
-        /// 	Example: --exec 'adb push {} /sdcard/Music/ && rm {}'
+        ///     Execute a command on the file after downloading,
+        ///     similar to find's -exec syntax.
+        ///     Example: --exec 'adb push {} /sdcard/Music/ && rm {}'
         /// </summary>
         /// <value>The cmd.</value>
         public string Cmd { get; set; }
@@ -458,21 +457,21 @@ namespace YoutubeDL
         #region Public Methods
 
         /// <summary>
-        /// Convert controller into parameters to pass to youtube-dl process, then create and run process.
-        /// Also handle output from process.
+        ///     Convert controller into parameters to pass to youtube-dl process, then create and run process.
+        ///     Also handle output from process.
         /// </summary>
         public Process Download()
         {
-            string arguments = string.Empty;
+            var arguments = string.Empty;
 
-            arguments += $"-o {this.Output} ";
+            arguments += $"-o {Output} ";
 
             if (IgnoreConfig)
             {
                 arguments += "--ignore-config ";
             }
 
-            if (this.AbortOnError)
+            if (AbortOnError)
             {
                 arguments += "--abort-on-error ";
             }
@@ -482,15 +481,15 @@ namespace YoutubeDL
 //				arguments += "--flat-playlist ";
 //			}
 
-            if (!string.IsNullOrWhiteSpace(this.ProxyUrl))
+            if (!string.IsNullOrWhiteSpace(ProxyUrl))
             {
-                arguments += $"--proxy {this.ProxyUrl} ";
+                arguments += $"--proxy {ProxyUrl} ";
             }
 
-            if (this.SocketTimeout != 0)
+            if (SocketTimeout != 0)
             {
-                arguments += $"--socket-timeout {this.SocketTimeout} ";
-            } 
+                arguments += $"--socket-timeout {SocketTimeout} ";
+            }
 
 //			if (!string.IsNullOrWhiteSpace(this.SourceAddress))
 //			{
@@ -500,18 +499,18 @@ namespace YoutubeDL
             // if Ipv4 > then -4 > else if Ipv6 > then -6 > else empty
 //			arguments += this.Ipv4 ? "-4 " : (this.Ipv6 ? "-6 " : string.Empty);
 
-            if (this.RateLimit != 0)
+            if (RateLimit != 0)
             {
-                arguments += $"-r {this.RateLimit}{this.RateLimitUnit} ";
+                arguments += $"-r {RateLimit}{RateLimitUnit} ";
             }
-				
-            if (this.Retries < 0)
+
+            if (Retries < 0)
             {
-                arguments += $"-R infinite ";
+                arguments += "-R infinite ";
             }
             else
             {
-                arguments += $"-R {this.Retries} ";
+                arguments += $"-R {Retries} ";
             }
 
 //			if (this.BufferSize > 0)
@@ -534,19 +533,18 @@ namespace YoutubeDL
 //				arguments += "--restrict-filenames ";
 //			}
 
-            if (this.NoOverwrites)
+            if (NoOverwrites)
             {
                 arguments += "-w ";
             }
 
-            if (this.Continue)
+            if (Continue)
             {
                 arguments += "-c ";
             }
-            else if (this.NoContinue)
+            else if (NoContinue)
             {
                 arguments += "--no-continue ";
-
             }
 
 //			if (this.RecodeVideo)
@@ -554,13 +552,13 @@ namespace YoutubeDL
 //				arguments += $"--recode-video {this.RecodeVideoFormat} ";
 //			}
 
-            if (!string.IsNullOrWhiteSpace(this.Username))
+            if (!string.IsNullOrWhiteSpace(Username))
             {
-                arguments += $"-u {this.Username} -p {this.Password} ";
+                arguments += $"-u {Username} -p {Password} ";
 
-                if (!string.IsNullOrWhiteSpace(this.TwoFactor))
+                if (!string.IsNullOrWhiteSpace(TwoFactor))
                 {
-                    arguments += $"-2 {this.TwoFactor} ";
+                    arguments += $"-2 {TwoFactor} ";
                 }
             }
 
@@ -569,105 +567,107 @@ namespace YoutubeDL
 //				arguments += "-n ";
 //			}
 
-            if (!string.IsNullOrWhiteSpace(this.VideoPassword))
+            if (!string.IsNullOrWhiteSpace(VideoPassword))
             {
-                arguments += $"--video-password {this.VideoPassword} ";
+                arguments += $"--video-password {VideoPassword} ";
             }
 
-            if (this.ExtractAudio)
+            if (ExtractAudio)
             {
                 arguments += "-x ";
             }
 
-            arguments += $"--audio-format {this.AudioFormat} ";
+            arguments += $"--audio-format {AudioFormat} ";
             arguments += "--audio-quality ";
-            if (this.AudioQuality == 10)
+            if (AudioQuality == 10)
             {
-                arguments += $"{this.CustomAudioQuality}K ";
+                arguments += $"{CustomAudioQuality}K ";
             }
 
-            arguments += $"{this.AudioQuality} ";
+            arguments += $"{AudioQuality} ";
 
-            if (this.KeepVideo)
+            if (KeepVideo)
             {
                 arguments += "-k ";
             }
 
-            if (this.NoPostOverwrites)
+            if (NoPostOverwrites)
             {
                 arguments += "--no-post-overwrites ";
             }
 
-            if (this.EmbedSubs)
+            if (EmbedSubs)
             {
                 arguments += "--embed-subs ";
             }
 
-            if (this.EmbedThumbnail)
+            if (EmbedThumbnail)
             {
                 arguments += "--embed-thumbnail ";
             }
 
-            if (this.AddMetadata)
+            if (AddMetadata)
             {
                 arguments += "--add-metadata ";
             }
 
-            if (this.XAttrs)
+            if (XAttrs)
             {
                 arguments += "--xattrs ";
             }
-				
-            arguments += $"--fixup {this.Fixup} ";
 
-            if (!string.IsNullOrWhiteSpace(this.Cmd))
+            arguments += $"--fixup {Fixup} ";
+
+            if (!string.IsNullOrWhiteSpace(Cmd))
             {
-                arguments += $"--exec {this.Cmd} ";
+                arguments += $"--exec {Cmd} ";
             }
 
-            arguments += this.VideoUrl;
+            arguments += VideoUrl;
 
-            _processStartInfo = new ProcessStartInfo();
-            _processStartInfo.FileName = "youtube-dl";
-            _processStartInfo.Arguments = arguments;
-            _processStartInfo.CreateNoWindow = true;
-            _processStartInfo.RedirectStandardError = true;
-            _processStartInfo.RedirectStandardOutput = true;
-            _processStartInfo.UseShellExecute = false;
+            _processStartInfo = new ProcessStartInfo
+            {
+                FileName = "youtube-dl",
+                Arguments = arguments,
+                CreateNoWindow = true,
+                RedirectStandardError = true,
+                RedirectStandardOutput = true,
+                UseShellExecute = false
+            };
 
-            _process = new Process{ StartInfo = _processStartInfo, EnableRaisingEvents = true };
+            _process = new Process {StartInfo = _processStartInfo, EnableRaisingEvents = true};
             _process.Start();
 
-            this.RunCommand = _processStartInfo.FileName + " " + _processStartInfo.Arguments;
+            RunCommand = _processStartInfo.FileName + " " + _processStartInfo.Arguments;
 
             // Note that synchronous calls are needed in order to process the output line by line.
             // Asynchronous output reading results in batches of output lines coming in all at once.
             // The following two threads convert synchronous output reads into asynchronous events.
 
-            _stdOutput = new Thread((ThreadStart)delegate
+            _stdOutput = new Thread((ThreadStart) delegate
+            {
+                while (_process != null && !_process.HasExited)
                 {
                     string stdOutput;
-                    while (_process != null && !_process.HasExited)
+                    if (!string.IsNullOrEmpty(stdOutput = _process.StandardOutput.ReadLine()))
                     {
-                        if (!string.IsNullOrEmpty(stdOutput = _process.StandardOutput.ReadLine()))
-                        {
-                            StandardOutput(this, stdOutput);
-                        }
+                        StandardOutput?.Invoke(this, stdOutput);
                     }
-                });
+                }
+            });
 
-            _stdError = new Thread((ThreadStart)delegate
+            _stdError = new Thread((ThreadStart) delegate
+            {
+                while (_process != null && !_process.HasExited)
                 {
                     string stdError;
-                    while (_process != null && !_process.HasExited)
+                    if (!string.IsNullOrEmpty(stdError = _process.StandardError.ReadLine()))
                     {
-                        if (!string.IsNullOrEmpty(stdError = _process.StandardError.ReadLine()))
-                        {
-                            StandardError(this, stdError);
-                        }
+                        StandardError?.Invoke(this, stdError);
                     }
-                });
-                    
+                }
+            });
+
             _stdOutput.Start();
             _stdError.Start();
 
@@ -675,7 +675,7 @@ namespace YoutubeDL
         }
 
         /// <summary>
-        /// Kills the process and associated threads.
+        ///     Kills the process and associated threads.
         /// </summary>
         public void KillProcess()
         {
