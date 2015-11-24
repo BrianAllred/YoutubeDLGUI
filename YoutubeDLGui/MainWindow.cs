@@ -32,45 +32,92 @@ using Key = Gdk.Key;
 
 namespace YoutubeDLGui
 {
+    /// <summary>
+    /// Main window.
+    /// </summary>
     public partial class MainWindow : Window
     {
+        /// <summary>
+        /// The user password.
+        /// </summary>
         private readonly List<char> _userPassword = new List<char>();
+
+        /// <summary>
+        /// The video password.
+        /// </summary>
         private readonly List<char> _videoPassword = new List<char>();
+
+        /// <summary>
+        /// The youtube-dl controller.
+        /// </summary>
         public YoutubeDLController Controller = YoutubeDLController.Instance();
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="YoutubeDLGui.MainWindow"/> class.
+        /// </summary>
         public MainWindow()
             : base(WindowType.Toplevel)
         {
             Build();
         }
 
+        /// <summary>
+        /// Raises the delete event event.
+        /// </summary>
+        /// <param name="sender">Sender.</param>
+        /// <param name="a">The alpha component.</param>
         protected void OnDeleteEvent(object sender, DeleteEventArgs a)
         {
             Application.Quit();
             a.RetVal = true;
         }
 
+        /// <summary>
+        /// Raises the proxy check button toggled event.
+        /// </summary>
+        /// <param name="sender">Sender.</param>
+        /// <param name="e">E.</param>
         protected void OnProxyCheckButtonToggled(object sender, EventArgs e)
         {
             proxyUrlTextView.Sensitive = proxyUrlTextView.Visible = proxyCheckButton.Active;
         }
 
+        /// <summary>
+        /// Raises the socket timeout check button toggled event.
+        /// </summary>
+        /// <param name="sender">Sender.</param>
+        /// <param name="e">E.</param>
         protected void OnSocketTimeoutCheckButtonToggled(object sender, EventArgs e)
         {
             socketTimeoutTextView.Sensitive = socketTimeoutTextView.Visible = socketTimeoutCheckButton.Active;
         }
 
+        /// <summary>
+        /// Raises the rate limit check button toggled event.*/
+        /// </summary>
+        /// <param name="sender">Sender.</param>
+        /// <param name="e">E.</param>
         protected void OnRateLimitCheckButtonToggled(object sender, EventArgs e)
         {
             rateTextView.Sensitive = rateTextView.Visible = rateLimitCheckButton.Active;
             rateUnitComboBox.Sensitive = rateUnitComboBox.Visible = rateLimitCheckButton.Active;
         }
 
+        /// <summary>
+        /// Raises the retries check button toggled event.
+        /// </summary>
+        /// <param name="sender">Sender.</param>
+        /// <param name="e">E.</param>
         protected void OnRetriesCheckButtonToggled(object sender, EventArgs e)
         {
             retriesTextView.Sensitive = retriesTextView.Visible = retriesCheckButton.Active;
         }
 
+        /// <summary>
+        /// Raises the username text view key release event event.
+        /// </summary>
+        /// <param name="o">O.</param>
+        /// <param name="args">Arguments.</param>
         protected void OnUsernameTextViewKeyReleaseEvent(object o, KeyReleaseEventArgs args)
         {
             if (usernameTextView.Buffer.Text.Length == 0)
@@ -83,18 +130,33 @@ namespace YoutubeDLGui
             }
         }
 
+        /// <summary>
+        /// Raises the password text view key release event event.
+        /// </summary>
+        /// <param name="o">O.</param>
+        /// <param name="args">Arguments.</param>
         protected void OnPasswordTextViewKeyReleaseEvent(object o, KeyReleaseEventArgs args)
         {
             ProcessPasswordText(passwordTextView, _userPassword, args);
             Controller.Password = new string(_userPassword.ToArray());
         }
 
+        /// <summary>
+        /// Raises the video password text view key release event event.
+        /// </summary>
+        /// <param name="o">O.</param>
+        /// <param name="args">Arguments.</param>
         protected void OnVideoPasswordTextViewKeyReleaseEvent(object o, KeyReleaseEventArgs args)
         {
             ProcessPasswordText(videoPasswordTextView, _videoPassword, args);
             Controller.VideoPassword = new string(_videoPassword.ToArray());
         }
 
+        /// <summary>
+        /// Raises the username text view focus out event event.
+        /// </summary>
+        /// <param name="o">O.</param>
+        /// <param name="args">Arguments.</param>
         protected void OnUsernameTextViewFocusOutEvent(object o, FocusOutEventArgs args)
         {
             if (string.IsNullOrEmpty(usernameTextView.Buffer.Text))
@@ -103,6 +165,11 @@ namespace YoutubeDLGui
             }
         }
 
+        /// <summary>
+        /// Raises the password text view focus out event event.
+        /// </summary>
+        /// <param name="o">O.</param>
+        /// <param name="args">Arguments.</param>
         protected void OnPasswordTextViewFocusOutEvent(object o, FocusOutEventArgs args)
         {
             if (string.IsNullOrEmpty(passwordTextView.Buffer.Text))
@@ -111,6 +178,11 @@ namespace YoutubeDLGui
             }
         }
 
+        /// <summary>
+        /// Raises the password check button toggled event.
+        /// </summary>
+        /// <param name="sender">Sender.</param>
+        /// <param name="e">E.</param>
         protected void OnPasswordCheckButtonToggled(object sender, EventArgs e)
         {
             if (_userPassword.Count > 0)
@@ -121,6 +193,12 @@ namespace YoutubeDLGui
             }
         }
 
+        /// <summary>
+        /// Processes the password text.
+        /// </summary>
+        /// <param name="textView">Text view.</param>
+        /// <param name="localPassword">Local password.</param>
+        /// <param name="args">Arguments.</param>
         protected void ProcessPasswordText(TextView textView, List<char> localPassword, KeyReleaseEventArgs args)
         {
             if (textView.Buffer.Text.Length == 0)
@@ -151,6 +229,11 @@ namespace YoutubeDLGui
             }
         }
 
+        /// <summary>
+        /// Raises the video password check button toggled event.
+        /// </summary>
+        /// <param name="sender">Sender.</param>
+        /// <param name="e">E.</param>
         protected void OnVideoPasswordCheckButtonToggled(object sender, EventArgs e)
         {
             if (_videoPassword.Count > 0)
@@ -161,16 +244,31 @@ namespace YoutubeDLGui
             }
         }
 
+        /// <summary>
+        /// Raises the audio quality combo box changed event.
+        /// </summary>
+        /// <param name="sender">Sender.</param>
+        /// <param name="e">E.</param>
         protected void OnAudioQualityComboBoxChanged(object sender, EventArgs e)
         {
             this.audioQualityTextView.Sensitive = this.audioQualityTextView.Visible = this.audioQualityComboBox.Active == 10;
         }
 
+        /// <summary>
+        /// Raises the exec check button toggled event.
+        /// </summary>
+        /// <param name="sender">Sender.</param>
+        /// <param name="e">E.</param>
         protected void OnExecCheckButtonToggled(object sender, EventArgs e)
         {
             this.execTextView.Sensitive = this.execTextView.Visible = this.execCheckButton.Active;
         }
 
+        /// <summary>
+        /// Choose a folder.
+        /// </summary>
+        /// <param name="sender">Sender.</param>
+        /// <param name="e">E.</param>
         protected void OnFolderChooserButtonClicked(object sender, EventArgs e)
         {
             using (FolderChooserDialog folderChooserDialog = new FolderChooserDialog())
@@ -184,6 +282,11 @@ namespace YoutubeDLGui
             }
         }
 
+        /// <summary>
+        /// Begin download process.
+        /// </summary>
+        /// <param name="sender">Sender.</param>
+        /// <param name="e">E.</param>
         protected void OnDownloadButtonClicked(object sender, EventArgs e)
         {
             var youtubeDlController = YoutubeDLController.Instance();
@@ -303,6 +406,24 @@ namespace YoutubeDLGui
                 }
             }
             
+        }
+
+        /// <summary>
+        /// Collapses all other expanders
+        /// </summary>
+        /// <param name="sender">Sender.</param>
+        /// <param name="e">E.</param>
+        protected void OnExpanderActivated(object sender, EventArgs e)
+        {
+            Expander thisExpander = (Expander)sender;
+            foreach (var widget in this.vbox1.Children)
+            {
+                Expander expander = widget as Expander;
+                if (expander != null && expander != thisExpander)
+                {
+                    expander.Expanded = false;
+                }
+            }
         }
     }
 }

@@ -29,6 +29,8 @@ using System.Diagnostics;
 // ReSharper disable InconsistentNaming
 // due to following youtube-dl naming
 // conventions
+using System.Threading;
+using System;
 
 namespace YoutubeDL
 {
@@ -52,7 +54,7 @@ namespace YoutubeDL
         }
 
         /// <summary>
-        ///     Download rate units (K, M)
+        ///     Download rate units (B, K, M)
         /// </summary>
         public enum ByteUnit
         {
@@ -61,6 +63,9 @@ namespace YoutubeDL
             M
         }
 
+        /// <summary>
+        /// External downloader.
+        /// </summary>
         public enum ExternalDownloader
         {
             aria2c,
@@ -68,6 +73,9 @@ namespace YoutubeDL
             wget
         }
 
+        /// <summary>
+        /// Fixup policy, how to treat errors when downloading.
+        /// </summary>
         public enum FixupPolicy
         {
             nothing,
@@ -105,10 +113,26 @@ namespace YoutubeDL
         /// </summary>
         private ProcessStartInfo _processStartInfo;
 
+        /// <summary>
+        /// The thread handling std output.
+        /// </summary>
+        private Thread _stdOutput;
+
+        /// <summary>
+        /// The thread handling std error.
+        /// </summary>
+        private Thread _stdError;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="YoutubeDL.YoutubeDLController"/> class.
+        /// </summary>
         private YoutubeDLController()
         {
         }
 
+        /// <summary>
+        /// Instance the singleton instance.
+        /// </summary>
         public static YoutubeDLController Instance()
         {
             return Controller;
@@ -119,40 +143,26 @@ namespace YoutubeDL
         /// <summary>
         /// Occurs when standard output is received.
         /// </summary>
-        public event DataReceivedEventHandler StandardOutput;
+        public event EventHandler<string> StandardOutput;
 
         /// <summary>
         /// Occurs when standard error is received.
         /// </summary>
-        public event DataReceivedEventHandler StandardError;
-
-        /// <summary>
-        /// Raises the standard output event.
-        /// </summary>
-        /// <param name="e">E.</param>
-        protected virtual void OnStandardOutput(DataReceivedEventArgs e)
-        {
-            if (StandardOutput != null)
-            {
-                StandardError(this, e);
-            }
-        }
-
-        /// <summary>
-        /// Raises the standard error event.
-        /// </summary>
-        /// <param name="e">E.</param>
-        protected virtual void OnStandardError(DataReceivedEventArgs e)
-        {
-            if (StandardError != null)
-            {
-                StandardError(this, e);
-            }
-        }
+        public event EventHandler<string> StandardError;
 
         #endregion
 
         #region Properties
+
+        #region Public Properties
+
+        /// <summary>
+        /// Gets the complete command that was run by Download().
+        /// </summary>
+        /// <value>The run command.</value>
+        public string RunCommand { get; private set; }
+
+        #endregion
 
         #region General Options
 
@@ -447,6 +457,10 @@ namespace YoutubeDL
 
         #region Public Methods
 
+        /// <summary>
+        /// Convert controller into parameters to pass to youtube-dl process, then create and run process.
+        /// Also handle output from process.
+        /// </summary>
         public Process Download()
         {
             string arguments = string.Empty;
@@ -566,12 +580,12 @@ namespace YoutubeDL
             }
 
             arguments += $"--audio-format {this.AudioFormat} ";
-
             arguments += "--audio-quality ";
             if (this.AudioQuality == 10)
             {
                 arguments += $"{this.CustomAudioQuality}K ";
             }
+
             arguments += $"{this.AudioQuality} ";
 
             if (this.KeepVideo)
@@ -622,17 +636,59 @@ namespace YoutubeDL
             _processStartInfo.UseShellExecute = false;
 
             _process = new Process{ StartInfo = _processStartInfo, EnableRaisingEvents = true };
-            _process.OutputDataReceived += StandardOutput;
-            _process.ErrorDataReceived += StandardError;
             _process.Start();
-            _process.BeginOutputReadLine();
-            _process.BeginErrorReadLine();
+
+            this.RunCommand = _processStartInfo.FileName + " " + _processStartInfo.Arguments;
+
+            // Note that synchronous calls are needed in order to process the output line by line.
+            // Asynchronous output reading results in batches of output lines coming in all at once.
+            // The following two threads convert synchronous output reads into asynchronous events.
+
+            _stdOutput = new Thread((ThreadStart)delegate
+                {
+                    string stdOutput;
+                    while (_process != null && !_process.HasExited)
+                    {
+                        if (!string.IsNullOrEmpty(stdOutput = _process.StandardOutput.ReadLine()))
+                        {
+                            StandardOutput(this, stdOutput);
+                        }
+                    }
+                });
+
+            _stdError = new Thread((ThreadStart)delegate
+                {
+                    string stdError;
+                    while (_process != null && !_process.HasExited)
+                    {
+                        if (!string.IsNullOrEmpty(stdError = _process.StandardError.ReadLine()))
+                        {
+                            StandardError(this, stdError);
+                        }
+                    }
+                });
+                    
+            _stdOutput.Start();
+            _stdError.Start();
 
             return _process;
         }
 
+        /// <summary>
+        /// Kills the process and associated threads.
+        /// </summary>
         public void KillProcess()
         {
+            if (_stdOutput != null && _stdOutput.IsAlive)
+            {
+                _stdOutput.Abort();
+            }
+
+            if (_stdError != null && _stdError.IsAlive)
+            {
+                _stdError.Abort();
+            }
+
             if (_process != null && !_process.HasExited)
             {
                 _process.Kill();

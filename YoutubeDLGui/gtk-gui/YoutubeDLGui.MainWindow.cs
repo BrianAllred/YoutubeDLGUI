@@ -878,7 +878,7 @@ namespace YoutubeDLGui
 				this.Child.ShowAll ();
 			}
 			this.DefaultWidth = 476;
-			this.DefaultHeight = 264;
+			this.DefaultHeight = 274;
 			this.proxyUrlTextView.Hide ();
 			this.socketTimeoutTextView.Hide ();
 			this.rateTextView.Hide ();
@@ -890,10 +890,15 @@ namespace YoutubeDLGui
 			this.DeleteEvent += new global::Gtk.DeleteEventHandler (this.OnDeleteEvent);
 			this.folderChooserButton.Clicked += new global::System.EventHandler (this.OnFolderChooserButtonClicked);
 			this.downloadButton.Clicked += new global::System.EventHandler (this.OnDownloadButtonClicked);
+			this.expander5.Activated += new global::System.EventHandler (this.OnExpanderActivated);
+			this.expander1.Activated += new global::System.EventHandler (this.OnExpanderActivated);
 			this.proxyCheckButton.Toggled += new global::System.EventHandler (this.OnProxyCheckButtonToggled);
 			this.socketTimeoutCheckButton.Toggled += new global::System.EventHandler (this.OnSocketTimeoutCheckButtonToggled);
+			this.expander4.Activated += new global::System.EventHandler (this.OnExpanderActivated);
 			this.rateLimitCheckButton.Toggled += new global::System.EventHandler (this.OnRateLimitCheckButtonToggled);
 			this.retriesCheckButton.Toggled += new global::System.EventHandler (this.OnRetriesCheckButtonToggled);
+			this.expander3.Activated += new global::System.EventHandler (this.OnExpanderActivated);
+			this.expander2.Activated += new global::System.EventHandler (this.OnExpanderActivated);
 			this.usernameTextView.KeyReleaseEvent += new global::Gtk.KeyReleaseEventHandler (this.OnUsernameTextViewKeyReleaseEvent);
 			this.usernameTextView.FocusOutEvent += new global::Gtk.FocusOutEventHandler (this.OnUsernameTextViewFocusOutEvent);
 			this.passwordTextView.KeyReleaseEvent += new global::Gtk.KeyReleaseEventHandler (this.OnPasswordTextViewKeyReleaseEvent);
@@ -901,6 +906,7 @@ namespace YoutubeDLGui
 			this.passwordCheckButton.Toggled += new global::System.EventHandler (this.OnPasswordCheckButtonToggled);
 			this.videoPasswordTextView.KeyReleaseEvent += new global::Gtk.KeyReleaseEventHandler (this.OnVideoPasswordTextViewKeyReleaseEvent);
 			this.videoPasswordCheckButton.Toggled += new global::System.EventHandler (this.OnVideoPasswordCheckButtonToggled);
+			this.expander6.Activated += new global::System.EventHandler (this.OnExpanderActivated);
 			this.audioQualityComboBox.Changed += new global::System.EventHandler (this.OnAudioQualityComboBoxChanged);
 			this.execCheckButton.Toggled += new global::System.EventHandler (this.OnExecCheckButtonToggled);
 		}

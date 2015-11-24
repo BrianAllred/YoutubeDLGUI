@@ -26,7 +26,9 @@
 
 using System;
 using System.Diagnostics;
+using System.Text.RegularExpressions;
 using YoutubeDL;
+using System.Threading;
 
 namespace YoutubeDLGui
 {
@@ -54,8 +56,12 @@ namespace YoutubeDLGui
             youtubeDLController.StandardError += OnStandardError;
             youtubeDLController.StandardOutput += OnStandardOutput;
 
+            var youtubeProcess = youtubeDLController.Download();
+
             // Context sensitive depending on whether process is still alive
-            youtubeDLController.Download().Exited += OnDownloadComplete;
+            youtubeProcess.Exited += OnDownloadComplete;
+
+            this.ProcessTextView.Buffer.Text += "Running the following command:\n" + youtubeDLController.RunCommand + "\n";
         }
 
         /// <summary>
@@ -76,16 +82,17 @@ namespace YoutubeDLGui
         /// Processes the stdout.
         /// </summary>
         /// <param name="sender">Sender.</param>
-        /// <param name="e">E.</param>
-        void OnStandardOutput(object sender, DataReceivedEventArgs e)
+        /// <param name="text">Text.</param>
+        void OnStandardOutput(object sender, string text)
         {
-            if (!string.IsNullOrWhiteSpace(e.Data))
+            if (!string.IsNullOrWhiteSpace(text))
             {
-                Gtk.Application.Invoke(delegate
-                    {
-                        this.ProcessTextView.Buffer.Text += "\n" + e.Data;
-                        this.ProcessTextView.ScrollToIter(this.ProcessTextView.Buffer.EndIter, 0, false, 0, 0);
-                    });
+                this.ProcessText(text);
+                double percent = this.GetPercent(text);
+                if (!double.IsNaN(percent))
+                {
+                    this.ProcessProgressBar.Fraction = percent / 100.0;
+                }
             }
         }
 
@@ -93,16 +100,12 @@ namespace YoutubeDLGui
         /// Processes the stderr.
         /// </summary>
         /// <param name="sender">Sender.</param>
-        /// <param name="e">E.</param>
-        void OnStandardError(object sender, DataReceivedEventArgs e)
+        /// <param name="text">Text.</param>
+        void OnStandardError(object sender, string text)
         {
-            if (!string.IsNullOrWhiteSpace(e.Data))
+            if (!string.IsNullOrWhiteSpace(text))
             {
-                Gtk.Application.Invoke(delegate
-                    {
-                        this.ProcessTextView.Buffer.Text += "\n" + e.Data;
-                        this.ProcessTextView.ScrollToIter(this.ProcessTextView.Buffer.EndIter, 0, false, 0, 0);
-                    });
+                this.ProcessText(text);
             }
         }
 
@@ -113,7 +116,6 @@ namespace YoutubeDLGui
         /// <param name="e">E.</param>
         protected void OnButtonOkClicked(object sender, System.EventArgs e)
         {
-            this.Respond(Gtk.ResponseType.Ok);
             this.Destroy();
         }
 
@@ -125,7 +127,44 @@ namespace YoutubeDLGui
         protected void OnButtonCancelClicked(object sender, System.EventArgs e)
         {
             this.Respond(Gtk.ResponseType.Cancel);
-            this.Destroy();
+            this.buttonCancel.Sensitive = false;
+            this.buttonOk.Sensitive = true;
+            this.ProcessTextView.Buffer.Text += "\nProcess killed.\n";
+        }
+
+        /// <summary>
+        /// Displays text and scrolls to end of buffer.
+        /// </summary>
+        /// <param name="text">Text.</param>
+        private void ProcessText(string text)
+        {
+            Gtk.Application.Invoke(delegate
+                {
+                    this.ProcessTextView.Buffer.Text += "\n" + text;
+                    this.ProcessTextView.ScrollToIter(this.ProcessTextView.Buffer.EndIter, 0, false, 0, 0);
+                });
+        }
+
+        /// <summary>
+        /// Gets the progress as a percent.
+        /// </summary>
+        /// <returns>The percent.</returns>
+        /// <param name="text">Text.</param>
+        private double GetPercent(string text)
+        {
+            string re1 = ".*?";   // Non-greedy match on filler
+            string re2 = "([+-]?\\d*\\.\\d+)(?![-+0-9\\.])";  // Float 1
+            string re3 = "(%)";   // Any Single Character 1
+
+            Regex regex = new Regex(re1 + re2 + re3, RegexOptions.IgnoreCase | RegexOptions.Singleline);
+            Match match = regex.Match(text);
+
+            if (match.Success)
+            {
+                return double.Parse(match.Groups[1].ToString());
+            }
+
+            return double.NaN;
         }
     }
 }
