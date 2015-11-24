@@ -24,10 +24,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+#region Usings
+
 using System;
 using System.Text.RegularExpressions;
 using Gtk;
 using YoutubeDL;
+
+#endregion
 
 namespace YoutubeDLGui
 {
@@ -150,7 +154,8 @@ namespace YoutubeDLGui
         /// <param name="text">Text.</param>
         private static double GetPercent(string text)
         {
-            var regex = new Regex(".*?" + "([+-]?\\d*\\.\\d+)(?![-+0-9\\.])" + "(%)", RegexOptions.IgnoreCase | RegexOptions.Singleline);
+            var regex = new Regex(".*?" + "([+-]?\\d*\\.\\d+)(?![-+0-9\\.])" + "(%)",
+                RegexOptions.IgnoreCase | RegexOptions.Singleline);
             var match = regex.Match(text);
 
             return match.Success ? double.Parse(match.Groups[1].ToString()) : double.NaN;

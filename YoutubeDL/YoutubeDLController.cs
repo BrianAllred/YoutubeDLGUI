@@ -27,10 +27,17 @@
 // ReSharper disable InconsistentNaming
 // due to following youtube-dl naming
 // conventions
-using System.Threading;
+
+#region Usings
+
 using System;
 using System.Diagnostics;
+using System.IO;
+using System.Threading;
 using Mono.Unix;
+using Mono.Unix.Native;
+
+#endregion
 
 namespace YoutubeDL
 {
@@ -165,7 +172,7 @@ namespace YoutubeDL
         /// Gets or sets a value indicating whether this <see cref="YoutubeDL.YoutubeDLController"/> will use embedded binary.
         /// </summary>
         /// <value><c>true</c> if using embedded binary; otherwise, <c>false</c>.</value>
-        public bool UseEmbeddedBinary{ get; set; }
+        public bool UseEmbeddedBinary { get; set; }
 
         #endregion
 
@@ -643,11 +650,11 @@ namespace YoutubeDL
 
             if (UseEmbeddedBinary)
             {
-                _processStartInfo.FileName = "lib" + System.IO.Path.DirectorySeparatorChar + _processStartInfo.FileName;
+                _processStartInfo.FileName = "lib" + Path.DirectorySeparatorChar + _processStartInfo.FileName;
                 CheckAndFixPermissions();
             }
 
-            _process = new Process { StartInfo = _processStartInfo, EnableRaisingEvents = true };
+            _process = new Process {StartInfo = _processStartInfo, EnableRaisingEvents = true};
 
             _process.Start();
 
@@ -657,29 +664,29 @@ namespace YoutubeDL
             // Asynchronous output reading results in batches of output lines coming in all at once.
             // The following two threads convert synchronous output reads into asynchronous events.
 
-            _stdOutput = new Thread((ThreadStart)delegate
+            _stdOutput = new Thread((ThreadStart) delegate
+            {
+                while (_process != null && !_process.HasExited)
                 {
-                    while (_process != null && !_process.HasExited)
+                    string stdOutput;
+                    if (!string.IsNullOrEmpty(stdOutput = _process.StandardOutput.ReadLine()))
                     {
-                        string stdOutput;
-                        if (!string.IsNullOrEmpty(stdOutput = _process.StandardOutput.ReadLine()))
-                        {
-                            StandardOutput?.Invoke(this, stdOutput);
-                        }
+                        StandardOutput?.Invoke(this, stdOutput);
                     }
-                });
+                }
+            });
 
-            _stdError = new Thread((ThreadStart)delegate
+            _stdError = new Thread((ThreadStart) delegate
+            {
+                while (_process != null && !_process.HasExited)
                 {
-                    while (_process != null && !_process.HasExited)
+                    string stdError;
+                    if (!string.IsNullOrEmpty(stdError = _process.StandardError.ReadLine()))
                     {
-                        string stdError;
-                        if (!string.IsNullOrEmpty(stdError = _process.StandardError.ReadLine()))
-                        {
-                            StandardError?.Invoke(this, stdError);
-                        }
+                        StandardError?.Invoke(this, stdError);
                     }
-                });
+                }
+            });
 
             _stdOutput.Start();
             _stdError.Start();
@@ -713,13 +720,13 @@ namespace YoutubeDL
         /// </summary>
         private static void CheckAndFixPermissions()
         {
-            if (Environment.OSVersion.Platform == PlatformID.Unix)
+            if (Environment.OSVersion.Platform != PlatformID.Unix) return;
+            var fileInfo = new UnixFileInfo("lib/youtube-dl");
+            if (!fileInfo.CanAccess(AccessModes.X_OK))
             {
-                var fileInfo = new UnixFileInfo("lib/youtube-dl");
-                if (!fileInfo.CanAccess(Mono.Unix.Native.AccessModes.X_OK))
-                {
-                    fileInfo.FileAccessPermissions = fileInfo.FileAccessPermissions | FileAccessPermissions.UserExecute | FileAccessPermissions.GroupExecute | FileAccessPermissions.OtherExecute;
-                }
+                fileInfo.FileAccessPermissions = fileInfo.FileAccessPermissions | FileAccessPermissions.UserExecute |
+                                                 FileAccessPermissions.GroupExecute |
+                                                 FileAccessPermissions.OtherExecute;
             }
         }
 

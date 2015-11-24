@@ -24,12 +24,16 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+#region Usings
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using Gtk;
 using YoutubeDL;
 using Key = Gdk.Key;
+
+#endregion
 
 namespace YoutubeDLGui
 {
@@ -213,7 +217,7 @@ namespace YoutubeDLGui
                 }
                 else
                 {
-                    localPassword.Add((char)args.Event.KeyValue);
+                    localPassword.Add((char) args.Event.KeyValue);
                 }
 
                 textView.Buffer.Text = passwordCheckButton.Active
@@ -267,11 +271,11 @@ namespace YoutubeDLGui
             using (var folderChooserDialog = new FolderChooserDialog())
             {
                 var returnValue = folderChooserDialog.Run();
-                if (returnValue == (int)ResponseType.Ok)
+                if (returnValue == (int) ResponseType.Ok)
                 {
                     destinationFolderTextView.Buffer.Text = folderChooserDialog.Folder +
-                    System.IO.Path.DirectorySeparatorChar +
-                    "%(uploader)s/%(title)s-%(id)s.%(ext)s";
+                                                            System.IO.Path.DirectorySeparatorChar +
+                                                            "%(uploader)s/%(title)s-%(id)s.%(ext)s";
                 }
                 folderChooserDialog.Destroy();
             }
@@ -311,7 +315,7 @@ namespace YoutubeDLGui
                 youtubeDlController.RateLimit = double.TryParse(rateTextView.Buffer.Text, out rateLimit) ? rateLimit : 0;
                 youtubeDlController.RateLimitUnit =
                     (YoutubeDLController.ByteUnit)
-                        Enum.Parse(typeof(YoutubeDLController.ByteUnit), rateUnitComboBox.ActiveText);
+                        Enum.Parse(typeof (YoutubeDLController.ByteUnit), rateUnitComboBox.ActiveText);
             }
             else
             {
@@ -367,7 +371,7 @@ namespace YoutubeDLGui
 
             youtubeDlController.ExtractAudio = extractAudioCheckButton.Active;
 
-            youtubeDlController.AudioFormat = (YoutubeDLController.AudioFormatType)audioFormatComboBox.Active;
+            youtubeDlController.AudioFormat = (YoutubeDLController.AudioFormatType) audioFormatComboBox.Active;
 
             youtubeDlController.AudioQuality = audioQualityComboBox.Active;
 
@@ -382,8 +386,8 @@ namespace YoutubeDLGui
                 youtubeDlController.RecodeVideo = true;
                 youtubeDlController.RecodeVideoFormat =
                     (YoutubeDLController.VideoFormatType)
-                        (Enum.Parse(typeof(YoutubeDLController.VideoFormatType),
-                    recodeVideoFormatComboBox.ActiveText.ToLower()));
+                        (Enum.Parse(typeof (YoutubeDLController.VideoFormatType),
+                            recodeVideoFormatComboBox.ActiveText.ToLower()));
             }
 
             youtubeDlController.KeepVideo = keepVideoCheckButton.Active;
@@ -392,11 +396,11 @@ namespace YoutubeDLGui
             youtubeDlController.EmbedThumbnail = embedThumbnailCheckButton.Active;
             youtubeDlController.AddMetadata = addMetadataCheckButton.Active;
             youtubeDlController.XAttrs = xattrsCheckButton.Active;
-            youtubeDlController.Fixup = (YoutubeDLController.FixupPolicy)fixupComboBox.Active;
+            youtubeDlController.Fixup = (YoutubeDLController.FixupPolicy) fixupComboBox.Active;
             youtubeDlController.Cmd = execCheckButton.Active ? execTextView.Buffer.Text : string.Empty;
 
             var progressDialog = new ProgressDialog(youtubeDlController);
-            if ((ResponseType)progressDialog.Run() == ResponseType.Cancel)
+            if ((ResponseType) progressDialog.Run() == ResponseType.Cancel)
             {
                 try
                 {
@@ -419,7 +423,7 @@ namespace YoutubeDLGui
         /// <param name="e">E.</param>
         protected void OnExpanderActivated(object sender, EventArgs e)
         {
-            var thisExpander = (Expander)sender;
+            var thisExpander = (Expander) sender;
             foreach (var expander in vbox1.Children.OfType<Expander>().Where(expander => expander != thisExpander))
             {
                 expander.Expanded = false;
@@ -443,7 +447,7 @@ namespace YoutubeDLGui
         /// <param name="e">E.</param>
         protected void OnUseEmbeddedYoutubeDlBinaryActionToggled(object sender, EventArgs e)
         {
-            YoutubeDLController.Instance().UseEmbeddedBinary = ((Gtk.ToggleAction)sender).Active;
+            YoutubeDLController.Instance().UseEmbeddedBinary = ((ToggleAction) sender).Active;
         }
     }
 }
