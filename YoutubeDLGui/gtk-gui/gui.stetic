@@ -7,8 +7,33 @@
     <widget-library name="glade-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
     <widget-library name="../bin/Debug/YoutubeDLGui.exe" internal="true" />
   </import>
-  <widget class="Gtk.Window" id="YoutubeDLGui.MainWindow" design-size="476 274">
-    <action-group name="Default" />
+  <widget class="Gtk.Window" id="YoutubeDLGui.MainWindow" design-size="476 292">
+    <action-group name="Default">
+      <action id="FileAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">File</property>
+        <property name="ShortLabel" translatable="yes">File</property>
+      </action>
+      <action id="OptionsAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">Options</property>
+        <property name="ShortLabel" translatable="yes">Options</property>
+      </action>
+      <action id="ExitAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">Exit</property>
+        <property name="ShortLabel" translatable="yes">Exit</property>
+        <signal name="Activated" handler="OnExitActionActivated" />
+      </action>
+      <action id="UseEmbeddedYoutubeDlBinaryNotRecommendedAction">
+        <property name="Type">Toggle</property>
+        <property name="Label" translatable="yes">Use embedded youtube-dl binary (not recommended)</property>
+        <property name="ShortLabel" translatable="yes">Use embedded youtube-dl binary (not recommended)</property>
+        <property name="DrawAsRadio">False</property>
+        <property name="Active">False</property>
+        <signal name="Toggled" handler="OnUseEmbeddedYoutubeDlBinaryNotRecommendedActionToggled" />
+      </action>
+    </action-group>
     <property name="MemberName" />
     <property name="Title" translatable="yes">YoutubeDL</property>
     <property name="WindowPosition">CenterOnParent</property>
@@ -17,6 +42,25 @@
     <child>
       <widget class="Gtk.VBox" id="vbox1">
         <property name="MemberName" />
+        <child>
+          <widget class="Gtk.MenuBar" id="menubar1">
+            <property name="MemberName" />
+            <node name="__gtksharp_127_Stetic_Editor_ActionMenuBar" type="Menubar">
+              <node type="Menu" action="FileAction">
+                <node type="Menuitem" action="ExitAction" />
+              </node>
+              <node type="Menu" action="OptionsAction">
+                <node type="Menuitem" action="UseEmbeddedYoutubeDlBinaryNotRecommendedAction" />
+              </node>
+            </node>
+          </widget>
+          <packing>
+            <property name="Position">0</property>
+            <property name="AutoSize">True</property>
+            <property name="Expand">False</property>
+            <property name="Fill">False</property>
+          </packing>
+        </child>
         <child>
           <widget class="Gtk.Frame" id="frame3">
             <property name="MemberName" />
@@ -63,7 +107,7 @@
             </child>
           </widget>
           <packing>
-            <property name="Position">0</property>
+            <property name="Position">1</property>
             <property name="AutoSize">False</property>
             <property name="Expand">False</property>
             <property name="Fill">False</property>
@@ -128,7 +172,7 @@
             </child>
           </widget>
           <packing>
-            <property name="Position">1</property>
+            <property name="Position">2</property>
             <property name="AutoSize">False</property>
             <property name="Expand">False</property>
             <property name="Fill">False</property>
@@ -144,7 +188,7 @@
             <signal name="Clicked" handler="OnDownloadButtonClicked" />
           </widget>
           <packing>
-            <property name="Position">2</property>
+            <property name="Position">3</property>
             <property name="AutoSize">True</property>
             <property name="Expand">False</property>
             <property name="Fill">False</property>
@@ -206,7 +250,7 @@
             </child>
           </widget>
           <packing>
-            <property name="Position">3</property>
+            <property name="Position">4</property>
             <property name="AutoSize">True</property>
             <property name="Expand">False</property>
             <property name="Fill">False</property>
@@ -296,7 +340,7 @@
             </child>
           </widget>
           <packing>
-            <property name="Position">4</property>
+            <property name="Position">5</property>
             <property name="AutoSize">False</property>
             <property name="Expand">False</property>
             <property name="Fill">False</property>
@@ -418,7 +462,7 @@ M</property>
             </child>
           </widget>
           <packing>
-            <property name="Position">5</property>
+            <property name="Position">6</property>
             <property name="AutoSize">False</property>
             <property name="Expand">False</property>
             <property name="Fill">False</property>
@@ -454,6 +498,7 @@ M</property>
                     <property name="MemberName" />
                     <property name="CanFocus">True</property>
                     <property name="Label" translatable="yes">Resume downloads of partially downloaded files if possible</property>
+                    <property name="Active">True</property>
                     <property name="DrawIndicator">True</property>
                     <property name="HasLabel">True</property>
                     <property name="UseUnderline">True</property>
@@ -515,7 +560,7 @@ M</property>
             </child>
           </widget>
           <packing>
-            <property name="Position">6</property>
+            <property name="Position">7</property>
             <property name="AutoSize">True</property>
             <property name="Expand">False</property>
             <property name="Fill">False</property>
@@ -632,7 +677,7 @@ M</property>
             </child>
           </widget>
           <packing>
-            <property name="Position">7</property>
+            <property name="Position">8</property>
             <property name="AutoSize">False</property>
             <property name="Expand">False</property>
             <property name="Fill">False</property>
@@ -988,7 +1033,7 @@ Detect or Warn (default)</property>
               </widget>
             </child>
             <child>
-              <widget class="Gtk.Label" id="GtkLabel27">
+              <widget class="Gtk.Label" id="GtkLabel28">
                 <property name="MemberName" />
                 <property name="CanFocus">True</property>
                 <property name="LabelProp" translatable="yes">&lt;b&gt;Post-processing Options&lt;/b&gt;</property>
@@ -1001,7 +1046,7 @@ Detect or Warn (default)</property>
             </child>
           </widget>
           <packing>
-            <property name="Position">8</property>
+            <property name="Position">9</property>
             <property name="AutoSize">False</property>
             <property name="Expand">False</property>
           </packing>

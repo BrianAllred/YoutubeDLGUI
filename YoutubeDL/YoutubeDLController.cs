@@ -31,6 +31,8 @@ using System.Diagnostics;
 // conventions
 using System.Threading;
 using System;
+using System.IO;
+using System.Reflection;
 
 namespace YoutubeDL
 {
@@ -160,6 +162,12 @@ namespace YoutubeDL
         /// </summary>
         /// <value>The run command.</value>
         public string RunCommand { get; private set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether this <see cref="YoutubeDL.YoutubeDLController"/> will use embedded binary.
+        /// </summary>
+        /// <value><c>true</c> if using embedded binary; otherwise, <c>false</c>.</value>
+        public bool UseEmbeddedBinary{ get; set; }
 
         #endregion
 
@@ -635,7 +643,12 @@ namespace YoutubeDL
                 UseShellExecute = false
             };
 
-            _process = new Process {StartInfo = _processStartInfo, EnableRaisingEvents = true};
+            if (UseEmbeddedBinary)
+            {
+                _processStartInfo.FileName = "lib" + System.IO.Path.DirectorySeparatorChar + _processStartInfo.FileName;
+            }
+
+            _process = new Process { StartInfo = _processStartInfo, EnableRaisingEvents = true };
             _process.Start();
 
             RunCommand = _processStartInfo.FileName + " " + _processStartInfo.Arguments;
@@ -644,29 +657,29 @@ namespace YoutubeDL
             // Asynchronous output reading results in batches of output lines coming in all at once.
             // The following two threads convert synchronous output reads into asynchronous events.
 
-            _stdOutput = new Thread((ThreadStart) delegate
-            {
-                while (_process != null && !_process.HasExited)
+            _stdOutput = new Thread((ThreadStart)delegate
                 {
-                    string stdOutput;
-                    if (!string.IsNullOrEmpty(stdOutput = _process.StandardOutput.ReadLine()))
+                    while (_process != null && !_process.HasExited)
                     {
-                        StandardOutput?.Invoke(this, stdOutput);
+                        string stdOutput;
+                        if (!string.IsNullOrEmpty(stdOutput = _process.StandardOutput.ReadLine()))
+                        {
+                            StandardOutput?.Invoke(this, stdOutput);
+                        }
                     }
-                }
-            });
+                });
 
-            _stdError = new Thread((ThreadStart) delegate
-            {
-                while (_process != null && !_process.HasExited)
+            _stdError = new Thread((ThreadStart)delegate
                 {
-                    string stdError;
-                    if (!string.IsNullOrEmpty(stdError = _process.StandardError.ReadLine()))
+                    while (_process != null && !_process.HasExited)
                     {
-                        StandardError?.Invoke(this, stdError);
+                        string stdError;
+                        if (!string.IsNullOrEmpty(stdError = _process.StandardError.ReadLine()))
+                        {
+                            StandardError?.Invoke(this, stdError);
+                        }
                     }
-                }
-            });
+                });
 
             _stdOutput.Start();
             _stdError.Start();
