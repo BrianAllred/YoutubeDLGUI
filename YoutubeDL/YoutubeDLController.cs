@@ -24,15 +24,13 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using System.Diagnostics;
-
 // ReSharper disable InconsistentNaming
 // due to following youtube-dl naming
 // conventions
 using System.Threading;
 using System;
-using System.IO;
-using System.Reflection;
+using System.Diagnostics;
+using Mono.Unix;
 
 namespace YoutubeDL
 {
@@ -646,9 +644,11 @@ namespace YoutubeDL
             if (UseEmbeddedBinary)
             {
                 _processStartInfo.FileName = "lib" + System.IO.Path.DirectorySeparatorChar + _processStartInfo.FileName;
+                CheckAndFixPermissions();
             }
 
             _process = new Process { StartInfo = _processStartInfo, EnableRaisingEvents = true };
+
             _process.Start();
 
             RunCommand = _processStartInfo.FileName + " " + _processStartInfo.Arguments;
@@ -705,6 +705,21 @@ namespace YoutubeDL
             if (_process != null && !_process.HasExited)
             {
                 _process.Kill();
+            }
+        }
+
+        /// <summary>
+        /// Checks and fixes execute permissions on the embedded binary if necessary.
+        /// </summary>
+        private static void CheckAndFixPermissions()
+        {
+            if (Environment.OSVersion.Platform == PlatformID.Unix)
+            {
+                var fileInfo = new UnixFileInfo("lib/youtube-dl");
+                if (!fileInfo.CanAccess(Mono.Unix.Native.AccessModes.X_OK))
+                {
+                    fileInfo.FileAccessPermissions = fileInfo.FileAccessPermissions | FileAccessPermissions.UserExecute | FileAccessPermissions.GroupExecute | FileAccessPermissions.OtherExecute;
+                }
             }
         }
 

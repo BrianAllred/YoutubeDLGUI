@@ -426,13 +426,22 @@ namespace YoutubeDLGui
             }
         }
 
-
+        /// <summary>
+        /// Raises the exit action activated event.
+        /// </summary>
+        /// <param name="sender">Sender.</param>
+        /// <param name="e">E.</param>
         protected void OnExitActionActivated(object sender, EventArgs e)
         {
             Application.Quit();
         }
 
-        protected void OnUseEmbeddedYoutubeDlBinaryNotRecommendedActionToggled(object sender, EventArgs e)
+        /// <summary>
+        /// Raises the use embedded binary toggled event.
+        /// </summary>
+        /// <param name="sender">Sender.</param>
+        /// <param name="e">E.</param>
+        protected void OnUseEmbeddedYoutubeDlBinaryActionToggled(object sender, EventArgs e)
         {
             YoutubeDLController.Instance().UseEmbeddedBinary = ((Gtk.ToggleAction)sender).Active;
         }
