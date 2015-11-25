@@ -1,96 +1,109 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProjectGuid>{A749D9B2-484F-416C-9029-42BE4B0A3DD4}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
-    <RootNamespace>YoutubeDLGui</RootNamespace>
-    <AssemblyName>YoutubeDLGui</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug</OutputPath>
-    <DefineConstants>DEBUG;</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <PlatformTarget>x86</PlatformTarget>
-    <ConsolePause>false</ConsolePause>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release</OutputPath>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <ConsolePause>false</ConsolePause>
-    <PlatformTarget>x86</PlatformTarget>
-  </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject>YoutubeDLGui.MainClass</StartupObject>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="gtk-sharp, Version=2.4.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
-      <SpecificVersion>False</SpecificVersion>
-    </Reference>
-    <Reference Include="gdk-sharp, Version=2.4.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
-      <SpecificVersion>False</SpecificVersion>
-    </Reference>
-    <Reference Include="glib-sharp, Version=2.4.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
-      <SpecificVersion>False</SpecificVersion>
-    </Reference>
-    <Reference Include="glade-sharp, Version=2.4.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
-      <SpecificVersion>False</SpecificVersion>
-    </Reference>
-    <Reference Include="pango-sharp, Version=2.4.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
-      <SpecificVersion>False</SpecificVersion>
-    </Reference>
-    <Reference Include="atk-sharp, Version=2.4.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
-      <SpecificVersion>False</SpecificVersion>
-    </Reference>
-    <Reference Include="Mono.Posix" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="gtk-gui\gui.stetic">
-      <LogicalName>gui.stetic</LogicalName>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="gtk-gui\generated.cs" />
-    <Compile Include="MainWindow.cs" />
-    <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="gtk-gui\YoutubeDLGui.MainWindow.cs" />
-    <Compile Include="FolderChooserDialog.cs" />
-    <Compile Include="gtk-gui\YoutubeDLGui.FolderChooserDialog.cs" />
-    <Compile Include="ProgressDialog.cs" />
-    <Compile Include="gtk-gui\YoutubeDLGui.ProgressDialog.cs" />
-    <Compile Include="ExceptionDialog.cs" />
-    <Compile Include="gtk-gui\YoutubeDLGui.ExceptionDialog.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\YoutubeDL\YoutubeDL.csproj">
-      <Project>{45BEDC08-2043-4FD9-A984-180351873712}</Project>
-      <Name>YoutubeDL</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <ItemGroup />
-  <ItemGroup>
-    <None Include="lib\youtube-dl" />
-    <None Include="lib\youtube-dl.exe" />
-  </ItemGroup>
-  <PropertyGroup>
-    <PostBuildEvent Condition=" '$(OS)' == 'Windows_NT' ">
+	<PropertyGroup>
+		<Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+		<Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+		<ProjectGuid>{A749D9B2-484F-416C-9029-42BE4B0A3DD4}</ProjectGuid>
+		<OutputType>WinExe</OutputType>
+		<RootNamespace>YoutubeDLGui</RootNamespace>
+		<AssemblyName>YoutubeDLGui</AssemblyName>
+		<TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+	</PropertyGroup>
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+		<DebugSymbols>true</DebugSymbols>
+		<DebugType>full</DebugType>
+		<Optimize>false</Optimize>
+		<OutputPath>bin\Debug</OutputPath>
+		<DefineConstants>DEBUG;</DefineConstants>
+		<ErrorReport>prompt</ErrorReport>
+		<WarningLevel>4</WarningLevel>
+		<PlatformTarget>x86</PlatformTarget>
+		<ConsolePause>false</ConsolePause>
+	</PropertyGroup>
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+		<Optimize>true</Optimize>
+		<OutputPath>bin\Release</OutputPath>
+		<ErrorReport>prompt</ErrorReport>
+		<WarningLevel>4</WarningLevel>
+		<ConsolePause>false</ConsolePause>
+		<PlatformTarget>x86</PlatformTarget>
+	</PropertyGroup>
+	<PropertyGroup>
+		<StartupObject>YoutubeDLGui.MainClass</StartupObject>
+	</PropertyGroup>
+	<ItemGroup>
+		<Reference Include="System" />
+		<Reference Include="gtk-sharp, Version=2.4.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
+			<SpecificVersion>False</SpecificVersion>
+		</Reference>
+		<Reference Include="gdk-sharp, Version=2.4.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
+			<SpecificVersion>False</SpecificVersion>
+		</Reference>
+		<Reference Include="glib-sharp, Version=2.4.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
+			<SpecificVersion>False</SpecificVersion>
+		</Reference>
+		<Reference Include="glade-sharp, Version=2.4.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
+			<SpecificVersion>False</SpecificVersion>
+		</Reference>
+		<Reference Include="pango-sharp, Version=2.4.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
+			<SpecificVersion>False</SpecificVersion>
+		</Reference>
+		<Reference Include="atk-sharp, Version=2.4.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
+			<SpecificVersion>False</SpecificVersion>
+		</Reference>
+		<Reference Include="Mono.Posix" />
+	</ItemGroup>
+	<ItemGroup>
+		<EmbeddedResource Include="gtk-gui\gui.stetic">
+			<LogicalName>gui.stetic</LogicalName>
+		</EmbeddedResource>
+	</ItemGroup>
+	<ItemGroup>
+		<Compile Include="gtk-gui\generated.cs" />
+		<Compile Include="MainWindow.cs" />
+		<Compile Include="Program.cs" />
+		<Compile Include="Properties\AssemblyInfo.cs" />
+		<Compile Include="gtk-gui\YoutubeDLGui.MainWindow.cs" />
+		<Compile Include="FolderChooserDialog.cs" />
+		<Compile Include="gtk-gui\YoutubeDLGui.FolderChooserDialog.cs" />
+		<Compile Include="ProgressDialog.cs" />
+		<Compile Include="gtk-gui\YoutubeDLGui.ProgressDialog.cs" />
+		<Compile Include="ExceptionDialog.cs" />
+		<Compile Include="gtk-gui\YoutubeDLGui.ExceptionDialog.cs" />
+		<Compile Include="Properties\Settings.Designer.cs">
+			<AutoGen>True</AutoGen>
+			<DesignTimeSharedInput>True</DesignTimeSharedInput>
+			<DependentUpon>Settings.settings</DependentUpon>
+		</Compile>
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\YoutubeDL\YoutubeDL.csproj">
+			<Project>{45BEDC08-2043-4FD9-A984-180351873712}</Project>
+			<Name>YoutubeDL</Name>
+		</ProjectReference>
+	</ItemGroup>
+	<Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+	<ItemGroup />
+	<ItemGroup>
+		<None Include="app.config" />
+		<None Include="lib\youtube-dl" />
+		<None Include="lib\youtube-dl.exe" />
+		<None Include="Properties\Settings.settings">
+			<Generator>SettingsSingleFileGenerator</Generator>
+			<LastGenOutput>Settings.Designer.cs</LastGenOutput>
+		</None>
+	</ItemGroup>
+	<PropertyGroup>
+		<PostBuildEvent Condition=" '$(OS)' == 'Windows_NT' ">
 	mkdir $(TargetDir)\lib
 	copy $(ProjectDir)\lib\youtube-dl.exe $(TargetDir)\lib
 	</PostBuildEvent>
-	<PostBuildEvent Condition=" '$(OS)' != 'Windows_NT' ">
-	mkdir $(TargetDir)/lib
-	cp $(ProjectDir)/lib/youtube-dl $(TargetDir)/lib
-	</PostBuildEvent>
-  </PropertyGroup>
+		<PostBuildEvent Condition=" '$(OS)' != 'Windows_NT' ">
+			mkdir $(TargetDir)/lib
+			cp $(ProjectDir)/lib/youtube-dl $(TargetDir)/lib
+		</PostBuildEvent>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Platform)' != 'Unix'">
+		<CscToolPath>$(MSBuildProgramFiles32)\MSBuild\14.0\Bin</CscToolPath>
+	</PropertyGroup>
 </Project>

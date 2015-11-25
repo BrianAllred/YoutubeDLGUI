@@ -24,15 +24,16 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#region Usings
-
-using System;
-using Gtk;
-
-#endregion
-
 namespace YoutubeDLGui
 {
+    #region Using
+
+    using System;
+
+    using Gtk;
+
+    #endregion
+
     /// <summary>
     ///     Folder chooser dialog.
     /// </summary>
@@ -43,33 +44,33 @@ namespace YoutubeDLGui
         /// </summary>
         public FolderChooserDialog()
         {
-            Build();
+            this.Build();
         }
 
         /// <summary>
         ///     Gets the folder.
         /// </summary>
         /// <value>The folder.</value>
-        public string Folder => folderChooserWidget.Filename;
-
-        /// <summary>
-        ///     Raises the button ok clicked event.
-        /// </summary>
-        /// <param name="sender">Sender.</param>
-        /// <param name="e">E.</param>
-        protected void OnButtonOkClicked(object sender, EventArgs e)
-        {
-            Respond(ResponseType.Ok);
-        }
+        public string Folder => this.folderChooserWidget.Filename;
 
         /// <summary>
         ///     Raises the button cancel clicked event.
         /// </summary>
         /// <param name="sender">Sender.</param>
         /// <param name="e">E.</param>
-        protected void OnButtonCancelClicked(object sender, EventArgs e)
+        private void OnButtonCancelClicked(object sender, EventArgs e)
         {
-            Respond(ResponseType.Cancel);
+            this.Respond(ResponseType.Cancel);
+        }
+
+        /// <summary>
+        ///     Raises the button ok clicked event.
+        /// </summary>
+        /// <param name="sender">Sender.</param>
+        /// <param name="e">E.</param>
+        private void OnButtonOkClicked(object sender, EventArgs e)
+        {
+            this.Respond(ResponseType.Ok);
         }
     }
 }

@@ -24,47 +24,79 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#region Usings
-
-using System;
-using System.Text.RegularExpressions;
-using Gtk;
-using YoutubeDL;
-
-#endregion
-
 namespace YoutubeDLGui
 {
+    #region Using
+
+    using System;
+    using System.Text.RegularExpressions;
+
+    using Gtk;
+
+    using YoutubeDL;
+
+    #endregion
+
     /// <summary>
     ///     Progress dialog.
     /// </summary>
     public partial class ProgressDialog : Dialog
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="YoutubeDLGui.ProgressDialog" /> class.
+        ///     Instantiates a new <see cref="YoutubeDLGui.ProgressDialog" /> class.
         /// </summary>
-        private ProgressDialog()
+        public ProgressDialog()
         {
-            Build();
-        }
+            this.Build();
 
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="YoutubeDLGui.ProgressDialog" /> class.
-        /// </summary>
-        /// <param name="youtubeDLController">Youtube DL controller.</param>
-        public ProgressDialog(YoutubeDLController youtubeDLController)
-            : this()
-        {
+            var youtubeDLController = YoutubeDLController.Instance();
+
             // Redirect stdout and stderr
-            youtubeDLController.StandardError += OnStandardError;
-            youtubeDLController.StandardOutput += OnStandardOutput;
+            youtubeDLController.StandardError += this.OnStandardError;
+            youtubeDLController.StandardOutput += this.OnStandardOutput;
 
             var youtubeProcess = youtubeDLController.Download();
 
             // Context sensitive depending on whether process is still alive
-            youtubeProcess.Exited += OnDownloadComplete;
+            youtubeProcess.Exited += this.OnDownloadComplete;
 
-            ProcessTextView.Buffer.Text += "Running the following command:\n" + youtubeDLController.RunCommand + "\n";
+            this.processTextView.Buffer.Text += "Running the following command:\n" + youtubeDLController.RunCommand + "\n";
+        }
+
+        /// <summary>
+        ///     Gets the progress as a percent.
+        /// </summary>
+        /// <returns>The percent.</returns>
+        /// <param name="text">Text.</param>
+        private static double GetPercent(string text)
+        {
+            var regex = new Regex(".*?" + "([+-]?\\d*\\.\\d+)(?![-+0-9\\.])" + "(%)", RegexOptions.IgnoreCase | RegexOptions.Singleline);
+            var match = regex.Match(text);
+
+            return match.Success ? double.Parse(match.Groups[1].ToString()) : double.NaN;
+        }
+
+        /// <summary>
+        ///     Close on cancel clicked.
+        /// </summary>
+        /// <param name="sender">Sender.</param>
+        /// <param name="e">E.</param>
+        private void OnButtonCancelClicked(object sender, EventArgs e)
+        {
+            this.Respond(ResponseType.Cancel);
+            this.buttonCancel.Sensitive = false;
+            this.buttonOk.Sensitive = true;
+            this.processTextView.Buffer.Text += "\nProcess killed.\n";
+        }
+
+        /// <summary>
+        ///     Close on ok clicked.
+        /// </summary>
+        /// <param name="sender">Sender.</param>
+        /// <param name="e">E.</param>
+        private void OnButtonOkClicked(object sender, EventArgs e)
+        {
+            this.Destroy();
         }
 
         /// <summary>
@@ -75,27 +107,10 @@ namespace YoutubeDLGui
         private void OnDownloadComplete(object sender, EventArgs e)
         {
             Application.Invoke(delegate
-            {
-                this.buttonOk.Sensitive = true;
-                this.buttonCancel.Sensitive = false;
-            });
-        }
-
-        /// <summary>
-        ///     Processes the stdout.
-        /// </summary>
-        /// <param name="sender">Sender.</param>
-        /// <param name="text">Text.</param>
-        private void OnStandardOutput(object sender, string text)
-        {
-            if (string.IsNullOrWhiteSpace(text)) return;
-
-            ProcessText(text);
-            var percent = GetPercent(text);
-            if (!double.IsNaN(percent))
-            {
-                ProcessProgressBar.Fraction = percent/100.0;
-            }
+                {
+                    this.buttonOk.Sensitive = true;
+                    this.buttonCancel.Sensitive = false;
+                });
         }
 
         /// <summary>
@@ -107,31 +122,28 @@ namespace YoutubeDLGui
         {
             if (!string.IsNullOrWhiteSpace(text))
             {
-                ProcessText(text);
+                this.ProcessText(text);
             }
         }
 
         /// <summary>
-        ///     Close on ok clicked.
+        ///     Processes the stdout.
         /// </summary>
         /// <param name="sender">Sender.</param>
-        /// <param name="e">E.</param>
-        protected void OnButtonOkClicked(object sender, EventArgs e)
+        /// <param name="text">Text.</param>
+        private void OnStandardOutput(object sender, string text)
         {
-            Destroy();
-        }
+            if (string.IsNullOrWhiteSpace(text))
+            {
+                return;
+            }
 
-        /// <summary>
-        ///     Close on cancel clicked.
-        /// </summary>
-        /// <param name="sender">Sender.</param>
-        /// <param name="e">E.</param>
-        protected void OnButtonCancelClicked(object sender, EventArgs e)
-        {
-            Respond(ResponseType.Cancel);
-            buttonCancel.Sensitive = false;
-            buttonOk.Sensitive = true;
-            ProcessTextView.Buffer.Text += "\nProcess killed.\n";
+            this.ProcessText(text);
+            var percent = GetPercent(text);
+            if (!double.IsNaN(percent))
+            {
+                this.processProgressBar.Fraction = percent / 100.0;
+            }
         }
 
         /// <summary>
@@ -141,24 +153,10 @@ namespace YoutubeDLGui
         private void ProcessText(string text)
         {
             Application.Invoke(delegate
-            {
-                this.ProcessTextView.Buffer.Text += "\n" + text;
-                this.ProcessTextView.ScrollToIter(this.ProcessTextView.Buffer.EndIter, 0, false, 0, 0);
-            });
-        }
-
-        /// <summary>
-        ///     Gets the progress as a percent.
-        /// </summary>
-        /// <returns>The percent.</returns>
-        /// <param name="text">Text.</param>
-        private static double GetPercent(string text)
-        {
-            var regex = new Regex(".*?" + "([+-]?\\d*\\.\\d+)(?![-+0-9\\.])" + "(%)",
-                RegexOptions.IgnoreCase | RegexOptions.Singleline);
-            var match = regex.Match(text);
-
-            return match.Success ? double.Parse(match.Groups[1].ToString()) : double.NaN;
+                {
+                    this.processTextView.Buffer.Text += "\n" + text;
+                    this.processTextView.ScrollToIter(this.processTextView.Buffer.EndIter, 0, false, 0, 0);
+                });
         }
     }
 }

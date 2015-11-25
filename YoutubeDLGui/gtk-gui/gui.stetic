@@ -7,7 +7,7 @@
     <widget-library name="glade-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
     <widget-library name="../bin/Debug/YoutubeDLGui.exe" internal="true" />
   </import>
-  <widget class="Gtk.Window" id="YoutubeDLGui.MainWindow" design-size="476 292">
+  <widget class="Gtk.Window" id="YoutubeDLGui.MainWindow" design-size="476 258">
     <action-group name="Default">
       <action id="FileAction">
         <property name="Type">Action</property>
@@ -19,38 +19,86 @@
         <property name="Label" translatable="yes">Options</property>
         <property name="ShortLabel" translatable="yes">Options</property>
       </action>
+      <action id="HelpAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">Help</property>
+        <property name="ShortLabel" translatable="yes">Help</property>
+      </action>
       <action id="ExitAction">
         <property name="Type">Action</property>
         <property name="Label" translatable="yes">Exit</property>
         <property name="ShortLabel" translatable="yes">Exit</property>
         <signal name="Activated" handler="OnExitActionActivated" />
       </action>
-      <action id="UseEmbeddedYoutubeDlBinaryNotRecommendedAction">
+      <action id="EnableVerboseOutputAction">
         <property name="Type">Toggle</property>
-        <property name="Label" translatable="yes">Use embedded youtube-dl binary (not recommended)</property>
-        <property name="ShortLabel" translatable="yes">Use embedded youtube-dl binary (not recommended)</property>
+        <property name="Label" translatable="yes">Enable verbose output</property>
+        <property name="ShortLabel" translatable="yes">Enable verbose output</property>
         <property name="DrawAsRadio">False</property>
         <property name="Active">False</property>
-        <signal name="Toggled" handler="OnUseEmbeddedYoutubeDlBinaryNotRecommendedActionToggled" />
+        <signal name="Toggled" handler="OnEnableVerboseOutputActionToggled" />
+      </action>
+      <action id="UpdateYoutubeDlAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">Update youtube-dl</property>
+        <property name="ShortLabel" translatable="yes">Update youtube-dl</property>
+        <signal name="Activated" handler="OnUpdateYoutubeDlActionActivated" />
+      </action>
+      <action id="EnableEmbeddedYoutubeDlAction">
+        <property name="Type">Toggle</property>
+        <property name="Label" translatable="yes">Enable embedded youtube-dl (not recommended)</property>
+        <property name="ShortLabel" translatable="yes">Enable embedded youtube-dl (not recommended)</property>
+        <property name="DrawAsRadio">False</property>
+        <property name="Active">False</property>
+        <signal name="Toggled" handler="OnEnableEmbeddedYoutubeDlActionToggled" />
+      </action>
+      <action id="UpdateEmbeddedYoutubeDlAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">Update embedded youtube-dl</property>
+        <property name="ShortLabel" translatable="yes">Update embedded youtube-dl</property>
+        <signal name="Activated" handler="OnUpdateEmbeddedYoutubeDlActionActivated" />
+      </action>
+      <action id="YoutubeDLGuiDocumentationAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">YoutubeDLGui documentation</property>
+        <property name="ShortLabel" translatable="yes">YoutubeDLGui documentation</property>
+        <signal name="Activated" handler="OnYoutubeDLGuiDocumentationActionActivated" />
+      </action>
+      <action id="youtubeDlDocumentationAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">youtube-dl documentation</property>
+        <property name="ShortLabel" translatable="yes">youtube-dl documentation</property>
+        <signal name="Activated" handler="OnYoutubeDlDocumentationActionActivated" />
+      </action>
+      <action id="AboutAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">About</property>
+        <property name="ShortLabel" translatable="yes">About</property>
       </action>
     </action-group>
     <property name="MemberName" />
     <property name="Title" translatable="yes">YoutubeDL</property>
     <property name="WindowPosition">CenterOnParent</property>
     <property name="Resizable">False</property>
-    <signal name="DeleteEvent" handler="OnDeleteEvent" />
     <child>
       <widget class="Gtk.VBox" id="vbox1">
         <property name="MemberName" />
         <child>
           <widget class="Gtk.MenuBar" id="menubar1">
             <property name="MemberName" />
-            <node name="__gtksharp_127_Stetic_Editor_ActionMenuBar" type="Menubar">
+            <node name="menubar1" type="Menubar">
               <node type="Menu" action="FileAction">
                 <node type="Menuitem" action="ExitAction" />
               </node>
               <node type="Menu" action="OptionsAction">
-                <node type="Menuitem" action="UseEmbeddedYoutubeDlBinaryNotRecommendedAction" />
+                <node type="Menuitem" action="EnableVerboseOutputAction" />
+                <node type="Menuitem" action="UpdateYoutubeDlAction" />
+                <node type="Menuitem" action="EnableEmbeddedYoutubeDlAction" />
+                <node type="Menuitem" action="UpdateEmbeddedYoutubeDlAction" />
+              </node>
+              <node type="Menu" action="HelpAction">
+                <node type="Menuitem" action="YoutubeDLGuiDocumentationAction" />
+                <node type="Menuitem" action="youtubeDlDocumentationAction" />
               </node>
             </node>
           </widget>
@@ -96,7 +144,7 @@
               </widget>
             </child>
             <child>
-              <widget class="Gtk.Label" id="GtkLabel">
+              <widget class="Gtk.Label" id="GtkLabel2">
                 <property name="MemberName" />
                 <property name="LabelProp" translatable="yes">&lt;b&gt;Youtube Video URL&lt;/b&gt;</property>
                 <property name="UseMarkup">True</property>
@@ -211,6 +259,7 @@
                     <property name="DrawIndicator">True</property>
                     <property name="HasLabel">True</property>
                     <property name="UseUnderline">True</property>
+                    <signal name="Toggled" handler="OnAbortCheckButtonToggled" />
                   </widget>
                   <packing>
                     <property name="Position">0</property>
@@ -227,6 +276,7 @@
                     <property name="DrawIndicator">True</property>
                     <property name="HasLabel">True</property>
                     <property name="UseUnderline">True</property>
+                    <signal name="Toggled" handler="OnIgnoreConfigCheckButtonToggled" />
                   </widget>
                   <packing>
                     <property name="Position">1</property>
@@ -400,6 +450,7 @@
 K
 M</property>
                         <property name="Active">1</property>
+                        <signal name="Changed" handler="OnRateUnitComboBoxChanged" />
                       </widget>
                       <packing>
                         <property name="Position">1</property>
@@ -485,6 +536,7 @@ M</property>
                     <property name="DrawIndicator">True</property>
                     <property name="HasLabel">True</property>
                     <property name="UseUnderline">True</property>
+                    <signal name="Toggled" handler="OnOverwritesCheckButtonToggled" />
                   </widget>
                   <packing>
                     <property name="Position">0</property>
@@ -502,6 +554,7 @@ M</property>
                     <property name="HasLabel">True</property>
                     <property name="UseUnderline">True</property>
                     <property name="Group">group1</property>
+                    <signal name="Toggled" handler="OnDefaultContinueRadioButtonToggled" />
                   </widget>
                   <packing>
                     <property name="Position">1</property>
@@ -519,6 +572,7 @@ M</property>
                     <property name="HasLabel">True</property>
                     <property name="UseUnderline">True</property>
                     <property name="Group">group1</property>
+                    <signal name="Toggled" handler="OnContinueRadioButtonToggled" />
                   </widget>
                   <packing>
                     <property name="Position">2</property>
@@ -536,6 +590,7 @@ M</property>
                     <property name="HasLabel">True</property>
                     <property name="UseUnderline">True</property>
                     <property name="Group">group1</property>
+                    <signal name="Toggled" handler="OnNoContinueRadioButtonToggled" />
                   </widget>
                   <packing>
                     <property name="Position">3</property>
@@ -664,7 +719,7 @@ M</property>
               </widget>
             </child>
             <child>
-              <widget class="Gtk.Label" id="GtkLabel19">
+              <widget class="Gtk.Label" id="GtkLabel21">
                 <property name="MemberName" />
                 <property name="LabelProp" translatable="yes">&lt;b&gt;Authentication Options&lt;/b&gt;</property>
                 <property name="UseMarkup">True</property>
@@ -699,6 +754,7 @@ M</property>
                     <property name="DrawIndicator">True</property>
                     <property name="HasLabel">True</property>
                     <property name="UseUnderline">True</property>
+                    <signal name="Toggled" handler="OnExtractAudioCheckButtonToggled" />
                   </widget>
                   <packing>
                     <property name="Position">0</property>
@@ -735,6 +791,7 @@ M4A
 Opus
 WAV</property>
                         <property name="Active">0</property>
+                        <signal name="Changed" handler="OnAudioFormatComboBoxChanged" />
                       </widget>
                       <packing>
                         <property name="Position">1</property>
@@ -841,6 +898,7 @@ WEBM
 MKV
 AVI</property>
                         <property name="Active">0</property>
+                        <signal name="Changed" handler="OnRecodeVideoFormatComboBoxChanged" />
                       </widget>
                       <packing>
                         <property name="Position">1</property>
@@ -865,6 +923,7 @@ AVI</property>
                     <property name="DrawIndicator">True</property>
                     <property name="HasLabel">True</property>
                     <property name="UseUnderline">True</property>
+                    <signal name="Toggled" handler="OnKeepVideoCheckButtonToggled" />
                   </widget>
                   <packing>
                     <property name="Position">4</property>
@@ -881,6 +940,7 @@ AVI</property>
                     <property name="DrawIndicator">True</property>
                     <property name="HasLabel">True</property>
                     <property name="UseUnderline">True</property>
+                    <signal name="Toggled" handler="OnNoPostOverwritesCheckButtonToggled" />
                   </widget>
                   <packing>
                     <property name="Position">5</property>
@@ -897,6 +957,7 @@ AVI</property>
                     <property name="DrawIndicator">True</property>
                     <property name="HasLabel">True</property>
                     <property name="UseUnderline">True</property>
+                    <signal name="Toggled" handler="OnEmbedSubsCheckButtonToggled" />
                   </widget>
                   <packing>
                     <property name="Position">6</property>
@@ -961,6 +1022,7 @@ AVI</property>
 Warn
 Detect or Warn (default)</property>
                         <property name="Active">2</property>
+                        <signal name="Changed" handler="OnFixupComboBoxChanged" />
                       </widget>
                       <packing>
                         <property name="Position">1</property>
@@ -986,6 +1048,7 @@ Detect or Warn (default)</property>
                     <property name="DrawIndicator">True</property>
                     <property name="HasLabel">True</property>
                     <property name="UseUnderline">True</property>
+                    <signal name="Toggled" handler="OnXattrsCheckButtonToggled" />
                   </widget>
                   <packing>
                     <property name="PackType">End</property>
@@ -1003,6 +1066,7 @@ Detect or Warn (default)</property>
                     <property name="DrawIndicator">True</property>
                     <property name="HasLabel">True</property>
                     <property name="UseUnderline">True</property>
+                    <signal name="Toggled" handler="OnAddMetadataCheckButtonToggled" />
                   </widget>
                   <packing>
                     <property name="PackType">End</property>
@@ -1020,6 +1084,7 @@ Detect or Warn (default)</property>
                     <property name="DrawIndicator">True</property>
                     <property name="HasLabel">True</property>
                     <property name="UseUnderline">True</property>
+                    <signal name="Toggled" handler="OnEmbedThumbnailCheckButtonToggled" />
                   </widget>
                   <packing>
                     <property name="PackType">End</property>
@@ -1032,7 +1097,7 @@ Detect or Warn (default)</property>
               </widget>
             </child>
             <child>
-              <widget class="Gtk.Label" id="GtkLabel28">
+              <widget class="Gtk.Label" id="GtkLabel31">
                 <property name="MemberName" />
                 <property name="CanFocus">True</property>
                 <property name="LabelProp" translatable="yes">&lt;b&gt;Post-processing Options&lt;/b&gt;</property>
@@ -1140,7 +1205,7 @@ Detect or Warn (default)</property>
                 <property name="HscrollbarPolicy">Never</property>
                 <property name="ShadowType">In</property>
                 <child>
-                  <widget class="Gtk.TextView" id="ProcessTextView">
+                  <widget class="Gtk.TextView" id="processTextView">
                     <property name="MemberName" />
                     <property name="CanFocus">True</property>
                     <property name="Editable">False</property>
@@ -1154,7 +1219,7 @@ Detect or Warn (default)</property>
               </packing>
             </child>
             <child>
-              <widget class="Gtk.ProgressBar" id="ProcessProgressBar">
+              <widget class="Gtk.ProgressBar" id="processProgressBar">
                 <property name="MemberName" />
               </widget>
               <packing>

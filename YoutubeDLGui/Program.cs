@@ -24,16 +24,23 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#region Usings
-
-using Gtk;
-
-#endregion
-
 namespace YoutubeDLGui
 {
+    #region Using
+
+    using Gtk;
+
+    #endregion
+
+    /// <summary>
+    /// The main program entry point.
+    /// </summary>
     internal class MainClass
     {
+        /// <summary>
+        /// The main program entry method.
+        /// </summary>
+        /// <param name="args">The parameter is not used.</param>
         public static void Main(string[] args)
         {
             Application.Init();

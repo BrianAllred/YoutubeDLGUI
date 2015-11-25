@@ -24,15 +24,16 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#region Usings
-
-using System;
-using Gtk;
-
-#endregion
-
 namespace YoutubeDLGui
 {
+    #region Using
+
+    using System;
+
+    using Gtk;
+
+    #endregion
+
     /// <summary>
     ///     Class to show exception dialogs.
     /// </summary>
@@ -41,21 +42,21 @@ namespace YoutubeDLGui
         /// <summary>
         ///     Initializes a new instance of the <see cref="YoutubeDLGui.ExceptionDialog" /> class.
         /// </summary>
-        private ExceptionDialog()
-        {
-            Build();
-        }
-
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="YoutubeDLGui.ExceptionDialog" /> class.
-        /// </summary>
         /// <param name="title">Title.</param>
         /// <param name="exceptionMessage">Exception message.</param>
         public ExceptionDialog(string title, string exceptionMessage)
             : this()
         {
-            frame1.Label = title;
-            textview2.Buffer.Text = exceptionMessage;
+            this.frame1.Label = title;
+            this.textview2.Buffer.Text = exceptionMessage;
+        }
+
+        /// <summary>
+        ///     Prevents a default instance of the <see cref="YoutubeDLGui.ExceptionDialog" /> class from being created.
+        /// </summary>
+        private ExceptionDialog()
+        {
+            this.Build();
         }
 
         /// <summary>
@@ -63,9 +64,9 @@ namespace YoutubeDLGui
         /// </summary>
         /// <param name="sender">Sender.</param>
         /// <param name="e">E.</param>
-        protected void OnButtonOkClicked(object sender, EventArgs e)
+        private void OnButtonOkClicked(object sender, EventArgs e)
         {
-            Destroy();
+            this.Destroy();
         }
     }
 }

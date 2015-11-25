@@ -28,19 +28,23 @@
 // due to following youtube-dl naming
 // conventions
 
-#region Usings
-
-using System;
-using System.Diagnostics;
-using System.IO;
-using System.Threading;
-using Mono.Unix;
-using Mono.Unix.Native;
-
-#endregion
-
 namespace YoutubeDL
 {
+    #region Using
+
+    using System;
+    using System.Diagnostics;
+    using System.IO;
+    using System.Threading;
+
+    using Mono.Unix;
+    using Mono.Unix.Native;
+
+    #endregion
+
+    /// <summary>
+    /// The controller object for controlling the youtube-dl application
+    /// </summary>
     public class YoutubeDLController
     {
         /// <summary>
@@ -51,100 +55,29 @@ namespace YoutubeDL
         /// <summary>
         ///     Actual youtube-dl process
         /// </summary>
-        private Process _process;
+        private Process process;
 
         /// <summary>
         ///     youtube-dl process info
         /// </summary>
-        private ProcessStartInfo _processStartInfo;
+        private ProcessStartInfo processStartInfo;
 
         /// <summary>
         ///     The thread handling std error.
         /// </summary>
-        private Thread _stdError;
+        private Thread stdError;
 
         /// <summary>
         ///     The thread handling std output.
         /// </summary>
-        private Thread _stdOutput;
+        private Thread stdOutput;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="YoutubeDL.YoutubeDLController" /> class.
+        ///     Prevents a default instance of the <see cref="YoutubeDL.YoutubeDLController" /> class from being created.
         /// </summary>
         private YoutubeDLController()
         {
         }
-
-        /// <summary>
-        ///     Instance the singleton instance.
-        /// </summary>
-        public static YoutubeDLController Instance()
-        {
-            return Controller;
-        }
-
-        #region Enums
-
-        /// <summary>
-        ///     Audio Format Types
-        /// </summary>
-        public enum AudioFormatType
-        {
-            best,
-            aac,
-            vorbis,
-            mp3,
-            m4a,
-            opus,
-            wav
-        }
-
-        /// <summary>
-        ///     Download rate units (B, K, M)
-        /// </summary>
-        public enum ByteUnit
-        {
-            B,
-            K,
-            M
-        }
-
-        /// <summary>
-        ///     External downloader.
-        /// </summary>
-        public enum ExternalDownloader
-        {
-            aria2c,
-            curl,
-            wget
-        }
-
-        /// <summary>
-        ///     Fixup policy, how to treat errors when downloading.
-        /// </summary>
-        public enum FixupPolicy
-        {
-            nothing,
-            warn,
-            detect_or_warn
-        }
-
-        /// <summary>
-        ///     Video Format Types
-        /// </summary>
-        public enum VideoFormatType
-        {
-            mp4,
-            flv,
-            ogg,
-            webm,
-            mkv,
-            avi
-        }
-
-        #endregion
-
-        #region Events
 
         /// <summary>
         ///     Occurs when standard output is received.
@@ -156,11 +89,79 @@ namespace YoutubeDL
         /// </summary>
         public event EventHandler<string> StandardError;
 
-        #endregion
+        /// <summary>
+        ///     Audio Format Types
+        /// </summary>
+        public enum AudioFormatType
+        {
+            best,
 
-        #region Properties
+            aac,
 
-        #region Public Properties
+            vorbis,
+
+            mp3,
+
+            m4a,
+
+            opus,
+
+            wav
+        }
+
+        /// <summary>
+        ///     Download rate units (B, K, M)
+        /// </summary>
+        public enum ByteUnit
+        {
+            B,
+
+            K,
+
+            M
+        }
+
+        /// <summary>
+        ///     External downloader.
+        /// </summary>
+        public enum ExternalDownloader
+        {
+            aria2c,
+
+            curl,
+
+            wget
+        }
+
+        /// <summary>
+        ///     Fixup policy, how to treat errors when downloading.
+        /// </summary>
+        public enum FixupPolicy
+        {
+            nothing,
+
+            warn,
+
+            detect_or_warn
+        }
+
+        /// <summary>
+        ///     Video Format Types
+        /// </summary>
+        public enum VideoFormatType
+        {
+            mp4,
+
+            flv,
+
+            ogg,
+
+            webm,
+
+            mkv,
+
+            avi
+        }
 
         /// <summary>
         ///     Gets the complete command that was run by Download().
@@ -173,10 +174,6 @@ namespace YoutubeDL
         /// </summary>
         /// <value><c>true</c> if using embedded binary; otherwise, <c>false</c>.</value>
         public bool UseEmbeddedBinary { get; set; }
-
-        #endregion
-
-        #region General Options
 
         /// <summary>
         ///     URL of video to download
@@ -206,10 +203,6 @@ namespace YoutubeDL
         /// </summary>
         public bool FlatPlaylist { get; set; }
 
-        #endregion
-
-        #region Network Options
-
         /// <summary>
         ///     Use the specified HTTP/HTTPS proxy. Pass in
         ///     an empty string for direct
@@ -221,8 +214,6 @@ namespace YoutubeDL
         ///     Time to wait before giving up, in seconds
         /// </summary>
         public int SocketTimeout { get; set; }
-
-        #region Experimental
 
         /// <summary>
         ///     Client-side IP address to bind to
@@ -248,13 +239,7 @@ namespace YoutubeDL
         /// </summary>
         public string CnVerificationProxy { get; set; }
 
-        #endregion
-
-        #endregion
-
         // TODO: video selection options
-
-        #region Download Options
 
         /// <summary>
         ///     Maximum download rate in bytes per second
@@ -304,8 +289,6 @@ namespace YoutubeDL
         /// </summary>
         public string ExternalDownloaderArgs { get; set; }
 
-        #region Experimental
-
         /// <summary>
         ///     Set file xattribute ytdl.filesize with expected filesize
         /// </summary>
@@ -315,12 +298,6 @@ namespace YoutubeDL
         ///     Use the native HLS downloader instead of ffmpeg
         /// </summary>
         public bool HlsPreferNative { get; set; }
-
-        #endregion
-
-        #endregion
-
-        #region Filesystem Options
 
         /// <summary>
         ///     File containing URLs to download
@@ -356,8 +333,6 @@ namespace YoutubeDL
 
         // TODO: Finish Filesystem Options
 
-        #region Authentication Options
-
         /// <summary>
         ///     Login with this account ID
         /// </summary>
@@ -382,12 +357,6 @@ namespace YoutubeDL
         ///     Video password
         /// </summary>
         public string VideoPassword { get; set; }
-
-        #endregion
-
-        #endregion
-
-        #region Post-processing Options
 
         /// <summary>
         ///     Convert video files to audio-only files
@@ -463,256 +432,25 @@ namespace YoutubeDL
         /// <value>The cmd.</value>
         public string Cmd { get; set; }
 
-        #endregion
-
-        #endregion
-
-        #region Public Methods
+        /// <summary>
+        /// Whether to output verbosely
+        /// </summary>
+        public bool Verbose { get; set; }
 
         /// <summary>
-        ///     Convert controller into parameters to pass to youtube-dl process, then create and run process.
-        ///     Also handle output from process.
+        /// Whether we're updating the built-in binary
         /// </summary>
-        public Process Download()
-        {
-            var arguments = string.Empty;
-
-            arguments += $"-o {Output} ";
-
-            if (IgnoreConfig)
-            {
-                arguments += "--ignore-config ";
-            }
-
-            if (AbortOnError)
-            {
-                arguments += "--abort-on-error ";
-            }
-
-//			if (this.FlatPlaylist)
-//			{
-//				arguments += "--flat-playlist ";
-//			}
-
-            if (!string.IsNullOrWhiteSpace(ProxyUrl))
-            {
-                arguments += $"--proxy {ProxyUrl} ";
-            }
-
-            if (SocketTimeout != 0)
-            {
-                arguments += $"--socket-timeout {SocketTimeout} ";
-            }
-
-//			if (!string.IsNullOrWhiteSpace(this.SourceAddress))
-//			{
-//				arguments += $"--source-address {this.SourceAddress} ";
-//			}
-
-            // if Ipv4 > then -4 > else if Ipv6 > then -6 > else empty
-//			arguments += this.Ipv4 ? "-4 " : (this.Ipv6 ? "-6 " : string.Empty);
-
-            if (RateLimit != 0)
-            {
-                arguments += $"-r {RateLimit}{RateLimitUnit} ";
-            }
-
-            if (Retries < 0)
-            {
-                arguments += "-R infinite ";
-            }
-            else
-            {
-                arguments += $"-R {Retries} ";
-            }
-
-//			if (this.BufferSize > 0)
-//			{
-//				arguments += $"--buffer-size {this.BufferSize}{this.BufferSizeUnit} ";
-//			}
-//
-//			if (this.PlaylistReverse)
-//			{
-//				arguments += "--playlist-reverse ";
-//			}
-//
-//			if (!string.IsNullOrWhiteSpace(this.BatchFile))
-//			{
-//				arguments += $"-a {this.BatchFile} ";
-//			}
-
-//			if (this.RestrictFilenames)
-//			{
-//				arguments += "--restrict-filenames ";
-//			}
-
-            if (NoOverwrites)
-            {
-                arguments += "-w ";
-            }
-
-            if (Continue)
-            {
-                arguments += "-c ";
-            }
-            else if (NoContinue)
-            {
-                arguments += "--no-continue ";
-            }
-
-//			if (this.RecodeVideo)
-//			{
-//				arguments += $"--recode-video {this.RecodeVideoFormat} ";
-//			}
-
-            if (!string.IsNullOrWhiteSpace(Username))
-            {
-                arguments += $"-u {Username} -p {Password} ";
-
-                if (!string.IsNullOrWhiteSpace(TwoFactor))
-                {
-                    arguments += $"-2 {TwoFactor} ";
-                }
-            }
-
-//			if (this.NetRc)
-//			{
-//				arguments += "-n ";
-//			}
-
-            if (!string.IsNullOrWhiteSpace(VideoPassword))
-            {
-                arguments += $"--video-password {VideoPassword} ";
-            }
-
-            if (ExtractAudio)
-            {
-                arguments += "-x ";
-            }
-
-            arguments += $"--audio-format {AudioFormat} ";
-            arguments += "--audio-quality ";
-            if (AudioQuality == 10)
-            {
-                arguments += $"{CustomAudioQuality}K ";
-            }
-
-            arguments += $"{AudioQuality} ";
-
-            if (KeepVideo)
-            {
-                arguments += "-k ";
-            }
-
-            if (NoPostOverwrites)
-            {
-                arguments += "--no-post-overwrites ";
-            }
-
-            if (EmbedSubs)
-            {
-                arguments += "--embed-subs ";
-            }
-
-            if (EmbedThumbnail)
-            {
-                arguments += "--embed-thumbnail ";
-            }
-
-            if (AddMetadata)
-            {
-                arguments += "--add-metadata ";
-            }
-
-            if (XAttrs)
-            {
-                arguments += "--xattrs ";
-            }
-
-            arguments += $"--fixup {Fixup} ";
-
-            if (!string.IsNullOrWhiteSpace(Cmd))
-            {
-                arguments += $"--exec {Cmd} ";
-            }
-
-            arguments += VideoUrl;
-
-            _processStartInfo = new ProcessStartInfo
-            {
-                FileName = "youtube-dl",
-                Arguments = arguments,
-                CreateNoWindow = true,
-                RedirectStandardError = true,
-                RedirectStandardOutput = true,
-                UseShellExecute = false
-            };
-
-            if (UseEmbeddedBinary)
-            {
-                _processStartInfo.FileName = "lib" + Path.DirectorySeparatorChar + _processStartInfo.FileName;
-                CheckAndFixPermissions();
-            }
-
-            _process = new Process {StartInfo = _processStartInfo, EnableRaisingEvents = true};
-
-            _process.Start();
-
-            RunCommand = _processStartInfo.FileName + " " + _processStartInfo.Arguments;
-
-            // Note that synchronous calls are needed in order to process the output line by line.
-            // Asynchronous output reading results in batches of output lines coming in all at once.
-            // The following two threads convert synchronous output reads into asynchronous events.
-
-            _stdOutput = new Thread((ThreadStart) delegate
-            {
-                while (_process != null && !_process.HasExited)
-                {
-                    string stdOutput;
-                    if (!string.IsNullOrEmpty(stdOutput = _process.StandardOutput.ReadLine()))
-                    {
-                        StandardOutput?.Invoke(this, stdOutput);
-                    }
-                }
-            });
-
-            _stdError = new Thread((ThreadStart) delegate
-            {
-                while (_process != null && !_process.HasExited)
-                {
-                    string stdError;
-                    if (!string.IsNullOrEmpty(stdError = _process.StandardError.ReadLine()))
-                    {
-                        StandardError?.Invoke(this, stdError);
-                    }
-                }
-            });
-
-            _stdOutput.Start();
-            _stdError.Start();
-
-            return _process;
-        }
+        public bool Update { get; set; }
 
         /// <summary>
-        ///     Kills the process and associated threads.
+        ///     Instance the singleton instance.
         /// </summary>
-        public void KillProcess()
+        /// <returns>
+        ///     The singleton instance.
+        /// </returns>
+        public static YoutubeDLController Instance()
         {
-            if (_stdOutput != null && _stdOutput.IsAlive)
-            {
-                _stdOutput.Abort();
-            }
-
-            if (_stdError != null && _stdError.IsAlive)
-            {
-                _stdError.Abort();
-            }
-
-            if (_process != null && !_process.HasExited)
-            {
-                _process.Kill();
-            }
+            return Controller;
         }
 
         /// <summary>
@@ -720,16 +458,266 @@ namespace YoutubeDL
         /// </summary>
         private static void CheckAndFixPermissions()
         {
-            if (Environment.OSVersion.Platform != PlatformID.Unix) return;
+            if (Environment.OSVersion.Platform != PlatformID.Unix)
+            {
+                return;
+            }
+
             var fileInfo = new UnixFileInfo("lib/youtube-dl");
             if (!fileInfo.CanAccess(AccessModes.X_OK))
             {
-                fileInfo.FileAccessPermissions = fileInfo.FileAccessPermissions | FileAccessPermissions.UserExecute |
-                                                 FileAccessPermissions.GroupExecute |
-                                                 FileAccessPermissions.OtherExecute;
+                fileInfo.FileAccessPermissions = fileInfo.FileAccessPermissions | FileAccessPermissions.UserExecute | FileAccessPermissions.GroupExecute | FileAccessPermissions.OtherExecute;
             }
         }
 
-        #endregion
+        /// <summary>
+        ///     Convert controller into parameters to pass to youtube-dl process, then create and run process.
+        ///     Also handle output from process.
+        /// </summary>
+        /// <returns>
+        /// Process created.
+        /// </returns>
+        public Process Download()
+        {
+            var arguments = string.Empty;
+
+            arguments += $"-o {this.Output} ";
+
+            if (this.IgnoreConfig)
+            {
+                arguments += "--ignore-config ";
+            }
+
+            if (this.AbortOnError)
+            {
+                arguments += "--abort-on-error ";
+            }
+
+            if (this.FlatPlaylist)
+            {
+                arguments += "--flat-playlist ";
+            }
+
+            if (!string.IsNullOrWhiteSpace(this.ProxyUrl))
+            {
+                arguments += $"--proxy {this.ProxyUrl} ";
+            }
+
+            if (this.SocketTimeout != 0)
+            {
+                arguments += $"--socket-timeout {this.SocketTimeout} ";
+            }
+
+            if (!string.IsNullOrWhiteSpace(this.SourceAddress))
+            {
+                arguments += $"--source-address {this.SourceAddress} ";
+            }
+
+            // if Ipv4 > then - 4 > else if Ipv6 > then - 6 > else empty
+            arguments += this.Ipv4 ? "-4 " : (this.Ipv6 ? "-6 " : string.Empty);
+
+            if (this.RateLimit != 0)
+            {
+                arguments += $"-r {this.RateLimit}{this.RateLimitUnit} ";
+            }
+
+            if (this.Retries < 0)
+            {
+                arguments += "-R infinite ";
+            }
+            else
+            {
+                arguments += $"-R {this.Retries} ";
+            }
+
+            if (this.BufferSize > 0)
+            {
+                arguments += $"--buffer-size {this.BufferSize}{this.BufferSizeUnit} ";
+            }
+
+            if (this.PlaylistReverse)
+            {
+                arguments += "--playlist-reverse ";
+            }
+
+            if (!string.IsNullOrWhiteSpace(this.BatchFile))
+            {
+                arguments += $"-a {this.BatchFile} ";
+            }
+
+            if (this.RestrictFilenames)
+            {
+                arguments += "--restrict-filenames ";
+            }
+
+            if (this.NoOverwrites)
+            {
+                arguments += "-w ";
+            }
+
+            if (this.Continue)
+            {
+                arguments += "-c ";
+            }
+            else if (this.NoContinue)
+            {
+                arguments += "--no-continue ";
+            }
+
+            if (this.RecodeVideo)
+            {
+                arguments += $"--recode-video {this.RecodeVideoFormat} ";
+            }
+
+            if (!string.IsNullOrWhiteSpace(this.Username))
+            {
+                arguments += $"-u {this.Username} -p {this.Password} ";
+
+                if (!string.IsNullOrWhiteSpace(this.TwoFactor))
+                {
+                    arguments += $"-2 {this.TwoFactor} ";
+                }
+            }
+
+            if (this.NetRc)
+            {
+                arguments += "-n ";
+            }
+
+            if (!string.IsNullOrWhiteSpace(this.VideoPassword))
+            {
+                arguments += $"--video-password {this.VideoPassword} ";
+            }
+
+            if (this.ExtractAudio)
+            {
+                arguments += "-x ";
+            }
+
+            arguments += $"--audio-format {this.AudioFormat} ";
+            arguments += "--audio-quality ";
+            if (this.AudioQuality == 10)
+            {
+                arguments += $"{this.CustomAudioQuality}K ";
+            }
+
+            arguments += $"{this.AudioQuality} ";
+
+            if (this.KeepVideo)
+            {
+                arguments += "-k ";
+            }
+
+            if (this.NoPostOverwrites)
+            {
+                arguments += "--no-post-overwrites ";
+            }
+
+            if (this.EmbedSubs)
+            {
+                arguments += "--embed-subs ";
+            }
+
+            if (this.EmbedThumbnail)
+            {
+                arguments += "--embed-thumbnail ";
+            }
+
+            if (this.AddMetadata)
+            {
+                arguments += "--add-metadata ";
+            }
+
+            if (this.XAttrs)
+            {
+                arguments += "--xattrs ";
+            }
+
+            arguments += $"--fixup {this.Fixup} ";
+
+            if (!string.IsNullOrWhiteSpace(this.Cmd))
+            {
+                arguments += $"--exec {this.Cmd} ";
+            }
+
+            if (this.Verbose)
+            {
+                arguments += "--verbose ";
+            }
+
+            arguments += this.VideoUrl;
+
+            if (this.Update)
+            {
+                arguments = "-U";
+            }
+
+            this.processStartInfo = new ProcessStartInfo { FileName = "youtube-dl", Arguments = arguments, CreateNoWindow = true, RedirectStandardError = true, RedirectStandardOutput = true, UseShellExecute = false };
+
+            if (this.UseEmbeddedBinary)
+            {
+                this.processStartInfo.FileName = "lib" + Path.DirectorySeparatorChar + this.processStartInfo.FileName;
+                CheckAndFixPermissions();
+            }
+
+            this.process = new Process { StartInfo = this.processStartInfo, EnableRaisingEvents = true };
+
+            this.process.Start();
+
+            this.RunCommand = this.processStartInfo.FileName + " " + this.processStartInfo.Arguments;
+
+            // Note that synchronous calls are needed in order to process the output line by line.
+            // Asynchronous output reading results in batches of output lines coming in all at once.
+            // The following two threads convert synchronous output reads into asynchronous events.
+            this.stdOutput = new Thread((ThreadStart)delegate
+                {
+                    while (this.process != null && !this.process.HasExited)
+                    {
+                        string output;
+                        if (!string.IsNullOrEmpty(output = this.process.StandardOutput.ReadLine()))
+                        {
+                            this.StandardOutput?.Invoke(this, output);
+                        }
+                    }
+                });
+
+            this.stdError = new Thread((ThreadStart)delegate
+                {
+                    while (this.process != null && !this.process.HasExited)
+                    {
+                        string error;
+                        if (!string.IsNullOrEmpty(error = this.process.StandardError.ReadLine()))
+                        {
+                            this.StandardError?.Invoke(this, error);
+                        }
+                    }
+                });
+
+            this.stdOutput.Start();
+            this.stdError.Start();
+
+            return this.process;
+        }
+
+        /// <summary>
+        ///     Kills the process and associated threads.
+        /// </summary>
+        public void KillProcess()
+        {
+            if (this.stdOutput != null && this.stdOutput.IsAlive)
+            {
+                this.stdOutput.Abort();
+            }
+
+            if (this.stdError != null && this.stdError.IsAlive)
+            {
+                this.stdError.Abort();
+            }
+
+            if (this.process != null && !this.process.HasExited)
+            {
+                this.process.Kill();
+            }
+        }
     }
 }

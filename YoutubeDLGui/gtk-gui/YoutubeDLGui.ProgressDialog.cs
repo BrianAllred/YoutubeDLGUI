@@ -8,9 +8,9 @@ namespace YoutubeDLGui
 		
 		private global::Gtk.ScrolledWindow scrolledwindow1;
 		
-		private global::Gtk.TextView ProcessTextView;
+		private global::Gtk.TextView processTextView;
 		
-		private global::Gtk.ProgressBar ProcessProgressBar;
+		private global::Gtk.ProgressBar processProgressBar;
 		
 		private global::Gtk.Button buttonCancel;
 		
@@ -38,19 +38,19 @@ namespace YoutubeDLGui
 			this.scrolledwindow1.HscrollbarPolicy = ((global::Gtk.PolicyType)(2));
 			this.scrolledwindow1.ShadowType = ((global::Gtk.ShadowType)(1));
 			// Container child scrolledwindow1.Gtk.Container+ContainerChild
-			this.ProcessTextView = new global::Gtk.TextView ();
-			this.ProcessTextView.CanFocus = true;
-			this.ProcessTextView.Name = "ProcessTextView";
-			this.ProcessTextView.Editable = false;
-			this.scrolledwindow1.Add (this.ProcessTextView);
+			this.processTextView = new global::Gtk.TextView ();
+			this.processTextView.CanFocus = true;
+			this.processTextView.Name = "processTextView";
+			this.processTextView.Editable = false;
+			this.scrolledwindow1.Add (this.processTextView);
 			this.vbox2.Add (this.scrolledwindow1);
 			global::Gtk.Box.BoxChild w3 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.scrolledwindow1]));
 			w3.Position = 0;
 			// Container child vbox2.Gtk.Box+BoxChild
-			this.ProcessProgressBar = new global::Gtk.ProgressBar ();
-			this.ProcessProgressBar.Name = "ProcessProgressBar";
-			this.vbox2.Add (this.ProcessProgressBar);
-			global::Gtk.Box.BoxChild w4 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.ProcessProgressBar]));
+			this.processProgressBar = new global::Gtk.ProgressBar ();
+			this.processProgressBar.Name = "processProgressBar";
+			this.vbox2.Add (this.processProgressBar);
+			global::Gtk.Box.BoxChild w4 = ((global::Gtk.Box.BoxChild)(this.vbox2 [this.processProgressBar]));
 			w4.Position = 1;
 			w4.Expand = false;
 			w4.Fill = false;
