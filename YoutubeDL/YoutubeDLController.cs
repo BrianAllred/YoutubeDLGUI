@@ -35,7 +35,10 @@ namespace YoutubeDL
     using System;
     using System.Diagnostics;
     using System.IO;
+    using System.Reflection;
     using System.Threading;
+
+    using log4net;
 
     using Mono.Unix;
     using Mono.Unix.Native;
@@ -51,6 +54,11 @@ namespace YoutubeDL
         ///     Controller singleton
         /// </summary>
         private static readonly YoutubeDLController Controller = new YoutubeDLController();
+
+        /// <summary>
+        /// The logger.
+        /// </summary>
+        private readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         /// <summary>
         ///     Actual youtube-dl process
@@ -77,6 +85,7 @@ namespace YoutubeDL
         /// </summary>
         private YoutubeDLController()
         {
+            this.log.Info("YoutubeDLController initialized.");
         }
 
         /// <summary>
@@ -275,7 +284,7 @@ namespace YoutubeDL
         public bool NoResizeBuffer { get; set; }
 
         /// <summary>
-        ///     Downlaod playlist videos in reverse order
+        ///     Download playlist videos in reverse order
         /// </summary>
         public bool PlaylistReverse { get; set; }
 
@@ -451,23 +460,6 @@ namespace YoutubeDL
         public static YoutubeDLController Instance()
         {
             return Controller;
-        }
-
-        /// <summary>
-        /// Checks and fixes execute permissions on the embedded binary if necessary.
-        /// </summary>
-        private static void CheckAndFixPermissions()
-        {
-            if (Environment.OSVersion.Platform != PlatformID.Unix)
-            {
-                return;
-            }
-
-            var fileInfo = new UnixFileInfo("lib/youtube-dl");
-            if (!fileInfo.CanAccess(AccessModes.X_OK))
-            {
-                fileInfo.FileAccessPermissions = fileInfo.FileAccessPermissions | FileAccessPermissions.UserExecute | FileAccessPermissions.GroupExecute | FileAccessPermissions.OtherExecute;
-            }
         }
 
         /// <summary>
@@ -717,6 +709,23 @@ namespace YoutubeDL
             if (this.process != null && !this.process.HasExited)
             {
                 this.process.Kill();
+            }
+        }
+
+        /// <summary>
+        /// Checks and fixes execute permissions on the embedded binary if necessary.
+        /// </summary>
+        private static void CheckAndFixPermissions()
+        {
+            if (Environment.OSVersion.Platform != PlatformID.Unix)
+            {
+                return;
+            }
+
+            var fileInfo = new UnixFileInfo("lib/youtube-dl");
+            if (!fileInfo.CanAccess(AccessModes.X_OK))
+            {
+                fileInfo.FileAccessPermissions = fileInfo.FileAccessPermissions | FileAccessPermissions.UserExecute | FileAccessPermissions.GroupExecute | FileAccessPermissions.OtherExecute;
             }
         }
     }

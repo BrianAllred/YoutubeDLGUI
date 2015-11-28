@@ -29,9 +29,12 @@ namespace YoutubeDLGui
     #region Using
 
     using System;
+    using System.Reflection;
     using System.Text.RegularExpressions;
 
     using Gtk;
+
+    using log4net;
 
     using YoutubeDL;
 
@@ -43,10 +46,16 @@ namespace YoutubeDLGui
     public partial class ProgressDialog : Dialog
     {
         /// <summary>
+        /// The logger.
+        /// </summary>
+        private readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
+        /// <summary>
         ///     Instantiates a new <see cref="YoutubeDLGui.ProgressDialog" /> class.
         /// </summary>
         public ProgressDialog()
         {
+            this.log.Info("ProgressDialog initialized.");
             this.Build();
 
             var youtubeDLController = YoutubeDLController.Instance();

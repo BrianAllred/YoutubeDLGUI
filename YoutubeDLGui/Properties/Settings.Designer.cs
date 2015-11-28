@@ -22,41 +22,5 @@ namespace YoutubeDLGui.Properties {
                 return defaultInstance;
             }
         }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool UseEmbeddedBinary {
-            get {
-                return ((bool)(this["UseEmbeddedBinary"]));
-            }
-            set {
-                this["UseEmbeddedBinary"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string DestinationFolder {
-            get {
-                return ((string)(this["DestinationFolder"]));
-            }
-            set {
-                this["DestinationFolder"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool VerboseOutput {
-            get {
-                return ((bool)(this["VerboseOutput"]));
-            }
-            set {
-                this["VerboseOutput"] = value;
-            }
-        }
     }
 }

@@ -32,8 +32,11 @@ namespace YoutubeDLGui
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
+    using System.Reflection;
 
     using Gtk;
+
+    using log4net;
 
     using YoutubeDL;
 
@@ -46,6 +49,11 @@ namespace YoutubeDLGui
     /// </summary>
     public partial class MainWindow : Window
     {
+        /// <summary>
+        /// The logger.
+        /// </summary>
+        private readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         /// <summary>
         ///     The user password.
         /// </summary>
@@ -67,6 +75,7 @@ namespace YoutubeDLGui
         public MainWindow()
             : base(WindowType.Toplevel)
         {
+            this.log.Info("MainWindow initialized.");
             this.DeleteEvent += this.OnDeleteEvent;
             this.Shown += this.OnShown;
             this.Build();
@@ -115,6 +124,7 @@ namespace YoutubeDLGui
         protected void OnEnableVerboseOutputActionToggled(object sender, EventArgs e)
         {
             this.youtubeController.Verbose = ((ToggleAction)sender).Active;
+            ConfigurationHelper.AddUpdateAppSettings(ConfigurationHelper.EnableVerboseOutput, ((ToggleAction)sender).Active.ToString());
         }
 
         /// <summary>
@@ -271,11 +281,6 @@ namespace YoutubeDLGui
         /// <param name="a">The arguments.</param>
         private void OnDeleteEvent(object sender, DeleteEventArgs a)
         {
-            Properties.Settings.Default.UseEmbeddedBinary = this.EnableEmbeddedYoutubeDlAction.Active;
-            Properties.Settings.Default.DestinationFolder = this.destinationFolderTextView.Buffer.Text;
-            Properties.Settings.Default.VerboseOutput = this.EnableVerboseOutputAction.Active;
-            Properties.Settings.Default.Save();
-
             Application.Quit();
             a.RetVal = true;
         }
@@ -288,6 +293,7 @@ namespace YoutubeDLGui
         private void OnDestFolderTextViewBufferChanged(object sender, EventArgs e)
         {
             this.youtubeController.Output = this.destinationFolderTextView.Buffer.Text;
+            ConfigurationHelper.AddUpdateAppSettings(ConfigurationHelper.DestinationFolder, this.destinationFolderTextView.Buffer.Text);
         }
 
         /// <summary>
@@ -297,20 +303,29 @@ namespace YoutubeDLGui
         /// <param name="e">The parameter is not used.</param>
         private void OnDownloadButtonClicked(object sender, EventArgs e)
         {
-            var progressDialog = new ProgressDialog();
-            if ((ResponseType)progressDialog.Run() == ResponseType.Cancel)
+            try
             {
-                try
+                var progressDialog = new ProgressDialog();
+                if ((ResponseType)progressDialog.Run() == ResponseType.Cancel)
                 {
-                    this.youtubeController.KillProcess();
-                }
-                catch (Exception ex)
-                {
-                    using (var exceptionDialog = new ExceptionDialog(ex.GetType().Name, ex.Message))
+                    try
                     {
-                        exceptionDialog.Run();
+                        this.youtubeController.KillProcess();
+                    }
+                    catch (Exception ex)
+                    {
+                        using (var exceptionDialog = new ExceptionDialog(ex.GetType().Name, ex.Message))
+                        {
+                            exceptionDialog.Run();
+                        }
+
+                        this.log.Error($"Error stopping youtube-dl process: {ex}");
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                this.log.Error($"Error downloading: {ex}");
             }
         }
 
@@ -342,6 +357,8 @@ namespace YoutubeDLGui
         private void OnEnableEmbeddedYoutubeDlActionToggled(object sender, EventArgs e)
         {
             this.youtubeController.UseEmbeddedBinary = ((ToggleAction)sender).Active;
+
+            ConfigurationHelper.AddUpdateAppSettings(ConfigurationHelper.EnableEmbeddedBinary, ((ToggleAction)sender).Active.ToString());
         }
 
         /// <summary>
@@ -599,15 +616,23 @@ namespace YoutubeDLGui
         /// <param name="e">The parameter is not used.</param>
         private void OnShown(object sender, EventArgs e)
         {
-            this.EnableEmbeddedYoutubeDlAction.Active = Properties.Settings.Default.UseEmbeddedBinary;
-            this.youtubeController.UseEmbeddedBinary = Properties.Settings.Default.UseEmbeddedBinary;
-            this.EnableVerboseOutputAction.Active = Properties.Settings.Default.VerboseOutput;
-            this.youtubeController.Verbose = Properties.Settings.Default.VerboseOutput;
-
-            if (!string.IsNullOrWhiteSpace(Properties.Settings.Default.DestinationFolder))
+            try
             {
-                this.destinationFolderTextView.Buffer.Text = Properties.Settings.Default.DestinationFolder;
-                this.youtubeController.Output = Properties.Settings.Default.DestinationFolder;
+                this.EnableEmbeddedYoutubeDlAction.Active = bool.Parse(ConfigurationHelper.ReadSetting(ConfigurationHelper.EnableEmbeddedBinary));
+                this.youtubeController.UseEmbeddedBinary = this.EnableEmbeddedYoutubeDlAction.Active;
+                this.EnableVerboseOutputAction.Active = bool.Parse(ConfigurationHelper.ReadSetting(ConfigurationHelper.EnableVerboseOutput));
+                this.youtubeController.Verbose = this.EnableVerboseOutputAction.Active;
+
+                string output = ConfigurationHelper.ReadSetting(ConfigurationHelper.DestinationFolder);
+                if (!string.IsNullOrWhiteSpace(output))
+                {
+                    this.destinationFolderTextView.Buffer.Text = output;
+                    this.youtubeController.Output = output;
+                }
+            }
+            catch (Exception ex)
+            {
+                this.log.Error($"Error reading config values: {ex}");
             }
         }
 

@@ -28,7 +28,13 @@ namespace YoutubeDLGui
 {
     #region Using
 
+    using System;
+    using System.Reflection;
+
     using Gtk;
+
+    using log4net;
+    using log4net.Config;
 
     #endregion
 
@@ -38,15 +44,30 @@ namespace YoutubeDLGui
     internal class MainClass
     {
         /// <summary>
+        /// The logger.
+        /// </summary>
+        private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
+        /// <summary>
         /// The main program entry method.
         /// </summary>
         /// <param name="args">The parameter is not used.</param>
         public static void Main(string[] args)
         {
-            Application.Init();
-            MainWindow win = new MainWindow();
-            win.Show();
-            Application.Run();
+            try
+            {
+                XmlConfigurator.Configure();
+                Log.Info("Log initialized.");
+
+                Application.Init();
+                MainWindow win = new MainWindow();
+                win.Show();
+                Application.Run();
+            }
+            catch (Exception ex)
+            {
+                Log.Fatal(ex);
+            }
         }
     }
 }

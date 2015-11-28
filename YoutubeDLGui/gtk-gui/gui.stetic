@@ -353,7 +353,6 @@
                     <property name="DrawIndicator">True</property>
                     <property name="HasLabel">True</property>
                     <property name="UseUnderline">True</property>
-                    <signal name="Toggled" handler="OnSocketTimeoutCheckButtonToggled" after="yes" />
                   </widget>
                   <packing>
                     <property name="Position">2</property>
@@ -635,8 +634,6 @@ M</property>
                     <property name="CanFocus">True</property>
                     <property name="AcceptsTab">False</property>
                     <property name="Text" translatable="yes">Username</property>
-                    <signal name="KeyReleaseEvent" handler="OnUsernameTextViewKeyReleaseEvent" />
-                    <signal name="FocusOutEvent" handler="OnUsernameTextViewFocusOutEvent" />
                   </widget>
                   <packing>
                     <property name="Position">0</property>
@@ -692,7 +689,6 @@ M</property>
                     <property name="CanFocus">True</property>
                     <property name="AcceptsTab">False</property>
                     <property name="Text" translatable="yes">Video password</property>
-                    <signal name="KeyReleaseEvent" handler="OnVideoPasswordTextViewKeyReleaseEvent" after="yes" />
                   </widget>
                   <packing>
                     <property name="Position">4</property>
@@ -707,7 +703,6 @@ M</property>
                     <property name="DrawIndicator">True</property>
                     <property name="HasLabel">True</property>
                     <property name="UseUnderline">True</property>
-                    <signal name="Toggled" handler="OnVideoPasswordCheckButtonToggled" after="yes" />
                   </widget>
                   <packing>
                     <property name="Position">5</property>
@@ -1048,7 +1043,6 @@ Detect or Warn (default)</property>
                     <property name="DrawIndicator">True</property>
                     <property name="HasLabel">True</property>
                     <property name="UseUnderline">True</property>
-                    <signal name="Toggled" handler="OnXattrsCheckButtonToggled" />
                   </widget>
                   <packing>
                     <property name="PackType">End</property>

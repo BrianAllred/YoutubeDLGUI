@@ -229,7 +229,7 @@ namespace YoutubeDLGui
 			this.vbox1 = new global::Gtk.VBox ();
 			this.vbox1.Name = "vbox1";
 			// Container child vbox1.Gtk.Box+BoxChild
-			this.UIManager.AddUiFromString (@"<ui><menubar name='menubar1'><menu name='FileAction' action='FileAction'><menuitem name='ExitAction' action='ExitAction'/></menu><menu name='OptionsAction' action='OptionsAction'><menuitem name='EnableVerboseOutputAction' action='EnableVerboseOutputAction'/><menuitem name='UpdateYoutubeDlAction' action='UpdateYoutubeDlAction'/><menuitem name='EnableEmbeddedYoutubeDlAction' action='EnableEmbeddedYoutubeDlAction'/><menuitem name='UpdateEmbeddedYoutubeDlAction' action='UpdateEmbeddedYoutubeDlAction'/></menu><menu name='HelpAction' action='HelpAction'><menuitem name='YoutubeDLGuiDocumentationAction' action='YoutubeDLGuiDocumentationAction'/><menuitem name='youtubeDlDocumentationAction' action='youtubeDlDocumentationAction'/></menu></menubar></ui>");
+			this.UIManager.AddUiFromString ("<ui><menubar name='menubar1'><menu name='FileAction' action='FileAction'><menuitem name='ExitAction' action='ExitAction'/></menu><menu name='OptionsAction' action='OptionsAction'><menuitem name='EnableVerboseOutputAction' action='EnableVerboseOutputAction'/><menuitem name='UpdateYoutubeDlAction' action='UpdateYoutubeDlAction'/><menuitem name='EnableEmbeddedYoutubeDlAction' action='EnableEmbeddedYoutubeDlAction'/><menuitem name='UpdateEmbeddedYoutubeDlAction' action='UpdateEmbeddedYoutubeDlAction'/></menu><menu name='HelpAction' action='HelpAction'><menuitem name='YoutubeDLGuiDocumentationAction' action='YoutubeDLGuiDocumentationAction'/><menuitem name='youtubeDlDocumentationAction' action='youtubeDlDocumentationAction'/></menu></menubar></ui>");
 			this.menubar1 = ((global::Gtk.MenuBar)(this.UIManager.GetWidget ("/menubar1")));
 			this.menubar1.Name = "menubar1";
 			this.vbox1.Add (this.menubar1);
@@ -780,7 +780,7 @@ namespace YoutubeDLGui
 			w53.Fill = false;
 			// Container child hbox4.Gtk.Box+BoxChild
 			this.recodeVideoFormatComboBox = global::Gtk.ComboBox.NewText ();
-			this.recodeVideoFormatComboBox.AppendText (global::Mono.Unix.Catalog.GetString ("Don\'t recode"));
+			this.recodeVideoFormatComboBox.AppendText (global::Mono.Unix.Catalog.GetString ("Don't recode"));
 			this.recodeVideoFormatComboBox.AppendText (global::Mono.Unix.Catalog.GetString ("MP4"));
 			this.recodeVideoFormatComboBox.AppendText (global::Mono.Unix.Catalog.GetString ("FLV"));
 			this.recodeVideoFormatComboBox.AppendText (global::Mono.Unix.Catalog.GetString ("OGG"));
@@ -815,7 +815,7 @@ namespace YoutubeDLGui
 			this.noPostOverwritesCheckButton = new global::Gtk.CheckButton ();
 			this.noPostOverwritesCheckButton.CanFocus = true;
 			this.noPostOverwritesCheckButton.Name = "noPostOverwritesCheckButton";
-			this.noPostOverwritesCheckButton.Label = global::Mono.Unix.Catalog.GetString ("Don\'t overwrite post-processed files");
+			this.noPostOverwritesCheckButton.Label = global::Mono.Unix.Catalog.GetString ("Don't overwrite post-processed files");
 			this.noPostOverwritesCheckButton.DrawIndicator = true;
 			this.noPostOverwritesCheckButton.UseUnderline = true;
 			this.vbox7.Add (this.noPostOverwritesCheckButton);
@@ -892,7 +892,7 @@ namespace YoutubeDLGui
 			this.xattrsCheckButton = new global::Gtk.CheckButton ();
 			this.xattrsCheckButton.CanFocus = true;
 			this.xattrsCheckButton.Name = "xattrsCheckButton";
-			this.xattrsCheckButton.Label = global::Mono.Unix.Catalog.GetString ("Write metadata to video\'s xattrs");
+			this.xattrsCheckButton.Label = global::Mono.Unix.Catalog.GetString ("Write metadata to video's xattrs");
 			this.xattrsCheckButton.DrawIndicator = true;
 			this.xattrsCheckButton.UseUnderline = true;
 			this.vbox7.Add (this.xattrsCheckButton);
@@ -967,7 +967,6 @@ namespace YoutubeDLGui
 			this.ignoreConfigCheckButton.Toggled += new global::System.EventHandler (this.OnIgnoreConfigCheckButtonToggled);
 			this.expander1.Activated += new global::System.EventHandler (this.OnExpanderActivated);
 			this.proxyCheckButton.Toggled += new global::System.EventHandler (this.OnProxyCheckButtonToggled);
-			this.socketTimeoutCheckButton.Toggled += new global::System.EventHandler (this.OnSocketTimeoutCheckButtonToggled);
 			this.expander4.Activated += new global::System.EventHandler (this.OnExpanderActivated);
 			this.rateLimitCheckButton.Toggled += new global::System.EventHandler (this.OnRateLimitCheckButtonToggled);
 			this.rateUnitComboBox.Changed += new global::System.EventHandler (this.OnRateUnitComboBoxChanged);
@@ -978,13 +977,9 @@ namespace YoutubeDLGui
 			this.continueRadioButton.Toggled += new global::System.EventHandler (this.OnContinueRadioButtonToggled);
 			this.noContinueRadioButton.Toggled += new global::System.EventHandler (this.OnNoContinueRadioButtonToggled);
 			this.expander2.Activated += new global::System.EventHandler (this.OnExpanderActivated);
-			this.usernameTextView.KeyReleaseEvent += new global::Gtk.KeyReleaseEventHandler (this.OnUsernameTextViewKeyReleaseEvent);
-			this.usernameTextView.FocusOutEvent += new global::Gtk.FocusOutEventHandler (this.OnUsernameTextViewFocusOutEvent);
 			this.passwordTextView.KeyReleaseEvent += new global::Gtk.KeyReleaseEventHandler (this.OnPasswordTextViewKeyReleaseEvent);
 			this.passwordTextView.FocusOutEvent += new global::Gtk.FocusOutEventHandler (this.OnPasswordTextViewFocusOutEvent);
 			this.passwordCheckButton.Toggled += new global::System.EventHandler (this.OnPasswordCheckButtonToggled);
-			this.videoPasswordTextView.KeyReleaseEvent += new global::Gtk.KeyReleaseEventHandler (this.OnVideoPasswordTextViewKeyReleaseEvent);
-			this.videoPasswordCheckButton.Toggled += new global::System.EventHandler (this.OnVideoPasswordCheckButtonToggled);
 			this.expander6.Activated += new global::System.EventHandler (this.OnExpanderActivated);
 			this.extractAudioCheckButton.Toggled += new global::System.EventHandler (this.OnExtractAudioCheckButtonToggled);
 			this.audioFormatComboBox.Changed += new global::System.EventHandler (this.OnAudioFormatComboBoxChanged);
@@ -995,7 +990,6 @@ namespace YoutubeDLGui
 			this.embedSubsCheckButton.Toggled += new global::System.EventHandler (this.OnEmbedSubsCheckButtonToggled);
 			this.embedThumbnailCheckButton.Toggled += new global::System.EventHandler (this.OnEmbedThumbnailCheckButtonToggled);
 			this.addMetadataCheckButton.Toggled += new global::System.EventHandler (this.OnAddMetadataCheckButtonToggled);
-			this.xattrsCheckButton.Toggled += new global::System.EventHandler (this.OnXattrsCheckButtonToggled);
 			this.fixupComboBox.Changed += new global::System.EventHandler (this.OnFixupComboBoxChanged);
 			this.execCheckButton.Toggled += new global::System.EventHandler (this.OnExecCheckButtonToggled);
 		}
