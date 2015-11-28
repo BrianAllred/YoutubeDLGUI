@@ -28,6 +28,8 @@ namespace YoutubeDLGui
 		
 		private global::Gtk.Action AboutAction;
 		
+		private global::Gtk.Action HelpAction1;
+		
 		private global::Gtk.VBox vbox1;
 		
 		private global::Gtk.MenuBar menubar1;
@@ -219,6 +221,9 @@ namespace YoutubeDLGui
 			this.AboutAction = new global::Gtk.Action ("AboutAction", global::Mono.Unix.Catalog.GetString ("About"), null, null);
 			this.AboutAction.ShortLabel = global::Mono.Unix.Catalog.GetString ("About");
 			w1.Add (this.AboutAction, null);
+			this.HelpAction1 = new global::Gtk.Action ("HelpAction1", global::Mono.Unix.Catalog.GetString ("Help"), null, null);
+			this.HelpAction1.ShortLabel = global::Mono.Unix.Catalog.GetString ("Help");
+			w1.Add (this.HelpAction1, null);
 			this.UIManager.InsertActionGroup (w1, 0);
 			this.AddAccelGroup (this.UIManager.AccelGroup);
 			this.Name = "YoutubeDLGui.MainWindow";
@@ -229,7 +234,7 @@ namespace YoutubeDLGui
 			this.vbox1 = new global::Gtk.VBox ();
 			this.vbox1.Name = "vbox1";
 			// Container child vbox1.Gtk.Box+BoxChild
-			this.UIManager.AddUiFromString ("<ui><menubar name='menubar1'><menu name='FileAction' action='FileAction'><menuitem name='ExitAction' action='ExitAction'/></menu><menu name='OptionsAction' action='OptionsAction'><menuitem name='EnableVerboseOutputAction' action='EnableVerboseOutputAction'/><menuitem name='UpdateYoutubeDlAction' action='UpdateYoutubeDlAction'/><menuitem name='EnableEmbeddedYoutubeDlAction' action='EnableEmbeddedYoutubeDlAction'/><menuitem name='UpdateEmbeddedYoutubeDlAction' action='UpdateEmbeddedYoutubeDlAction'/></menu><menu name='HelpAction' action='HelpAction'><menuitem name='YoutubeDLGuiDocumentationAction' action='YoutubeDLGuiDocumentationAction'/><menuitem name='youtubeDlDocumentationAction' action='youtubeDlDocumentationAction'/></menu></menubar></ui>");
+			this.UIManager.AddUiFromString ("<ui><menubar name='menubar1'><menu name='FileAction' action='FileAction'><menuitem name='ExitAction' action='ExitAction'/></menu><menu name='OptionsAction' action='OptionsAction'><menuitem name='EnableVerboseOutputAction' action='EnableVerboseOutputAction'/><menuitem name='UpdateYoutubeDlAction' action='UpdateYoutubeDlAction'/><menuitem name='EnableEmbeddedYoutubeDlAction' action='EnableEmbeddedYoutubeDlAction'/><menuitem name='UpdateEmbeddedYoutubeDlAction' action='UpdateEmbeddedYoutubeDlAction'/></menu><menu name='HelpAction' action='HelpAction'><menuitem name='YoutubeDLGuiDocumentationAction' action='YoutubeDLGuiDocumentationAction'/><menuitem name='youtubeDlDocumentationAction' action='youtubeDlDocumentationAction'/><menuitem name='HelpAction1' action='HelpAction1'/></menu></menubar></ui>");
 			this.menubar1 = ((global::Gtk.MenuBar)(this.UIManager.GetWidget ("/menubar1")));
 			this.menubar1.Name = "menubar1";
 			this.vbox1.Add (this.menubar1);
@@ -944,7 +949,7 @@ namespace YoutubeDLGui
 				this.Child.ShowAll ();
 			}
 			this.DefaultWidth = 476;
-			this.DefaultHeight = 258;
+			this.DefaultHeight = 247;
 			this.proxyUrlTextView.Hide ();
 			this.socketTimeoutTextView.Hide ();
 			this.rateTextView.Hide ();
@@ -960,6 +965,7 @@ namespace YoutubeDLGui
 			this.UpdateEmbeddedYoutubeDlAction.Activated += new global::System.EventHandler (this.OnUpdateEmbeddedYoutubeDlActionActivated);
 			this.YoutubeDLGuiDocumentationAction.Activated += new global::System.EventHandler (this.OnYoutubeDLGuiDocumentationActionActivated);
 			this.youtubeDlDocumentationAction.Activated += new global::System.EventHandler (this.OnYoutubeDlDocumentationActionActivated);
+			this.HelpAction1.Activated += new global::System.EventHandler (this.OnHelpAction1Activated);
 			this.folderChooserButton.Clicked += new global::System.EventHandler (this.OnFolderChooserButtonClicked);
 			this.downloadButton.Clicked += new global::System.EventHandler (this.OnDownloadButtonClicked);
 			this.expander5.Activated += new global::System.EventHandler (this.OnExpanderActivated);
@@ -967,6 +973,7 @@ namespace YoutubeDLGui
 			this.ignoreConfigCheckButton.Toggled += new global::System.EventHandler (this.OnIgnoreConfigCheckButtonToggled);
 			this.expander1.Activated += new global::System.EventHandler (this.OnExpanderActivated);
 			this.proxyCheckButton.Toggled += new global::System.EventHandler (this.OnProxyCheckButtonToggled);
+			this.socketTimeoutCheckButton.Toggled += new global::System.EventHandler (this.OnSocketTimeoutCheckButtonToggled);
 			this.expander4.Activated += new global::System.EventHandler (this.OnExpanderActivated);
 			this.rateLimitCheckButton.Toggled += new global::System.EventHandler (this.OnRateLimitCheckButtonToggled);
 			this.rateUnitComboBox.Changed += new global::System.EventHandler (this.OnRateUnitComboBoxChanged);
@@ -977,9 +984,13 @@ namespace YoutubeDLGui
 			this.continueRadioButton.Toggled += new global::System.EventHandler (this.OnContinueRadioButtonToggled);
 			this.noContinueRadioButton.Toggled += new global::System.EventHandler (this.OnNoContinueRadioButtonToggled);
 			this.expander2.Activated += new global::System.EventHandler (this.OnExpanderActivated);
+			this.usernameTextView.FocusOutEvent += new global::Gtk.FocusOutEventHandler (this.OnUsernameTextViewFocusOutEvent);
+			this.usernameTextView.KeyReleaseEvent += new global::Gtk.KeyReleaseEventHandler (this.OnUsernameTextViewKeyReleaseEvent);
 			this.passwordTextView.KeyReleaseEvent += new global::Gtk.KeyReleaseEventHandler (this.OnPasswordTextViewKeyReleaseEvent);
 			this.passwordTextView.FocusOutEvent += new global::Gtk.FocusOutEventHandler (this.OnPasswordTextViewFocusOutEvent);
 			this.passwordCheckButton.Toggled += new global::System.EventHandler (this.OnPasswordCheckButtonToggled);
+			this.videoPasswordTextView.KeyReleaseEvent += new global::Gtk.KeyReleaseEventHandler (this.OnVideoPasswordTextViewKeyReleaseEvent);
+			this.videoPasswordCheckButton.Toggled += new global::System.EventHandler (this.OnVideoPasswordCheckButtonToggled);
 			this.expander6.Activated += new global::System.EventHandler (this.OnExpanderActivated);
 			this.extractAudioCheckButton.Toggled += new global::System.EventHandler (this.OnExtractAudioCheckButtonToggled);
 			this.audioFormatComboBox.Changed += new global::System.EventHandler (this.OnAudioFormatComboBoxChanged);

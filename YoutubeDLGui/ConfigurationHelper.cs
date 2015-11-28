@@ -56,6 +56,11 @@ namespace YoutubeDLGui
         public const string DestinationFolder = "DestinationFolder";
 
         /// <summary>
+        /// Setting constant.
+        /// </summary>
+        public const string FirstRun = "FirstRun";
+
+        /// <summary>
         /// The logger.
         /// </summary>
         private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);

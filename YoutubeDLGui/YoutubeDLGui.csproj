@@ -80,6 +80,8 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="HelpDialog.cs" />
+    <Compile Include="gtk-gui\YoutubeDLGui.HelpDialog.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\YoutubeDL\YoutubeDL.csproj">

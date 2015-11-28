@@ -128,6 +128,17 @@ namespace YoutubeDLGui
         }
 
         /// <summary>
+        /// Show help dialog.
+        /// </summary>
+        /// <param name="sender">The parameter is not used.</param>
+        /// <param name="e">The parameter is not used.</param>
+        protected void OnHelpAction1Activated(object sender, EventArgs e)
+        {
+            var helpDialog = new HelpDialog();
+            helpDialog.Show();
+        }
+
+        /// <summary>
         /// Raises the on button toggled event.
         /// </summary>
         /// <param name="sender">The parameter is not used.</param>
@@ -628,6 +639,11 @@ namespace YoutubeDLGui
                 {
                     this.destinationFolderTextView.Buffer.Text = output;
                     this.youtubeController.Output = output;
+                }
+
+                if (bool.Parse(ConfigurationHelper.ReadSetting(ConfigurationHelper.FirstRun)))
+                {
+                    this.OnHelpAction1Activated(null, null);
                 }
             }
             catch (Exception ex)
