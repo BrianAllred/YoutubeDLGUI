@@ -31,6 +31,9 @@
   <PropertyGroup>
     <StartupObject>YoutubeDLGui.MainClass</StartupObject>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>YoutubeDLGui.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="gtk-sharp, Version=2.4.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
@@ -90,7 +93,10 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="YouTube-Player-icon.ico" />
+    <Content Include="YoutubeDLGui.ico" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="app.config">
       <SubType>Designer</SubType>
