@@ -688,6 +688,8 @@ namespace YoutubeDL
             this.stdOutput.Start();
             this.stdError.Start();
 
+            this.Update = false;
+
             return this.process;
         }
 
