@@ -37,7 +37,7 @@ namespace YoutubeDLGui
 			this.GtkAlignment1.LeftPadding = ((uint)(12));
 			// Container child GtkAlignment1.Gtk.Container+ContainerChild
 			this.TextView = new global::Gtk.TextView ();
-			this.TextView.Buffer.Text = "\nTo use, simply past the URL of a YouTube video into the URL box and click Download. Feel free to expand the options and customize your download.\n\nComing soon:\n\t- Playlist support.\n\t- More options.";
+			this.TextView.Buffer.Text = "\nTo use, simply paste the URL of a YouTube video into the URL box and click Download. Feel free to expand the options and customize your download.\n\nComing soon:\n\t- Playlist support.\n\t- More options.";
 			this.TextView.Name = "TextView";
 			this.TextView.WrapMode = ((global::Gtk.WrapMode)(2));
 			this.GtkAlignment1.Add (this.TextView);
