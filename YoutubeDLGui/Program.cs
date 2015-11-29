@@ -54,11 +54,11 @@ namespace YoutubeDLGui
         /// <param name="args">The parameter is not used.</param>
         public static void Main(string[] args)
         {
+            XmlConfigurator.Configure();
+            Log.Info("Log initialized.");
+
             try
             {
-                XmlConfigurator.Configure();
-                Log.Info("Log initialized.");
-
                 Application.Init();
                 MainWindow win = new MainWindow();
                 win.Show();

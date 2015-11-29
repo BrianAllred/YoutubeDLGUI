@@ -317,7 +317,7 @@ namespace YoutubeDLGui
             try
             {
                 var progressDialog = new ProgressDialog();
-                if ((ResponseType)progressDialog.Run() == ResponseType.Cancel)
+                if (!progressDialog.Error && (ResponseType)progressDialog.Run() == ResponseType.Cancel)
                 {
                     try
                     {
@@ -325,6 +325,7 @@ namespace YoutubeDLGui
                     }
                     catch (Exception ex)
                     {
+                        progressDialog.Destroy();
                         using (var exceptionDialog = new ExceptionDialog(ex.GetType().Name, ex.Message))
                         {
                             exceptionDialog.Run();
@@ -336,6 +337,11 @@ namespace YoutubeDLGui
             }
             catch (Exception ex)
             {
+                using (var exceptionDialog = new ExceptionDialog(ex.GetType().Name, ex.Message))
+                {
+                    exceptionDialog.Run();
+                }
+
                 this.log.Error($"Error downloading: {ex}");
             }
         }

@@ -29,6 +29,7 @@ namespace YoutubeDLGui
     #region Using
 
     using System;
+    using System.Diagnostics;
     using System.Reflection;
     using System.Text.RegularExpressions;
 
@@ -55,22 +56,20 @@ namespace YoutubeDLGui
         /// </summary>
         public ProgressDialog()
         {
-            this.log.Info("ProgressDialog initialized.");
-            this.Build();
-
-            var youtubeDLController = YoutubeDLController.Instance();
-
-            // Redirect stdout and stderr
-            youtubeDLController.StandardError += this.OnStandardError;
-            youtubeDLController.StandardOutput += this.OnStandardOutput;
-
-            var youtubeProcess = youtubeDLController.Download();
-
-            // Context sensitive depending on whether process is still alive
-            youtubeProcess.Exited += this.OnDownloadComplete;
-
-            this.processTextView.Buffer.Text += "Running the following command:\n" + youtubeDLController.RunCommand + "\n";
+            try
+            {
+                this.log.Info("ProgressDialog initialized.");
+                this.Title = "Download Progress";
+                this.Shown += this.OnShown;
+                this.Build();
+            }
+            catch (Exception ex)
+            {
+                this.log.Error(ex);
+            }
         }
+
+        public bool Error { get; set; }
 
         /// <summary>
         ///     Gets the progress as a percent.
@@ -120,6 +119,41 @@ namespace YoutubeDLGui
                     this.buttonOk.Sensitive = true;
                     this.buttonCancel.Sensitive = false;
                 });
+        }
+
+        private void OnShown(object sender, EventArgs e)
+        {
+            var youtubeDLController = YoutubeDLController.Instance();
+
+            // Redirect stdout and stderr
+            youtubeDLController.StandardError += this.OnStandardError;
+            youtubeDLController.StandardOutput += this.OnStandardOutput;
+
+            Process youtubeProcess;
+            try
+            {
+                youtubeProcess = youtubeDLController.Download();
+            }
+            catch (Exception ex)
+            {
+                using (var exceptionDialog = new ExceptionDialog(ex.GetType().Name, ex.Message))
+                {
+                    exceptionDialog.Run();
+                }
+
+                this.log.Error($"Error downloading: {ex}");
+                this.Error = true;
+                this.Destroy();
+                return;
+            }
+
+            if (youtubeProcess != null)
+            {
+                // Context sensitive depending on whether process is still alive
+                youtubeProcess.Exited += this.OnDownloadComplete;
+            }
+
+            this.processTextView.Buffer.Text += "Running the following command:\n" + youtubeDLController.RunCommand + "\n";
         }
 
         /// <summary>

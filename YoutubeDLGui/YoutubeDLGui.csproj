@@ -94,7 +94,6 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <Content Include="YouTube-Player-icon.ico" />
     <Content Include="YoutubeDLGui.ico" />
   </ItemGroup>
   <ItemGroup>

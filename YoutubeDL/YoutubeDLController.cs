@@ -473,7 +473,7 @@ namespace YoutubeDL
         {
             var arguments = string.Empty;
 
-            arguments += $"-o {this.Output} ";
+            arguments += $"-o \"{this.Output}\" ";
 
             if (this.IgnoreConfig)
             {
@@ -650,6 +650,11 @@ namespace YoutubeDL
             {
                 this.processStartInfo.FileName = "lib" + Path.DirectorySeparatorChar + this.processStartInfo.FileName;
                 CheckAndFixPermissions();
+            }
+
+            if (!File.Exists(this.processStartInfo.FileName))
+            {
+                throw new FileNotFoundException($"{this.processStartInfo.FileName} not found!");
             }
 
             this.process = new Process { StartInfo = this.processStartInfo, EnableRaisingEvents = true };
